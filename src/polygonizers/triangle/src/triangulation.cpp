@@ -12,14 +12,11 @@ rofl::polygonizers::triangle::triangulation::triangulation(
 		_out)
 {
 	// Why this? Because triangulate incorrectly takes a "char*" instead of "char const*"
-	sge::container::raw_vector<char> 
-		options;
-	options.resize(
-		std::strlen(
-			_options));
-		
+	std::string options(
+		_options);
+	
 	::triangulate(
-		options.data(),
+		&(*options.begin()),
 		&_in,
 		&_out,
 		0);

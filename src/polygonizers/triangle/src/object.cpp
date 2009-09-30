@@ -12,11 +12,13 @@
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/line_segment.hpp>
 #include <rofl/polygon.hpp>
+#include <rofl/math/polygon.hpp>
 #include <rofl/graph/object.hpp>
 #include <sge/container/raw_vector.hpp>
 #include <sge/assign/make_array.hpp>
 #include <sge/math/vector/length.hpp>
 #include <sge/math/vector/arithmetic.hpp>
+#include <sge/math/vector/output.hpp>
 #include <sge/assert.hpp>
 #include <sge/text.hpp>
 #include <sge/log/headers.hpp>
@@ -25,8 +27,6 @@
 #include <cmath>
 #include <tr1/array>
 
-namespace
-{
 sge::log::logger mylogger(
 	sge::log::global(),
 	SGE_TEXT("rofl: polygonizers: triangle: object: "),
@@ -55,8 +55,6 @@ struct intermediate
 		vertex;
 	neighbor_array 
 		neighbors;
-	bool 
-		visited;
 	
 	intermediate(
 		vertex_descriptor const &,
@@ -70,8 +68,7 @@ intermediate::intermediate(
 	vertex(
 		vertex),
 	neighbors(
-		neighbors),
-	visited(false)
+		neighbors)
 {
 }
 
@@ -80,13 +77,17 @@ determine_adjacent_edge(
 	rofl::polygon const &p0,
 	rofl::polygon const &p1)
 {
+	std::tr1::array<rofl::line_segment,3> const
+		p0s = rofl::polygonizers::triangle::line_segments(p0),
+		p1s = rofl::polygonizers::triangle::line_segments(p1);
+		
 	BOOST_FOREACH(
 		rofl::polygonizers::triangle::triangle_line_segments::const_reference r,
-		rofl::polygonizers::triangle::line_segments(p0))
+		p0s)
 	{
 		BOOST_FOREACH(
 			rofl::polygonizers::triangle::triangle_line_segments::const_reference s,
-			rofl::polygonizers::triangle::line_segments(p1))
+			p1s)
 		{
 			if (r == s)
 				return r;
@@ -97,13 +98,15 @@ determine_adjacent_edge(
 		false,
 		SGE_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
 }
-}
 
 void 
 rofl::polygonizers::triangle::object::polygonize(
 	polygon_with_holes const &p,
 	graph::object &output)
 {
+	mylogger.activate(
+		sge::log::level::debug);
+	
 	triangulateio 
 		in,out;
 	
@@ -215,11 +218,24 @@ rofl::polygonizers::triangle::object::polygonize(
 	SGE_LOG_DEBUG(
 		mylogger,
 		sge::log::_1 << SGE_TEXT("Holes end"));
-		
+	
 	triangulation t(
 		"pzqn",
 		in,
 		out);
+	
+	SGE_LOG_DEBUG(
+		mylogger,
+		sge::log::_1 << SGE_TEXT("Outputting neighbors:"));
+	for (int i = 0; i < out.numberoftriangles*3; ++i)
+	{
+		SGE_LOG_DEBUG(
+			mylogger,
+			sge::log::_1 << out.neighborlist[i]);
+	}
+	SGE_LOG_DEBUG(
+		mylogger,
+		sge::log::_1 << SGE_TEXT("Neighbors end"));
 	
 	SGE_ASSERT(out.numberofcorners == 3);
 	
@@ -250,6 +266,7 @@ rofl::polygonizers::triangle::object::polygonize(
 					out.pointlist[2*out.trianglelist[corner_base]+xy];
 			g.push_back(p);
 		}
+				
 		graph_polygons.push_back(
 			intermediate(
 				boost::add_vertex(
@@ -257,15 +274,13 @@ rofl::polygonizers::triangle::object::polygonize(
 						g),
 					output),
 				sge::assign::make_array<intermediate::index>
-					(out.neighborlist[tri])
-					(out.neighborlist[tri+1])
-					(out.neighborlist[tri+2])));
+					(out.neighborlist[3*tri])
+					(out.neighborlist[3*tri+1])
+					(out.neighborlist[3*tri+2])));
 	}
 	
 	BOOST_FOREACH(graph_polygon_vector::const_reference r,graph_polygons)
 	{
-		if (r.visited)
-			continue;
 		BOOST_FOREACH(intermediate::neighbor_array::const_reference i,r.neighbors)
 		{
 			if (i == -1)
@@ -274,7 +289,7 @@ rofl::polygonizers::triangle::object::polygonize(
 				&p0 = output[r.vertex].polygon(),
 				&p1 = output[graph_polygons[i].vertex].polygon();
 			
-			boost::add_edge(
+			if (boost::add_edge(
 				r.vertex,
 				graph_polygons[i].vertex,
 				graph::edge_properties(
@@ -286,10 +301,18 @@ rofl::polygonizers::triangle::object::polygonize(
 					determine_adjacent_edge(
 						p0,
 						p1)),
-				output);
-			
-			graph_polygons[i].visited = 
-				true;
+				output).second == false)
+			{
+				SGE_LOG_DEBUG(
+					mylogger,
+					sge::log::_1 << SGE_TEXT("Edge already added"));
+			}
+			else
+			{
+				SGE_LOG_DEBUG(
+					mylogger,
+					sge::log::_1 << SGE_TEXT("Adding edge"));
+			}
 		}
 	}
 }

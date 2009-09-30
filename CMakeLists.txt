@@ -39,16 +39,16 @@ IF (CMAKE_COMPILER_IS_GNUCXX)
 		SET (CMAKE_CXX_FLAGS_DEBUG ${CMAKE_CXX_FLAGS_DEBUG}" -Wpadded -Weffc++")
 	ENDIF()
 
-	ADD_DEFINITIONS(-D BOOST_FILESYSTEM_NO_DEPRECATED)
+	ADD_DEFINITIONS(-D BOOST_FILESYSTEM_NO_DEPRECATED -fPIC)
 
 	SET (CMAKE_CXX_FLAGS_RELEASE "-O3 -fomit-frame-pointer -DNDEBUG")
 	
 # -fvisibility=hidden causes problems without inlining, so just switch it on
 # in release mode
-	IF (SGE_HAVE_GCC_VISIBILITY)
-		ADD_DEFINITIONS(-fvisibility=hidden)
+#IF (SGE_HAVE_GCC_VISIBILITY)
+#	ADD_DEFINITIONS(-fvisibility=hidden)
 		#SET (CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -fvisibility=hidden")
-	ENDIF ()
+		#ENDIF ()
 
 	#IF (SGE_HAVE_VARIADIC_TEMPLATES)
 	#	ADD_DEFINITIONS ("-std=c++0x")

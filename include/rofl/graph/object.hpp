@@ -12,8 +12,8 @@ namespace graph
 typedef
 boost::adjacency_list
 <
-	boost::vecS,
-	boost::vecS,
+	boost::setS,
+	boost::setS,
 	boost::undirectedS,
 	vertex_properties,
 	edge_properties

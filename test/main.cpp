@@ -22,6 +22,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
 #include "line_strip/parameters_impl.hpp"
+#include "../src/polygonizers/triangle/inner_point.hpp"
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
@@ -42,6 +43,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <sge/image/color/rgba8.hpp>
 #include <sge/input/system.hpp>
 #include <sge/math/vector/structure_cast.hpp>
+#include <sge/math/vector/arithmetic.hpp>
 #include <sge/input/action.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
@@ -73,6 +75,67 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <GL/glu.h>
 #include <rofl/create_polygonizer.hpp>
 #include <rofl/polygonizer.hpp>
+
+#include <sge/assign/make_array.hpp>
+
+namespace
+{
+typedef
+sge::line_strip::object<float,sge::image::color::rgba8>
+line_strip;
+
+typedef
+sge::line_strip::parameters<float,sge::image::color::rgba8>
+line_strip_params;
+	
+template
+<
+	typename Graph,
+	typename EdgeIterator,
+	typename StripContainer
+>
+void push_edges(
+	Graph const &g,
+	EdgeIterator i,
+	EdgeIterator const end,
+	StripContainer &strips,
+	sge::renderer::device_ptr const rend)
+{
+	for (; i != end; ++i)
+	{
+		typename StripContainer::value_type
+			s(
+				rend,
+				line_strip_params()
+					.color(
+						line_strip::color(
+								mizuiro::color::init::red %= 1.0f,
+								mizuiro::color::init::green %= 0.0,
+								mizuiro::color::init::blue %= 0.0,
+								mizuiro::color::init::alpha %= 1.0f )));
+		
+		rofl::polygon const 
+			&p0 = g[boost::source(*i,g)].polygon(),
+			&p1 = g[boost::target(*i,g)].polygon();
+			
+		rofl::point const 
+			inner0 = 
+				rofl::polygonizers::triangle::inner_point(p0),
+			inner1 = 
+				rofl::polygonizers::triangle::inner_point(p1);
+				
+		s.push_back(
+			sge::math::vector::structure_cast<line_strip::point>(
+				inner0));
+		s.push_back(
+			sge::math::vector::structure_cast<line_strip::point>(
+				inner1));
+				
+		strips.push_back(
+			s);
+	}
+}
+}
 
 int main()
 try
@@ -121,32 +184,7 @@ try
 			rend->screen_size()));
 	rend->projection(
 		sge::math::matrix::orthogonal_xy<float>());
-
-	/*
-	rofl::polygon kacke,kacke2;
-	kacke.push_back(rofl::point(50,50,0));
-	kacke.push_back(rofl::point(200,50,0));
-	kacke.push_back(rofl::point(200,200,0));
-	kacke.push_back(rofl::point(50,200,0));
-	kacke2.push_back(rofl::point(75,75,0));
-	kacke2.push_back(rofl::point(125,175,0));
-	kacke2.push_back(rofl::point(175,75,0));
-	
-	rofl::polygon_with_holes polys(
-		sge::assign::make_container<rofl::polygon>
-			(rofl::point(50,50,0))
-			(rofl::point(200,50,0))
-			(rofl::point(200,200,0))
-			(rofl::point(50,200,0))
-	);
-	
-	polys.add_hole(
-		sge::assign::make_container<rofl::polygon>
-			(rofl::point(75,75,0))
-			(rofl::point(125,175,0))
-			(rofl::point(175,75,0))
-	);
-	*/
+		
 	rofl::polygon_with_holes polys(
 		sge::assign::make_container<rofl::polygon>
 			(rofl::point(10,10,0))
@@ -168,18 +206,10 @@ try
 		polys,
 		g);
 	
-	typedef
-	sge::line_strip::object<float,sge::image::color::rgba8>
-	line_strip;
-	
-	typedef
-	sge::line_strip::parameters<float,sge::image::color::rgba8>
-	line_strip_params;
-	
 	std::vector<line_strip> strips;
 	for(
 		rofl::graph::const_vertex_iterator i = rofl::graph::vertices_begin(g);
-		i != rofl::graph::vertices_end();
+		i != rofl::graph::vertices_end(g);
 		++i)
 	{
 		rofl::polygon const &p = 
@@ -207,6 +237,13 @@ try
 		strips.push_back(
 			s);
 	}
+
+	push_edges(
+		g,
+		boost::edges(g).first,
+		boost::edges(g).second,
+		strips,
+		rend);
 
 	while(running)
 	{

@@ -1,7 +1,11 @@
 #ifndef ROFL_MATH_POLYGON_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_HPP_INCLUDED
 
+#include <sge/ostream.hpp>
+#include <sge/text.hpp>
+#include <boost/foreach.hpp>
 #include <vector>
+#include <ostream>
 
 namespace rofl
 {
@@ -43,6 +47,23 @@ public:
 private:
 	container points_;
 };
+
+template
+<
+	typename T,
+	typename Ch,
+	typename Traits
+>
+std::basic_ostream<Ch, Traits> &
+operator<<(
+	std::basic_ostream<Ch, Traits> &s,
+	math::polygon<T> const &p)
+{
+	s << SGE_TEXT('|');
+	BOOST_FOREACH(typename rofl::math::polygon<T>::const_reference r,p)
+		s << r << SGE_TEXT('|');
+	return s;
+}
 }
 }
 

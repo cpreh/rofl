@@ -2,7 +2,7 @@
 
 rofl::graph::edge_properties::edge_properties(
 	unit const _length,
-	math::line_segment<point> const &_adjacent_edge)
+	line_segment const &_adjacent_edge)
 :
 	length_(
 		_length),
@@ -18,7 +18,7 @@ rofl::graph::edge_properties::length() const
 		length_;
 }
 
-rofl::math::line_segment<rofl::point> const &
+rofl::line_segment const &
 rofl::graph::edge_properties::adjacent_edge() const
 {
 	return 

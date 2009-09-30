@@ -72,8 +72,10 @@ rofl::math::line_segment<Vector>::operator==(
 	line_segment const &r) const
 {
 	return 
-		start_ == r.start_ &&
-		end_ == r.end_;
+		(start_ == r.start_ &&
+		end_ == r.end_) ||
+		(start_ == r.end_ &&
+		end_ == r.start_);
 }
 
 #endif

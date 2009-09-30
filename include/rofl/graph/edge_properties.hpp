@@ -1,8 +1,7 @@
 #ifndef ROFL_GRAPH_EDGE_PROPERTIES_HPP_INCLUDED
 #define ROFL_GRAPH_EDGE_PROPERTIES_HPP_INCLUDED
 
-#include <rofl/math/line_segment.hpp>
-#include <rofl/point.hpp>
+#include <rofl/line_segment.hpp>
 #include <rofl/unit.hpp>
 #include <sge/math/vector/basic_impl.hpp>
 
@@ -15,15 +14,15 @@ class edge_properties
 public:
 	edge_properties(
 		unit,
-		math::line_segment<point> const &);
+		line_segment const &);
 
 	unit 
 	length() const;
 
-	math::line_segment<point> const &
+	line_segment const &
 	adjacent_edge() const;
 private:
-	math::line_segment<point> 
+	line_segment
 		adjacent_edge_;
 	unit 
 		length_;
