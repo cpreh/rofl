@@ -1,6 +1,7 @@
 #include "../object.hpp"
 #include "../impl/impl.hpp"
 #include "../accumulate_sizes.hpp"
+#include "../clear_pod.hpp"
 #include "../add_polygon.hpp"
 #include "../triangulation.hpp"
 #include "../triangle_line_segments.hpp"
@@ -27,10 +28,21 @@
 #include <cmath>
 #include <tr1/array>
 
+namespace
+{
 sge::log::logger mylogger(
 	sge::log::global(),
 	SGE_TEXT("rofl: polygonizers: triangle: object: "),
 	true);
+
+typedef sge::container::raw_vector<rofl::unit> point_vector;
+typedef sge::container::raw_vector<int> segment_vector;
+typedef sge::container::raw_vector<rofl::unit> hole_vector;
+
+void init_structure()
+{
+	
+}
 
 // To build the graph, we have to associate the triangle indices with 
 // -The graph nodes
@@ -98,6 +110,7 @@ determine_adjacent_edge(
 		false,
 		SGE_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
 }
+}
 
 void 
 rofl::polygonizers::triangle::object::polygonize(
@@ -107,22 +120,14 @@ rofl::polygonizers::triangle::object::polygonize(
 	mylogger.activate(
 		sge::log::level::debug);
 	
+	// initialize structure
 	triangulateio 
 		in,out;
 	
-	std::memset(
-		&out,
-		0,
-		sizeof(triangulateio));
-		
-	std::memset(
-		&in,
-		0,
-		sizeof(triangulateio));
-	
-	typedef sge::container::raw_vector<unit> point_vector;
-	typedef sge::container::raw_vector<int> segment_vector;
-	typedef sge::container::raw_vector<unit> hole_vector;
+	clear_pod(
+		in);
+	clear_pod(
+		out);
 
 	in.numberofpoints = 
 		static_cast<int>(
@@ -144,20 +149,20 @@ rofl::polygonizers::triangle::object::polygonize(
 			in.numberofsegments * 2));
 	in.segmentlist = 
 		&segments[0];
-		
+
+	hole_vector holes;
+	holes.reserve(
+		static_cast<hole_vector::size_type>(
+			2*p.holes().size()));
+	in.numberofholes = 
+		p.holes().size();
+
+	// add points and holes begin
 	add_polygon(
 		points,
 		segments,
 		p.border());
 	
-	hole_vector holes;
-	holes.reserve(
-		static_cast<hole_vector::size_type>(
-			2*p.holes().size()));
-			
-	in.numberofholes = 
-		p.holes().size();
-		
 	BOOST_FOREACH(polygon_with_holes::hole_set::const_reference r,p.holes())
 	{
 		SGE_ASSERT_MESSAGE(
@@ -179,6 +184,7 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	in.holelist = 
 		&holes[0];
+	// add points and holes end
 
 	SGE_LOG_DEBUG(
 		mylogger,
