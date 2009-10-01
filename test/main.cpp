@@ -22,10 +22,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
 #include "line_strip/parameters_impl.hpp"
-#include "../src/polygonizers/triangle/inner_point.hpp"
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
+#include <rofl/math/barycenter.hpp>
 #include <rofl/polygon.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
@@ -44,6 +44,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <sge/input/system.hpp>
 #include <sge/math/vector/structure_cast.hpp>
 #include <sge/math/vector/arithmetic.hpp>
+#include <sge/math/vector/length.hpp>
 #include <sge/input/action.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
@@ -77,6 +78,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <rofl/polygonizer.hpp>
 
 #include <sge/assign/make_array.hpp>
+
+#include <boost/graph/astar_search.hpp>
+#include <cstdlib>
+#include <ctime>
 
 namespace
 {
@@ -114,25 +119,181 @@ void push_edges(
 								mizuiro::color::init::blue %= 0.0,
 								mizuiro::color::init::alpha %= 1.0f )));
 		
-		rofl::polygon const 
-			&p0 = g[boost::source(*i,g)].polygon(),
-			&p1 = g[boost::target(*i,g)].polygon();
-			
 		rofl::point const 
-			inner0 = 
-				rofl::polygonizers::triangle::inner_point(p0),
-			inner1 = 
-				rofl::polygonizers::triangle::inner_point(p1);
-				
+			&p0 = g[boost::source(*i,g)].barycenter(),
+			&p1 = g[boost::target(*i,g)].barycenter();
+			
 		s.push_back(
 			sge::math::vector::structure_cast<line_strip::point>(
-				inner0));
+				p0));
 		s.push_back(
 			sge::math::vector::structure_cast<line_strip::point>(
-				inner1));
+				p1));
 				
 		strips.push_back(
 			s);
+	}
+}
+
+template
+<
+	typename Graph,
+	typename Unit
+>
+class heuristic
+{
+public:
+	typedef 
+	Graph 
+	graph;
+	
+	typedef 
+	Unit
+	unit;
+	
+	typedef typename
+	boost::graph_traits<graph>::vertex_descriptor
+	vertex;
+	
+	heuristic(
+		graph const &,
+		vertex const &);
+		
+	unit
+	operator()(
+		vertex const &) const;
+private:
+	graph const &graph_;
+	vertex destination_;
+};
+
+template
+<
+	typename Graph,
+	typename Unit
+>
+heuristic<Graph,Unit>::heuristic(
+	graph const &_graph,
+	vertex const &_destination)
+:
+	graph_(
+		_graph),
+	destination_(
+		_destination)
+{
+}
+
+template
+<
+	typename Graph,
+	typename Unit
+>
+typename 
+heuristic<Graph,Unit>::unit
+heuristic<Graph,Unit>::operator()(
+	vertex const &v) const
+{
+	return 
+		sge::math::vector::length(
+			graph_[v].barycenter()-graph_[destination_].barycenter());
+}
+
+class found_goal {};
+
+template
+<
+	typename Vertex
+>
+class goal_visitor
+:
+	public boost::default_astar_visitor
+{
+public:
+	goal_visitor(
+		Vertex const &);
+	template<typename Graph>
+	void examine_vertex(
+		Vertex const &,
+		Graph const &);
+private:
+	Vertex goal_;
+};
+
+template<typename Vertex>
+goal_visitor<Vertex>::goal_visitor(
+	Vertex const &_goal)
+:
+	goal_(
+		_goal)
+{
+}
+
+template<typename Vertex>
+template<typename Graph>
+void 
+goal_visitor<Vertex>::examine_vertex(
+	Vertex const &v,
+	Graph const &)
+{
+	if (v == goal_)
+		throw found_goal();
+}
+
+template
+<
+	typename Graph,
+	typename List
+>
+void astar_search(
+	Graph const &g,
+	typename boost::graph_traits<Graph>::vertex_descriptor const &start,
+	typename boost::graph_traits<Graph>::vertex_descriptor const &goal,
+	List &path)
+{
+	typedef typename
+	boost::graph_traits<Graph>::vertex_descriptor
+	vertex;
+	
+	typedef 
+	std::vector
+	<
+		vertex
+	>
+	predecessors;
+	
+	predecessors p(
+		boost::num_vertices(
+			g));
+	
+	try
+	{
+		boost::astar_search(
+			g,
+			start,
+			heuristic<Graph,rofl::unit>(
+				g,
+				goal),
+			boost::predecessor_map(
+				&p[0]).
+			visitor(
+				goal_visitor<vertex>(
+					goal)).
+			weight_map(
+				boost::get(
+					&rofl::graph::edge_properties::length,
+					g)));
+	}
+	catch (found_goal const &)
+	{
+		sge::cerr << SGE_TEXT("found a goal\n");
+	}
+	
+	for (vertex v = goal;;v = p[v])
+	{
+		path.push_front(
+			v);
+		if (p[v] == v)
+			break;
 	}
 }
 }
@@ -244,6 +405,52 @@ try
 		boost::edges(g).second,
 		strips,
 		rend);
+	
+	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
+	
+	unsigned number_of_vertices = 
+		std::distance(
+			boost::vertices(g).first,
+			boost::vertices(g).second);
+	
+	std::srand(
+		std::time(0));
+	
+	vertex 
+		start = 
+			*boost::next(
+				boost::vertices(g).first,
+				std::rand() % number_of_vertices),
+		end = 
+			*boost::next(
+				boost::vertices(g).first,
+				std::rand() % number_of_vertices);
+		
+		
+	typedef std::list<vertex> path_list;
+	path_list splist;
+	astar_search(
+		g,
+		start,
+		end,
+		splist);
+	
+	line_strip path_strip(
+			rend,
+			line_strip_params()
+				.color(
+					line_strip::color(
+							mizuiro::color::init::red %= 0.0f,
+							mizuiro::color::init::green %= 1.0,
+							mizuiro::color::init::blue %= 0.0,
+							mizuiro::color::init::alpha %= 1.0f )));
+		
+	BOOST_FOREACH(path_list::const_reference r,splist)
+		path_strip.push_back(
+			g[r].barycenter());
+	
+	strips.push_back(
+		path_strip);
 
 	while(running)
 	{

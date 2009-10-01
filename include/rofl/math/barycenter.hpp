@@ -1,16 +1,14 @@
-#ifndef ROFL_POLYGONIZERS_TRIANGLE_INNER_POINT_HPP_INCLUDED
-#define ROFL_POLYGONIZERS_TRIANGLE_INNER_POINT_HPP_INCLUDED
+#ifndef ROFL_MATH_BARYCENTER_HPP_INCLUDED
+#define ROFL_MATH_BARYCENTER_HPP_INCLUDED
 
 #include <boost/foreach.hpp>
 
 namespace rofl
 {
-namespace polygonizers
-{
-namespace triangle
+namespace math
 {
 template<typename Container>
-typename Container::value_type inner_point(
+typename Container::value_type barycenter(
 	Container const &p)
 {
 	typedef
@@ -35,7 +33,6 @@ typename Container::value_type inner_point(
 	
 	return 
 		r * out;
-}
 }
 }
 }

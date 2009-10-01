@@ -1,7 +1,7 @@
 #ifndef ROFL_GRAPH_VERTEX_PROPERTIES_HPP_INCLUDED
 #define ROFL_GRAPH_VERTEX_PROPERTIES_HPP_INCLUDED
 
-#include <rofl/math/polygon.hpp>
+#include <rofl/polygon.hpp>
 #include <rofl/point.hpp>
 #include <sge/math/vector/basic_impl.hpp>
 
@@ -15,11 +15,14 @@ public:
 	// vertex properties have to be def-ctible
 	vertex_properties();
 	vertex_properties(
-		rofl::math::polygon<point> const &);
-	rofl::math::polygon<point> const &
+		rofl::polygon const &);
+	rofl::polygon const &
 	polygon() const;
+	point const &
+	barycenter() const;
 private:
-	rofl::math::polygon<point> polygon_;
+	rofl::polygon polygon_;
+	point barycenter_;
 };
 }
 }

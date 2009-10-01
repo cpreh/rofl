@@ -2,7 +2,6 @@
 #include "../impl/impl.hpp"
 #include "../accumulate_sizes.hpp"
 #include "../add_polygon.hpp"
-#include "../inner_point.hpp"
 #include "../triangulation.hpp"
 #include "../triangle_line_segments.hpp"
 #include "../line_segments.hpp"
@@ -13,6 +12,7 @@
 #include <rofl/line_segment.hpp>
 #include <rofl/polygon.hpp>
 #include <rofl/math/polygon.hpp>
+#include <rofl/math/barycenter.hpp>
 #include <rofl/graph/object.hpp>
 #include <sge/container/raw_vector.hpp>
 #include <sge/assign/make_array.hpp>
@@ -169,7 +169,7 @@ rofl::polygonizers::triangle::object::polygonize(
 			r);
 		
 		point const ip = 
-			inner_point(
+			math::barycenter(
 				r);
 		holes.push_back(
 			ip[0]);
@@ -288,16 +288,16 @@ rofl::polygonizers::triangle::object::polygonize(
 			polygon const 
 				&p0 = output[r.vertex].polygon(),
 				&p1 = output[graph_polygons[i].vertex].polygon();
+			point const 
+				c0 = output[r.vertex].barycenter(),
+				c1 = output[graph_polygons[i].vertex].barycenter();
 			
 			if (boost::add_edge(
 				r.vertex,
 				graph_polygons[i].vertex,
 				graph::edge_properties(
 					sge::math::vector::length(
-						inner_point(
-							p0)-
-						inner_point(
-							p1)),
+						c0-c1),
 					determine_adjacent_edge(
 						p0,
 						p1)),

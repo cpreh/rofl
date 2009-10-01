@@ -1,21 +1,35 @@
 #include <rofl/graph/vertex_properties.hpp>
+#include <rofl/math/barycenter.hpp>
+#include <sge/math/vector/arithmetic.hpp>
 
 rofl::graph::vertex_properties::vertex_properties()
 :
-	polygon_()
+	polygon_(),
+	barycenter_()
 {
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	rofl::math::polygon<point> const &_polygon)
+	rofl::polygon const &_polygon)
 :
 	polygon_(
-		_polygon)
+		_polygon),
+	barycenter_(
+		math::barycenter(
+			_polygon))
 {
 }
 
-rofl::math::polygon<rofl::point> const &
+rofl::polygon const &
 rofl::graph::vertex_properties::polygon() const
 {
-	return polygon_;
+	return 
+		polygon_;
+}
+
+rofl::point const &
+rofl::graph::vertex_properties::barycenter() const
+{
+	return 
+		barycenter_;
 }
