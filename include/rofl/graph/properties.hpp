@@ -17,6 +17,7 @@ public:
 	properties(
 		point_vector const &);
 	point_vector const &points() const;
+	point_vector &points();
 private:
 	point_vector points_;
 };

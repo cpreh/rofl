@@ -3,9 +3,7 @@
 
 #include <rofl/math/line_segment.hpp>
 #include <rofl/math/polygon.hpp>
-#include <sge/assert.hpp>
-#include <sge/assign/make_array.hpp>
-#include <tr1/array>
+#include <vector>
 
 namespace rofl
 {
@@ -14,23 +12,28 @@ namespace polygonizers
 namespace triangle
 {
 template<typename T>
-std::tr1::array
+std::vector
 <
-	math::line_segment<T>,
-	3
+	math::line_segment<T>
 > const
 line_segments(
 	math::polygon<T> const &p)
 {
-	SGE_ASSERT(p.size() == 3);
-	return 
-		sge::assign::make_array
-		<
-			math::line_segment<T>
-		>
-			(math::line_segment<T>(p[0],p[1]))
-			(math::line_segment<T>(p[1],p[2]))
-			(math::line_segment<T>(p[2],p[0]));
+	std::vector < math::line_segment<T> > segments;
+	for (typename math::polygon<T>::const_iterator i = p.begin(); i != p.end(); ++i)
+	{
+		T const &next = 
+			i == boost::prior(p.end())
+			?
+				p.front()
+			:
+				*boost::next(i);
+		segments.push_back(
+			math::line_segment<T>(
+				*i,
+				next));
+	}
+	return segments;
 }
 }
 }

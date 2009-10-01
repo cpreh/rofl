@@ -94,6 +94,7 @@ typedef
 sge::line_strip::parameters<float,sge::image::color::rgba8>
 line_strip_params;
 	
+
 template
 <
 	typename Graph,
@@ -136,6 +137,7 @@ void push_edges(
 	}
 }
 
+#if 0
 template
 <
 	typename Graph,
@@ -297,6 +299,7 @@ void astar_search(
 			break;
 	}
 }
+#endif
 }
 
 int main()
@@ -374,7 +377,7 @@ try
 		i != rofl::graph::vertices_end(g);
 		++i)
 	{
-		rofl::polygon const &p = 
+		rofl::indexed_polygon const &p = 
 			g[*i].polygon();
 		SGE_ASSERT(
 			p.size() == static_cast<rofl::polygon::size_type>(3));
@@ -386,15 +389,10 @@ try
 					.style(
 						sge::line_strip::style::loop));
 		
-		s.push_back(
-			sge::math::vector::structure_cast<line_strip::point>(
-				p[0]));
-		s.push_back(
-			sge::math::vector::structure_cast<line_strip::point>(
-				p[1]));
-		s.push_back(
-			sge::math::vector::structure_cast<line_strip::point>(
-				p[2]));
+		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
+			s.push_back(
+				sge::math::vector::structure_cast<line_strip::point>(
+					r.representation()));
 				
 		strips.push_back(
 			s);
@@ -402,14 +400,13 @@ try
 
 	rofl::graph::simplify(
 		g);
-/*
+		
 	push_edges(
 		g,
 		boost::edges(g).first,
 		boost::edges(g).second,
 		strips,
 		rend);
-		*/
 	
 		/*
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;

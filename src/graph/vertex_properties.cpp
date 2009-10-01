@@ -10,17 +10,26 @@ rofl::graph::vertex_properties::vertex_properties()
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	rofl::polygon const &_polygon)
+	indexed_polygon const &_polygon)
+:
+	polygon_(
+		_polygon),
+	barycenter_()
+{
+}
+
+rofl::graph::vertex_properties::vertex_properties(
+	indexed_polygon const &_polygon,
+	point const &_barycenter)
 :
 	polygon_(
 		_polygon),
 	barycenter_(
-		math::barycenter(
-			_polygon))
+		_barycenter)
 {
 }
 
-rofl::polygon const &
+rofl::indexed_polygon const &
 rofl::graph::vertex_properties::polygon() const
 {
 	return 

@@ -1,8 +1,8 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_TRIANGLE_LINE_SEGMENTS_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_TRIANGLE_LINE_SEGMENTS_HPP_INCLUDED
 
-#include <rofl/line_segment.hpp>
-#include <tr1/array>
+#include <rofl/indexed_line_segment.hpp>
+#include <vector>
 
 namespace rofl
 {
@@ -11,10 +11,9 @@ namespace polygonizers
 namespace triangle
 {
 typedef
-std::tr1::array
+std::vector
 <
-	line_segment,
-	3
+	indexed_line_segment
 >
 triangle_line_segments;
 }

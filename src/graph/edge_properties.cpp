@@ -2,7 +2,7 @@
 
 rofl::graph::edge_properties::edge_properties(
 	unit const _length,
-	line_segment const &_adjacent_edge)
+	indexed_line_segment const &_adjacent_edge)
 :
 	length_(
 		_length),
@@ -18,7 +18,7 @@ rofl::graph::edge_properties::length() const
 		length_;
 }
 
-rofl::line_segment const &
+rofl::indexed_line_segment const &
 rofl::graph::edge_properties::adjacent_edge() const
 {
 	return 

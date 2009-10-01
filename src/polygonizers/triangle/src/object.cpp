@@ -7,6 +7,9 @@
 #include "../triangle_line_segments.hpp"
 #include "../line_segments.hpp"
 #include "../is_convex.hpp"
+#include "../fill_points.hpp"
+#include "../fill_intermediate.hpp"
+#include "../determine_adjacent_edge.hpp"
 #include <rofl/unit.hpp>
 #include <rofl/point.hpp>
 #include <rofl/polygon_with_holes.hpp>
@@ -15,10 +18,13 @@
 #include <rofl/math/polygon.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/graph/object.hpp>
+#include <rofl/graph/vertex_properties.hpp>
+#include <rofl/indexed_point.hpp>
 #include <sge/container/raw_vector.hpp>
 #include <sge/assign/make_array.hpp>
 #include <sge/math/vector/length.hpp>
 #include <sge/math/vector/arithmetic.hpp>
+#include <sge/math/null.hpp>
 #include <sge/math/vector/output.hpp>
 #include <sge/assert.hpp>
 #include <sge/text.hpp>
@@ -38,78 +44,6 @@ sge::log::logger mylogger(
 typedef sge::container::raw_vector<rofl::unit> point_vector;
 typedef sge::container::raw_vector<int> segment_vector;
 typedef sge::container::raw_vector<rofl::unit> hole_vector;
-
-void init_structure()
-{
-	
-}
-
-// To build the graph, we have to associate the triangle indices with 
-// -The graph nodes
-// -The triangle's neighbor indices
-// To save at least some space/performance we store the neighbors 
-// in an array with constant size 3 (-1 being "not a neighbor" like Triangle does)
-struct intermediate
-{
-	typedef int index;
-	
-	typedef 
-	std::tr1::array<index,3>
-	neighbor_array;
-	
-	typedef 
-	boost::graph_traits
-	<
-		rofl::graph::object
-	>::vertex_descriptor vertex_descriptor;
-	
-	vertex_descriptor
-		vertex;
-	neighbor_array 
-		neighbors;
-	
-	intermediate(
-		vertex_descriptor const &,
-		neighbor_array const &);
-};
-
-intermediate::intermediate(
-	vertex_descriptor const &vertex,
-	neighbor_array const &neighbors)
-:
-	vertex(
-		vertex),
-	neighbors(
-		neighbors)
-{
-}
-
-rofl::line_segment const 
-determine_adjacent_edge(
-	rofl::polygon const &p0,
-	rofl::polygon const &p1)
-{
-	std::tr1::array<rofl::line_segment,3> const
-		p0s = rofl::polygonizers::triangle::line_segments(p0),
-		p1s = rofl::polygonizers::triangle::line_segments(p1);
-		
-	BOOST_FOREACH(
-		rofl::polygonizers::triangle::triangle_line_segments::const_reference r,
-		p0s)
-	{
-		BOOST_FOREACH(
-			rofl::polygonizers::triangle::triangle_line_segments::const_reference s,
-			p1s)
-		{
-			if (r == s)
-				return r;
-		}
-	}
-	
-	SGE_ASSERT_MESSAGE(
-		false,
-		SGE_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
-}
 }
 
 void 
@@ -129,6 +63,7 @@ rofl::polygonizers::triangle::object::polygonize(
 	clear_pod(
 		out);
 
+	// Points
 	in.numberofpoints = 
 		static_cast<int>(
 			p.border().size()+
@@ -140,6 +75,8 @@ rofl::polygonizers::triangle::object::polygonize(
 			in.numberofpoints * 2));
 	in.pointlist = 
 		&points[0];
+		
+	// Segments
 	in.numberofsegments = 
 		in.numberofpoints;
 	segment_vector 
@@ -150,12 +87,15 @@ rofl::polygonizers::triangle::object::polygonize(
 	in.segmentlist = 
 		&segments[0];
 
+	// Holes
 	hole_vector holes;
 	holes.reserve(
 		static_cast<hole_vector::size_type>(
 			2*p.holes().size()));
 	in.numberofholes = 
 		p.holes().size();
+	in.holelist = 
+		&holes[0];
 
 	// add points and holes begin
 	add_polygon(
@@ -181,9 +121,6 @@ rofl::polygonizers::triangle::object::polygonize(
 		holes.push_back(
 			ip[1]);
 	}
-	
-	in.holelist = 
-		&holes[0];
 	// add points and holes end
 
 	SGE_LOG_DEBUG(
@@ -245,6 +182,14 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	SGE_ASSERT(out.numberofcorners == 3);
 	
+	// first, create an array rofl::points from the out.pointlist. 
+	// This is stored in the graph properties, and the indexed_points 
+	// use that as their source
+	fill_points(
+		out.pointlist,
+		2*out.numberofpoints,
+		output.m_property.points());
+	
 	typedef 
 	std::vector
 	<
@@ -254,36 +199,13 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	graph_polygon_vector 
 		graph_polygons;
-	
-	for (int tri = 0; tri < out.numberoftriangles; ++tri)
-	{
-		polygon g;
-		std::size_t const tri_base = 
-			static_cast<std::size_t>(
-				3*tri);
-		for (int corner = 0; corner < 3; ++corner)
-		{
-			std::size_t const corner_base = 
-				static_cast<std::size_t>(
-					tri_base + corner);
-			point p;
-			for (int xy = 0; xy < 2; ++xy)
-				p[xy] = 
-					out.pointlist[2*out.trianglelist[corner_base]+xy];
-			g.push_back(p);
-		}
-				
-		graph_polygons.push_back(
-			intermediate(
-				boost::add_vertex(
-					graph::vertex_properties(
-						g),
-					output),
-				sge::assign::make_array<intermediate::index>
-					(out.neighborlist[3*tri])
-					(out.neighborlist[3*tri+1])
-					(out.neighborlist[3*tri+2])));
-	}
+
+	fill_intermediate(
+		output,
+		graph_polygons,
+		out.numberoftriangles,
+		out.trianglelist,
+		out.neighborlist);
 	
 	BOOST_FOREACH(graph_polygon_vector::const_reference r,graph_polygons)
 	{
@@ -291,19 +213,27 @@ rofl::polygonizers::triangle::object::polygonize(
 		{
 			if (i == -1)
 				continue;
-			polygon const 
-				&p0 = output[r.vertex].polygon(),
-				&p1 = output[graph_polygons[i].vertex].polygon();
+
+			graph::vertex_properties const 
+				&props0 = output[r.vertex],
+				&props1 = output[graph_polygons[i].vertex];
+
+			indexed_polygon const 
+				&p0 = props0.polygon(),
+				&p1 = props1.polygon();
 			point const 
-				c0 = output[r.vertex].barycenter(),
-				c1 = output[graph_polygons[i].vertex].barycenter();
+				c0 = props0.barycenter(),
+				c1 = props1.barycenter();
+			unit const 
+				l = 
+					sge::math::vector::length(
+						c0-c1);
 			
 			if (boost::add_edge(
 				r.vertex,
 				graph_polygons[i].vertex,
 				graph::edge_properties(
-					sge::math::vector::length(
-						c0-c1),
+					l,
 					determine_adjacent_edge(
 						p0,
 						p1)),

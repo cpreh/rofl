@@ -15,6 +15,12 @@ rofl::graph::properties::properties(
 {
 	
 }
+
+rofl::graph::properties::point_vector &
+rofl::graph::properties::points()
+{
+	return points_;
+}
 	
 rofl::graph::properties::point_vector const &
 rofl::graph::properties::points() const

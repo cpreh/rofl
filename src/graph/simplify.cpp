@@ -4,6 +4,7 @@
 
 namespace
 {
+#if 0
 int area_sign(
 	rofl::point const &a,
 	rofl::point const &b,
@@ -95,6 +96,7 @@ bool mergeable(
 
 	return true;
 }
+#endif
 }
 
 void rofl::graph::simplify(
