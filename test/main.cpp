@@ -24,6 +24,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include "line_strip/parameters_impl.hpp"
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/graph/vertices_begin.hpp>
+#include <rofl/graph/simplify.hpp>
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/polygon.hpp>
@@ -399,13 +400,18 @@ try
 			s);
 	}
 
+	rofl::graph::simplify(
+		g);
+/*
 	push_edges(
 		g,
 		boost::edges(g).first,
 		boost::edges(g).second,
 		strips,
 		rend);
+		*/
 	
+		/*
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
 	
 	unsigned number_of_vertices = 
@@ -451,6 +457,7 @@ try
 	
 	strips.push_back(
 		path_strip);
+		*/
 
 	while(running)
 	{

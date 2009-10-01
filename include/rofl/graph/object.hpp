@@ -3,6 +3,7 @@
 
 #include <rofl/graph/edge_properties.hpp>
 #include <rofl/graph/vertex_properties.hpp>
+#include <rofl/graph/properties.hpp>
 #include <boost/graph/adjacency_list.hpp>
 
 namespace rofl
@@ -16,7 +17,8 @@ boost::adjacency_list
 	boost::setS,
 	boost::undirectedS,
 	vertex_properties,
-	edge_properties
+	edge_properties,
+	properties
 >
 object;
 }

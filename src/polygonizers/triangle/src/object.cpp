@@ -220,7 +220,7 @@ rofl::polygonizers::triangle::object::polygonize(
 		sge::log::_1 << SGE_TEXT("Holes end"));
 	
 	triangulation t(
-		"pzqn",
+		"pznq", // q for quality
 		in,
 		out);
 	

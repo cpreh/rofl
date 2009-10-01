@@ -38,6 +38,8 @@ public:
 	size_type size() const { return points_.size(); }
 	reference front() { return points_.front(); }
 	const_reference front() const { return points_.front(); }
+	reference back() { return points_.back(); }
+	const_reference back() const { return points_.back(); }
 	reference operator[](size_type const s) { return points_[s]; }
 	const_reference operator[](size_type const s) const { return points_[s]; }
 	iterator begin() { return points_.begin(); }
