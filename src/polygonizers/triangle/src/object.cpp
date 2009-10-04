@@ -164,6 +164,7 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	triangulation t(
 		"pznq", // q for quality
+//"pzn", // q for quality
 		in,
 		out);
 	

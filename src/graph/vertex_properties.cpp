@@ -36,9 +36,26 @@ rofl::graph::vertex_properties::polygon() const
 		polygon_;
 }
 
+void
+rofl::graph::vertex_properties::polygon(
+	indexed_polygon const &_polygon)
+{
+	polygon_ = 
+		_polygon;
+}
+
+
 rofl::point const &
 rofl::graph::vertex_properties::barycenter() const
 {
 	return 
 		barycenter_;
+}
+
+void
+rofl::graph::vertex_properties::barycenter(
+	point const &_barycenter)
+{
+	barycenter_ =
+		_barycenter;
 }

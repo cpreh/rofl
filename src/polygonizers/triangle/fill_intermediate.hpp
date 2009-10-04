@@ -36,7 +36,9 @@ void fill_intermediate(
 		std::size_t const tri_base = 
 			static_cast<std::size_t>(
 				3*tri);
-		for (int corner = 0; corner < 3; ++corner)
+		// NOTE: somehow triangle outputs the corners in _clockwise_ order
+		// so we switch it here.
+		for (int corner = 2; corner >= 0; --corner)
 		{
 			std::size_t const corner_base = 
 				static_cast<std::size_t>(

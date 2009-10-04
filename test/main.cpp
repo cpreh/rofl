@@ -370,6 +370,9 @@ try
 	rofl::create_polygonizer()->polygonize(
 		polys,
 		g);
+
+	rofl::graph::simplify(
+		g);
 	
 	std::vector<line_strip> strips;
 	for(
@@ -379,8 +382,6 @@ try
 	{
 		rofl::indexed_polygon const &p = 
 			g[*i].polygon();
-		SGE_ASSERT(
-			p.size() == static_cast<rofl::polygon::size_type>(3));
 		
 		line_strip 
 			s(
@@ -397,9 +398,6 @@ try
 		strips.push_back(
 			s);
 	}
-
-	rofl::graph::simplify(
-		g);
 		
 	push_edges(
 		g,

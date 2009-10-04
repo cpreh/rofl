@@ -4,10 +4,13 @@
 #include <rofl/graph/object_fwd.hpp>
 #include <rofl/index.hpp>
 #include <rofl/point.hpp>
+#include <boost/operators.hpp>
 
 namespace rofl
 {
 class indexed_point
+:
+	public boost::equality_comparable<indexed_point>
 {
 public:
 	indexed_point(

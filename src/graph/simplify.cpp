@@ -1,114 +1,218 @@
+#include "mergeable.hpp"
+#include "merge.hpp"
 #include <rofl/graph/simplify.hpp>
 #include <rofl/graph/edge_iterator.hpp>
+#include <rofl/graph/vertex_descriptor.hpp>
+#include <rofl/graph/out_edge_iterator.hpp>
+#include <rofl/graph/vertex_iterator.hpp>
+#include <rofl/graph/vertices_begin.hpp>
+#include <rofl/graph/vertices_end.hpp>
+#include <rofl/math/barycenter.hpp>
+#include <rofl/dereference.hpp>
+#include <sge/math/vector/output.hpp>
+#include <sge/math/vector/length.hpp>
+#include <sge/math/vector/arithmetic.hpp>
 #include <sge/assert.hpp>
+#include <sge/cerr.hpp>
+#include "cyclic_iterator.hpp"
+#include "cyclic_iterator_impl.hpp"
 
 namespace
 {
-#if 0
-int area_sign(
-	rofl::point const &a,
-	rofl::point const &b,
-	rofl::point const &c)
+// FIXME: Untersuchen, ob man statt des deletion_vectors nicht auch sagen kann
+// if (*next == vertex_to_delete) ++next;
+// Das ist der Fall, wenn man grade den Nachbarvertex löscht, der als nächstes zu untersuchen wäre.
+typedef std::vector<rofl::graph::vertex_descriptor> deletion_vector;
+
+void edit_out_edge(
+	deletion_vector &deletes,
+	rofl::graph::object &g,
+	rofl::graph::vertex_descriptor u,
+	rofl::graph::vertex_descriptor v,
+	rofl::graph::edge_properties const &ep)
 {
-	rofl::point::value_type area2 = 
-		(b[0] - a[0]) * (c[1] - a[1]) -
-		(c[0] - a[0]) * (b[1] - a[1]);
-
-    if (area2 > static_cast<rofl::point::value_type>(0.5)) 
-		return 1;
-	return 
-		area2 < static_cast<rofl::point::value_type>(-0.5)
-		?
-			-1
-		: 
-			0;
-
-}
+	SGE_ASSERT(
+		std::find(deletes.begin(),deletes.end(),v) == deletes.end());
+		
+		/*
+	static unsigned counter = 0;
+	if (counter++ > 2)
+		return;
+	*/
 	
-bool left_on(
-	rofl::point const &a,
-	rofl::point const &b,
-	rofl::point const &c)
-{
-	return 
-		area_sign(
-			a,
-			b,
-			c) >= 0;
-}
-
-rofl::point const find_previous(
-	rofl::polygon const &p,
-	rofl::point const &a,
-	rofl::point const &b)
-{
-	for (rofl::polygon::const_iterator i = p.begin(); i != p.end(); ++i)
+	rofl::graph::vertex_properties 
+		&up = 
+			g[u],
+		&vp = 
+			g[v];
+		
+	if(
+		!rofl::graph::mergeable(
+			up.polygon(),
+			vp.polygon(),
+			ep.adjacent_edge()))
+		return;
+		
+	sge::cerr << "merging with: " << rofl::dereference(vp.polygon()) << "\n";
+	
+	up.polygon(
+		rofl::graph::merge(
+			up.polygon(),
+			vp.polygon(),
+			ep.adjacent_edge()));
+		
+	sge::cerr << "merging produced: " << rofl::dereference(up.polygon()) << "\n";
+	
+	up.barycenter(
+		rofl::math::barycenter(
+			rofl::dereference(
+				up.polygon())));
+	
+	std::pair
+	<
+		rofl::graph::out_edge_iterator,
+		rofl::graph::out_edge_iterator
+	> q = 
+		boost::out_edges(
+			v,
+			g);
+			
+	sge::cerr << "now looking at the out edges\n";
+	
+	for (; q.first != q.second; ++q.first)
 	{
-		if (*i != a)
+		SGE_ASSERT(
+			boost::source(*q.first,g) == v);
+			
+		SGE_ASSERT(
+			std::find(deletes.begin(),deletes.end(),v) == deletes.end());
+			
+		rofl::graph::vertex_descriptor w = 
+			boost::target(
+				*q.first,
+				g);
+		
+		if (u == w)
 			continue;
 		
-		rofl::point const 
-			&next = 
-				i == boost::prior(p.end())
-				?
-					p.front()
-				:
-					*boost::next(i),
-			&prev = 
-				i == p.begin()
-				?
-					p.back()
-				:
-					*boost::prior(i);
-					
-		return 
-			next == b 
-			? 
-				prev 
-			: 
-				next;
+		boost::add_edge(
+			u,
+			w,
+			rofl::graph::edge_properties(
+				sge::math::vector::length(
+					vp.barycenter()-g[w].barycenter()),
+				g[*q.first].adjacent_edge()),
+			g);
+		
+		SGE_ASSERT(
+			std::find(
+				g[u].polygon().begin(),
+				g[u].polygon().end(),
+				g[*q.first].adjacent_edge().start()) != g[u].polygon().end());
+				
+		SGE_ASSERT(
+			std::find(
+				g[u].polygon().begin(),
+				g[u].polygon().end(),
+				g[*q.first].adjacent_edge().end()) != g[u].polygon().end());
 	}
-	SGE_ASSERT(false);
+	
+	sge::cerr << "and deleting vertex\n";
+	
+	boost::clear_vertex(
+		v,
+		g);
+		
+	deletes.push_back(
+		v);
 }
-	
-bool mergeable(
-	rofl::polygon const &a,
-	rofl::polygon const &b,
-	rofl::line_segment const &l)
-{
-	rofl::point const 
-		p0 = 
-			find_previous(a,l.start(),l.end()),
-		p1 = 
-			find_previous(b,l.start(),l.end());
-	
-	if (left_on(l.start(),p0,p1))
-		return false;
-	
-	rofl::point const 
-		p2 = 
-			find_previous(a,l.end(),l.start()),
-		p3 = 
-			find_previous(b,l.end(),l.start());
-	
-	if (left_on(l.end(),p2,p3))
-		return false;
 
-	return true;
+void edit_vertex(
+	deletion_vector &deletes,
+	rofl::graph::object &g,
+	rofl::graph::vertex_descriptor u)
+{
+	if (std::find(deletes.begin(),deletes.end(),u) != deletes.end())
+		return;
+	
+	rofl::graph::vertex_properties &up = 
+		g[u];
+	
+	std::pair
+	<
+		rofl::graph::out_edge_iterator,
+		rofl::graph::out_edge_iterator
+	> p = 
+		boost::out_edges(
+			u,
+			g);
+	
+	sge::cerr << "vertex: " << rofl::dereference(up.polygon()) << "\n";
+	sge::cerr << "the following neighbors are mergeable: \n";
+	
+	for (rofl::graph::out_edge_iterator next = p.first;p.first != p.second; p.first = next)
+	{
+		++next;
+		edit_out_edge(
+			deletes,
+			g,
+			u,
+			boost::target(
+				*p.first,
+				g),
+			g[*p.first]);
+	}
 }
-#endif
 }
 
 void rofl::graph::simplify(
 	object &g)
 {
-	/*
-	for (std::pair<edge_iterator> i = boost::edges(g); i.first != i.second; ++i.first)
+#if 0
+	for (std::pair<edge_iterator,edge_iterator> i = boost::edges(g); i.first != i.second; ++i.first)
 	{
+		bool const m = 
+			mergeable(
+				g[boost::source(*i.first,g)].polygon(),
+				g[boost::target(*i.first,g)].polygon(),
+				g[*i.first].adjacent_edge()) ;
+				
+		sge::cerr 
+			<< "polygons " 
+			<< dereference(g[boost::source(*i.first,g)].polygon()) 
+			<< " and " 
+			<< dereference(g[boost::target(*i.first,g)].polygon()) 
+			<< " can be merged: " 
+			<< m
+			<< "\n";
 		
+		if (!m)
+			continue;
+		
+		sge::cerr 
+			<< "merging results in " <<
+		dereference(merge(
+			g[boost::source(*i.first,g)].polygon(),
+			g[boost::target(*i.first,g)].polygon(),
+			g[*i.first].adjacent_edge())) << "\n";
 	}
-	*/
-	#if 0
+#endif
+	deletion_vector deletes;
+	for (vertex_iterator v = vertices_begin(g),next = v; v != vertices_end(g);v = next)
+	{
+		++next;
+		edit_vertex(
+			deletes,
+			g,
+			*v);
+	}
+	sge::cerr << deletes.size() << " to delete\n";
+	BOOST_FOREACH(deletion_vector::reference r,deletes)
+		boost::remove_vertex(
+			r,
+			g);
+	
+	/* PSEUDOCODE
 	foreach (vertex v : g)
 	{
 		ecken = ecken(v,u) in edges;
@@ -124,6 +228,8 @@ void rofl::graph::simplify(
 					u.polygon(),
 					v.polygon(),
 					kante);
+			
+			barycenter anpassen
 					
 			// Nachbarn übernehmen und später durchgehen
 			foreach (w in ecken(u,w,anderekante)) // w = neue (transitive) Ecke
@@ -142,5 +248,5 @@ void rofl::graph::simplify(
 			delete u;
 		}
 	}
-	#endif
+	*/
 }

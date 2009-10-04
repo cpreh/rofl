@@ -14,7 +14,7 @@ typedef
 boost::adjacency_list
 <
 	boost::setS,
-	boost::setS,
+	boost::listS,
 	boost::undirectedS,
 	vertex_properties,
 	edge_properties,

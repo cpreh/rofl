@@ -46,6 +46,11 @@ public:
 	const_iterator begin() const { return points_.begin(); }
 	iterator end() { return points_.end(); }
 	const_iterator end() const { return points_.end(); }
+	template<typename It>
+	void insert(iterator const x, It const b, It const e) 
+	{ 
+		points_.insert(x,b,e); 
+	}
 private:
 	container points_;
 };
@@ -61,9 +66,8 @@ operator<<(
 	std::basic_ostream<Ch, Traits> &s,
 	math::polygon<T> const &p)
 {
-	s << SGE_TEXT('|');
 	BOOST_FOREACH(typename rofl::math::polygon<T>::const_reference r,p)
-		s << r << SGE_TEXT('|');
+		s << r << SGE_TEXT(' ');
 	return s;
 }
 }

@@ -9,6 +9,7 @@ namespace rofl
 {
 namespace graph
 {
+// FIXME: vertex_properties sollte seinen Schwerpunkt selber ausrechnen
 class vertex_properties
 {
 public:
@@ -19,10 +20,20 @@ public:
 	vertex_properties(
 		indexed_polygon const &,
 		point const &);
+		
 	indexed_polygon const &
 	polygon() const;
+	
+	void
+	polygon(
+		indexed_polygon const &);
+	
 	point const &
 	barycenter() const;
+	
+	void
+	barycenter(
+		point const &);
 private:
 	indexed_polygon polygon_;
 	point barycenter_;
