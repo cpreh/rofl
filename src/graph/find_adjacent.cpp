@@ -1,11 +1,16 @@
-#include "find_previous.hpp"
+#include "find_adjacent.hpp"
 #include <sge/assert.hpp>
 #include <boost/next_prior.hpp>
 
-rofl::indexed_point const rofl::graph::find_previous(
-	rofl::indexed_polygon const &p,
-	rofl::indexed_point const &a,
-	rofl::indexed_point const &b)
+std::pair
+<
+	rofl::indexed_point,
+	rofl::graph::placement::type
+> const 
+rofl::graph::find_adjacent(
+	indexed_polygon const &p,
+	indexed_point const &a,
+	indexed_point const &b)
 {
 	for (rofl::indexed_polygon::const_iterator i = p.begin(); i != p.end(); ++i)
 	{
@@ -25,13 +30,13 @@ rofl::indexed_point const rofl::graph::find_previous(
 					p.back()
 				:
 					*boost::prior(i);
-					
+		
 		return 
 			next == b 
 			? 
-				prev 
+				std::make_pair(prev,placement::previous)
 			: 
-				next;
+				std::make_pair(next,placement::next);
 	}
 	SGE_ASSERT(false);
 }

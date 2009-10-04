@@ -54,10 +54,11 @@ rofl::polygonizers::triangle::object::polygonize(
 	mylogger.activate(
 		sge::log::level::debug);
 	
-	// initialize structure
 	triangulateio 
-		in,out;
+		in,
+		out;
 	
+	// since triangulateio is a C structure, we can just memset it to 0
 	clear_pod(
 		in);
 	clear_pod(
@@ -108,6 +109,7 @@ rofl::polygonizers::triangle::object::polygonize(
 		SGE_ASSERT_MESSAGE(
 			is_convex(r),
 			SGE_TEXT("Holes have to be convex"));
+			
 		add_polygon(
 			points,
 			segments,
@@ -163,8 +165,8 @@ rofl::polygonizers::triangle::object::polygonize(
 		sge::log::_1 << SGE_TEXT("Holes end"));
 	
 	triangulation t(
-		"pznq", // q for quality
-//"pzn", // q for quality
+	//	"pznq", // q for quality
+"pzn", // q for quality
 		in,
 		out);
 	

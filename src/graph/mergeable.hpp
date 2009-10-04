@@ -9,9 +9,9 @@ namespace rofl
 namespace graph
 {
 bool mergeable(
-	rofl::indexed_polygon const &,
-	rofl::indexed_polygon const &,
-	rofl::indexed_line_segment const &);
+	indexed_polygon const &,
+	indexed_polygon const &,
+	indexed_line_segment const &);
 }
 }
 
