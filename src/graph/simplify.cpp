@@ -7,6 +7,7 @@
 #include <rofl/graph/vertex_iterator.hpp>
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
+#include <rofl/graph/edge_descriptor.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/dereference.hpp>
 #include <sge/math/vector/output.hpp>
@@ -16,16 +17,17 @@
 #include <sge/cerr.hpp>
 #include "cyclic_iterator.hpp"
 #include "cyclic_iterator_impl.hpp"
+#include <queue>
+#include <vector>
 
 namespace
 {
-// FIXME: Untersuchen, ob man statt des deletion_vectors nicht auch sagen kann
-// if (*next == vertex_to_delete) ++next;
-// Das ist der Fall, wenn man grade den Nachbarvertex löscht, der als nächstes zu untersuchen wäre.
 typedef std::vector<rofl::graph::vertex_descriptor> deletion_vector;
+typedef std::queue<rofl::graph::edge_descriptor> out_queue;
 
 void edit_out_edge(
 	deletion_vector &deletes,
+	out_queue &out_edges,
 	rofl::graph::object &g,
 	rofl::graph::vertex_descriptor u,
 	rofl::graph::vertex_descriptor v,
@@ -45,6 +47,8 @@ void edit_out_edge(
 			g[u],
 		&vp = 
 			g[v];
+			
+	sge::cerr << "testing merge with: " << rofl::dereference(vp.polygon()) << "\n";
 		
 	if(
 		!rofl::graph::mergeable(
@@ -95,14 +99,18 @@ void edit_out_edge(
 		if (u == w)
 			continue;
 		
-		boost::add_edge(
-			u,
-			w,
-			rofl::graph::edge_properties(
-				sge::math::vector::length(
-					vp.barycenter()-g[w].barycenter()),
-				g[*q.first].adjacent_edge()),
-			g);
+		std::pair<rofl::graph::edge_descriptor,bool> n = 
+			boost::add_edge(
+				u,
+				w,
+				rofl::graph::edge_properties(
+					sge::math::vector::length(
+						vp.barycenter()-g[w].barycenter()),
+					g[*q.first].adjacent_edge()),
+				g);
+		
+		out_edges.push(
+			n.first);
 		
 		SGE_ASSERT(
 			std::find(
@@ -150,6 +158,27 @@ void edit_vertex(
 	sge::cerr << "vertex: " << rofl::dereference(up.polygon()) << "\n";
 	sge::cerr << "the following neighbors are mergeable: \n";
 	
+	out_queue out_edges;
+	for (;p.first != p.second; p.first++)
+		out_edges.push(
+			*p.first);
+	
+	while (!out_edges.empty())
+	{
+		rofl::graph::edge_descriptor e = 
+			out_edges.front();
+		out_edges.pop();
+		edit_out_edge(
+			deletes,
+			out_edges,
+			g,
+			u,
+			boost::target(
+				e,
+				g),
+			g[e]);
+	}
+	/*
 	for (rofl::graph::out_edge_iterator next = p.first;p.first != p.second; p.first = next)
 	{
 		++next;
@@ -162,6 +191,7 @@ void edit_vertex(
 				g),
 			g[*p.first]);
 	}
+	*/
 }
 }
 
