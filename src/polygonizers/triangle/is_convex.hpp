@@ -35,6 +35,15 @@ bool is_convex(
 			*boost::next(p.begin()),
 			*boost::next(p.begin(),2));
 	
+			/*
+	cyclic_iterator<Polygon::const_iterator> i;
+	for (typename Polygon::size_type c = 0; c < p.size(); ++c)
+		if(
+			sge::math::compare(
+				edge_angle(*i,*boost::next(i),*boost::next(i,2)),
+				sign))
+				*/
+	
 	for (typename Polygon::const_iterator i = p.begin(); i != p.end(); ++i)
 	{
 		vector const 

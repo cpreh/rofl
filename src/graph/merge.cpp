@@ -1,7 +1,7 @@
 #include "merge.hpp"
 #include "on_boundary.hpp"
-#include "cyclic_iterator.hpp"
-#include "cyclic_iterator_impl.hpp"
+#include "../cyclic_iterator.hpp"
+#include "../cyclic_iterator_impl.hpp"
 #include <sge/math/vector/output.hpp>
 #include <sge/math/vector/basic_impl.hpp>
 #include <sge/cerr.hpp>
@@ -24,10 +24,8 @@ rofl::indexed_polygon const rofl::graph::merge(
 	
 	Das Durchlaufen erfolgt zyklisch.
 	*/
-	sge::cerr << "in merge, points of line segment are: " << l.start().representation() << ", " << l.end().representation() << "\n";
-	
 	typedef 
-	rofl::graph::cyclic_iterator
+	rofl::cyclic_iterator
 	<
 		rofl::indexed_polygon::const_iterator
 	> cyclic_iterator;
@@ -37,6 +35,7 @@ rofl::indexed_polygon const rofl::graph::merge(
 		a.begin(),
 		a.begin(),
 		a.end());
+		
 	while(
 		!rofl::graph::on_boundary(*i,l) ||
 		!rofl::graph::on_boundary(*boost::next(i),l))
@@ -65,59 +64,4 @@ rofl::indexed_polygon const rofl::graph::merge(
 	
 	return 
 		output;
-	/*
-	// laufe in polygon a bis zum Index wo l.start() ist. Sei i dieser Index. 
-	// Laufe in b auch bis zum Index, dieser sei j
-	rofl::indexed_polygon::size_type ia;
-	//for (ia = a.size()-1; ia >= 0; --ia)
-	for (ia = 0; ia < a.size(); ++ia)
-		if (a[ia] == l.start() || a[ia] == l.end())
-			break;
-	
-	rofl::indexed_polygon::size_type ib;
-	for (ib = 0; ib < b.size(); ++ib)
-		if (b[ib] == a[ia])
-			break;
-	
-	SGE_ASSERT(ia < a.size() && ib < b.size());
-		
-	sge::cerr 
-		<< "points of a are: " 
-		<< a[0].representation()
-		<< a[1].representation()
-		<< a[2].representation()
-		<< "\n";
-		
-	sge::cerr 
-		<< "points of b are: " 
-		<< b[0].representation()
-		<< b[1].representation()
-		<< b[2].representation()
-		<< "\n";
-	sge::cerr << "ia is " << ia << ", ib is " << ib << "\n";
-	
-	typedef 
-	rofl::graph::cyclic_iterator
-	<
-		rofl::indexed_polygon::const_iterator
-	> 
-	cyclic_iterator;
-	
-	cyclic_iterator 
-		bbegin(
-			b.begin()+ib+1 == b.end() ? b.begin() : (b.begin()+ib+1),
-			b.begin(),
-			b.end()),
-		bend(
-			boost::next(
-				bbegin,
-				b.size()-2).get(),
-			b.begin(),
-			b.end());
-			
-	a.insert(
-		a.begin()+ia+1,
-		bbegin,
-		bend);
-		*/
 }

@@ -15,8 +15,8 @@
 #include <sge/math/vector/arithmetic.hpp>
 #include <sge/assert.hpp>
 #include <sge/cerr.hpp>
-#include "cyclic_iterator.hpp"
-#include "cyclic_iterator_impl.hpp"
+#include "../cyclic_iterator.hpp"
+#include "../cyclic_iterator_impl.hpp"
 #include <queue>
 #include <vector>
 
@@ -35,12 +35,6 @@ void edit_out_edge(
 {
 	SGE_ASSERT(
 		std::find(deletes.begin(),deletes.end(),v) == deletes.end());
-		
-		/*
-	static unsigned counter = 0;
-	if (counter++ > 2)
-		return;
-	*/
 	
 	rofl::graph::vertex_properties 
 		&up = 
@@ -48,24 +42,18 @@ void edit_out_edge(
 		&vp = 
 			g[v];
 			
-	sge::cerr << "testing merge with: " << rofl::dereference(vp.polygon()) << "\n";
-		
 	if(
 		!rofl::graph::mergeable(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()))
 		return;
-		
-	sge::cerr << "merging with: " << rofl::dereference(vp.polygon()) << "\n";
 	
 	up.polygon(
 		rofl::graph::merge(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()));
-		
-	sge::cerr << "merging produced: " << rofl::dereference(up.polygon()) << "\n";
 	
 	up.barycenter(
 		rofl::math::barycenter(
@@ -80,8 +68,6 @@ void edit_out_edge(
 		boost::out_edges(
 			v,
 			g);
-			
-	sge::cerr << "now looking at the out edges\n";
 	
 	for (; q.first != q.second; ++q.first)
 	{
@@ -125,8 +111,6 @@ void edit_out_edge(
 				g[*q.first].adjacent_edge().end()) != g[u].polygon().end());
 	}
 	
-	sge::cerr << "and deleting vertex\n";
-	
 	boost::clear_vertex(
 		v,
 		g);
@@ -140,26 +124,25 @@ void edit_vertex(
 	rofl::graph::object &g,
 	rofl::graph::vertex_descriptor u)
 {
+	// Wurde diese Ecke schon gelöscht? Dann nicht bearbeiten (wir müssen lazy
+	// löschen, weil sonst alles durcheinanderkommt (wir löschen Vertizes an
+	// beliebigen Stellen)
 	if (std::find(deletes.begin(),deletes.end(),u) != deletes.end())
 		return;
 	
-	rofl::graph::vertex_properties &up = 
-		g[u];
-	
-	std::pair
-	<
-		rofl::graph::out_edge_iterator,
-		rofl::graph::out_edge_iterator
-	> p = 
+	out_queue out_edges;
+	for(
+		std::pair
+		<
+			rofl::graph::out_edge_iterator,
+			rofl::graph::out_edge_iterator
+		>
+		p = 
 		boost::out_edges(
 			u,
 			g);
-	
-	sge::cerr << "vertex: " << rofl::dereference(up.polygon()) << "\n";
-	sge::cerr << "the following neighbors are mergeable: \n";
-	
-	out_queue out_edges;
-	for (;p.first != p.second; p.first++)
+		p.first != p.second; 
+		p.first++)
 		out_edges.push(
 			*p.first);
 	
@@ -178,20 +161,6 @@ void edit_vertex(
 				g),
 			g[e]);
 	}
-	/*
-	for (rofl::graph::out_edge_iterator next = p.first;p.first != p.second; p.first = next)
-	{
-		++next;
-		edit_out_edge(
-			deletes,
-			g,
-			u,
-			boost::target(
-				*p.first,
-				g),
-			g[*p.first]);
-	}
-	*/
 }
 }
 
@@ -227,6 +196,7 @@ void rofl::graph::simplify(
 			g[*i.first].adjacent_edge())) << "\n";
 	}
 #endif
+
 	deletion_vector deletes;
 	for (vertex_iterator v = vertices_begin(g),next = v; v != vertices_end(g);v = next)
 	{
@@ -236,7 +206,7 @@ void rofl::graph::simplify(
 			g,
 			*v);
 	}
-	sge::cerr << deletes.size() << " to delete\n";
+
 	BOOST_FOREACH(deletion_vector::reference r,deletes)
 		boost::remove_vertex(
 			r,

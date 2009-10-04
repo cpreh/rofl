@@ -21,11 +21,11 @@ public:
 
 	indexed_line_segment const &
 	adjacent_edge() const;
+	unit 
+		length_;
 private:
 	indexed_line_segment
 		adjacent_edge_;
-	unit 
-		length_;
 };
 }
 }

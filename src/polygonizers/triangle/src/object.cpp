@@ -51,8 +51,10 @@ rofl::polygonizers::triangle::object::polygonize(
 	polygon_with_holes const &p,
 	graph::object &output)
 {
+/*
 	mylogger.activate(
 		sge::log::level::debug);
+		*/
 	
 	triangulateio 
 		in,
@@ -165,8 +167,7 @@ rofl::polygonizers::triangle::object::polygonize(
 		sge::log::_1 << SGE_TEXT("Holes end"));
 	
 	triangulation t(
-	//	"pznq", // q for quality
-"pzn", // q for quality
+		"pznQ", // q for quality
 		in,
 		out);
 	

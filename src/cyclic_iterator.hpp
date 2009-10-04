@@ -1,13 +1,11 @@
-#ifndef ROFL_GRAPH_CYCLIC_ITERATOR_HPP_INCLUDED
-#define ROFL_GRAPH_CYCLIC_ITERATOR_HPP_INCLUDED
+#ifndef ROFL_CYCLIC_ITERATOR_HPP_INCLUDED
+#define ROFL_CYCLIC_ITERATOR_HPP_INCLUDED
 
 #include <boost/iterator/iterator_facade.hpp>
 #include <boost/next_prior.hpp>
 #include <iterator>
 
 namespace rofl
-{
-namespace graph
 {
 template<typename>
 class cyclic_iterator;
@@ -107,8 +105,8 @@ private:
 		begin_,
 		end_;
 };
+}
 
-}
-}
+#include "cyclic_iterator_impl.hpp"
 
 #endif

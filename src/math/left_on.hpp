@@ -1,11 +1,11 @@
-#ifndef ROFL_GRAPH_LEFT_ON_HPP_INCLUDED
-#define ROFL_GRAPH_LEFT_ON_HPP_INCLUDED
+#ifndef ROFL_MATH_LEFT_ON_HPP_INCLUDED
+#define ROFL_MATH_LEFT_ON_HPP_INCLUDED
 
 #include "area_sign.hpp"
 
 namespace rofl
 {
-namespace graph
+namespace math
 {
 template<typename T>
 bool left_on(

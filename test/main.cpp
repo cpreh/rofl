@@ -70,6 +70,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
 #include <boost/assign/list_of.hpp>
+#include <boost/vector_property_map.hpp>
 #include <cstdlib>
 #include <exception>
 #include <ostream>
@@ -87,14 +88,21 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 namespace
 {
 typedef
-sge::line_strip::object<float,sge::image::color::rgba8>
+sge::line_strip::object
+<
+	float,
+	sge::image::color::rgba8
+>
 line_strip;
 
 typedef
-sge::line_strip::parameters<float,sge::image::color::rgba8>
+sge::line_strip::parameters
+<
+	float,
+	sge::image::color::rgba8
+>
 line_strip_params;
 	
-
 template
 <
 	typename Graph,
@@ -137,7 +145,6 @@ void push_edges(
 	}
 }
 
-#if 0
 template
 <
 	typename Graph,
@@ -198,7 +205,8 @@ heuristic<Graph,Unit>::operator()(
 {
 	return 
 		sge::math::vector::length(
-			graph_[v].barycenter()-graph_[destination_].barycenter());
+			graph_[v].barycenter()-
+			graph_[destination_].barycenter());
 }
 
 class found_goal {};
@@ -247,7 +255,8 @@ template
 	typename Graph,
 	typename List
 >
-void astar_search(
+void 
+astar_search(
 	Graph const &g,
 	typename boost::graph_traits<Graph>::vertex_descriptor const &start,
 	typename boost::graph_traits<Graph>::vertex_descriptor const &goal,
@@ -258,33 +267,87 @@ void astar_search(
 	vertex;
 	
 	typedef 
-	std::vector
+	std::map
 	<
+		vertex,
 		vertex
 	>
 	predecessors;
 	
-	predecessors p(
+	predecessors p;
+	boost::associative_property_map<predecessors> pp(
+		p);
+	
+	typedef
+	std::vector
+	<
+		vertex
+	>
+	vertex_index_map;
+	
+	/*
+	vertex_index_map vi(
 		boost::num_vertices(
 			g));
+			*/
+	
+	boost::vector_property_map<vertex> vi;
+	
+	std::size_t i = 0;
+	for(
+		std::pair
+		<
+			typename boost::graph_traits<Graph>::vertex_iterator,
+			typename boost::graph_traits<Graph>::vertex_iterator
+		> p = boost::vertices(g);
+		p.first != p.second;
+		++p.first)
+		vi[i++] = *p.first;
 	
 	try
 	{
+		typedef 
+		typename
+		boost::property_map
+		<
+			Graph, 
+			rofl::unit rofl::graph::edge_properties::*
+		>::type
+		edge_weight_map;
+		edge_weight_map w = 
+			boost::get(
+				&rofl::graph::edge_properties::length_, 
+				const_cast<Graph &>(
+					g)); 
+
 		boost::astar_search(
-			g,
+			const_cast<Graph &>(
+				g),
 			start,
 			heuristic<Graph,rofl::unit>(
 				g,
 				goal),
-			boost::predecessor_map(
-				&p[0]).
-			visitor(
+			boost::visitor(
 				goal_visitor<vertex>(
 					goal)).
 			weight_map(
+				w).
+			predecessor_map(
+				pp).
+			visitor(
+				goal_visitor<vertex>(
+					goal)).
+			vertex_index_map(
+				vi)
+							/*
+			boost::.
+					
+			weight_map(
+				w)*//*
+			weight_map(
 				boost::get(
 					&rofl::graph::edge_properties::length,
-					g)));
+					g))*/);
 	}
 	catch (found_goal const &)
 	{
@@ -299,7 +362,6 @@ void astar_search(
 			break;
 	}
 }
-#endif
 }
 
 int main()
@@ -363,8 +425,14 @@ try
 			(rofl::point(50,50,0))
 			(rofl::point(400,50,0))
 			(rofl::point(400,400,0))
-			(rofl::point(50,400,0))
-	);
+			(rofl::point(50,400,0)));
+
+	polys.add_hole(
+		sge::assign::make_container<rofl::polygon>
+			(rofl::point(600,500,0))
+			(rofl::point(600,550,0))
+			(rofl::point(660,550,0))
+			(rofl::point(660,500,0)));
 	
 	rofl::graph::object g;
 	rofl::create_polygonizer()->polygonize(
@@ -406,7 +474,6 @@ try
 		strips,
 		rend);
 	
-		/*
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
 	
 	unsigned number_of_vertices = 
@@ -452,7 +519,6 @@ try
 	
 	strips.push_back(
 		path_strip);
-		*/
 
 	while(running)
 	{
