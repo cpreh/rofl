@@ -28,6 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/polygon.hpp>
+#include <rofl/astar/generate_path.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
 #include <sge/config/media_path.hpp>
@@ -145,6 +146,7 @@ void push_edges(
 	}
 }
 
+#if 0
 template
 <
 	typename Graph,
@@ -279,19 +281,16 @@ astar_search(
 		p);
 	
 	typedef
-	std::vector
+	std::map
 	<
-		vertex
+		vertex,
+		unsigned
 	>
 	vertex_index_map;
 	
-	/*
-	vertex_index_map vi(
-		boost::num_vertices(
-			g));
-			*/
-	
-	boost::vector_property_map<vertex> vi;
+	vertex_index_map vi;
+	boost::associative_property_map<vertex_index_map> vip(
+		vi);
 	
 	std::size_t i = 0;
 	for(
@@ -302,7 +301,7 @@ astar_search(
 		> p = boost::vertices(g);
 		p.first != p.second;
 		++p.first)
-		vi[i++] = *p.first;
+		vi[*p.first] = i++;
 	
 	try
 	{
@@ -338,7 +337,7 @@ astar_search(
 				goal_visitor<vertex>(
 					goal)).
 			vertex_index_map(
-				vi)
+				vip)
 							/*
 			boost::.
 					
@@ -362,6 +361,7 @@ astar_search(
 			break;
 	}
 }
+#endif
 }
 
 int main()
@@ -439,8 +439,9 @@ try
 		polys,
 		g);
 
+		/*
 	rofl::graph::simplify(
-		g);
+		g);*/
 	
 	std::vector<line_strip> strips;
 	for(
@@ -495,9 +496,8 @@ try
 				std::rand() % number_of_vertices);
 		
 		
-	typedef std::list<vertex> path_list;
-	path_list splist;
-	astar_search(
+	rofl::astar::path splist;
+	rofl::astar::generate_path(
 		g,
 		start,
 		end,
@@ -513,7 +513,7 @@ try
 							mizuiro::color::init::blue %= 0.0,
 							mizuiro::color::init::alpha %= 1.0f )));
 		
-	BOOST_FOREACH(path_list::const_reference r,splist)
+	BOOST_FOREACH(rofl::astar::path::const_reference r,splist)
 		path_strip.push_back(
 			g[r].barycenter());
 	
