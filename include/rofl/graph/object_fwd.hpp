@@ -1,6 +1,7 @@
 #ifndef ROFL_GRAPH_OBJECT_FWD_HPP_INCLUDED
 #define ROFL_GRAPH_OBJECT_FWD_HPP_INCLUDED
 
+#define BOOST_NO_HASH
 #include <boost/graph/adjacency_list.hpp>
 
 namespace rofl
@@ -15,7 +16,7 @@ typedef
 boost::adjacency_list
 <
 	boost::setS,
-	boost::listS,
+	boost::vecS,
 	boost::undirectedS,
 	vertex_properties,
 	edge_properties,

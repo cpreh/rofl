@@ -21,33 +21,7 @@ rofl::astar::generate_path(
 	predecessors;
 	
 	predecessors p;
-	boost::associative_property_map<predecessors> pp(
-		p);
 		
-	typedef
-	std::map
-	<
-		graph::vertex_descriptor,
-		unsigned
-	>
-	vertex_index_map;
-	
-	vertex_index_map vi;
-	boost::associative_property_map<vertex_index_map> vip(
-		vi);
-	
-	std::size_t i = 0;
-	for(
-		std::pair
-		<
-			graph::vertex_iterator,
-			graph::vertex_iterator
-		> p = boost::vertices(
-			g);
-		p.first != p.second;
-		++p.first)
-		vi[*p.first] = i++;
-	
 	try
 	{
 		typedef 
@@ -77,12 +51,11 @@ rofl::astar::generate_path(
 			weight_map(
 				w).
 			predecessor_map(
-				pp).
+				boost::associative_property_map<predecessors>(
+					p)).
 			visitor(
 				goal_visitor(
-					goal)).
-			vertex_index_map(
-				vip));
+					goal)));
 	}
 	catch (found_goal const &)
 	{

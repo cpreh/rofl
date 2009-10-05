@@ -19,22 +19,40 @@
 #include "../cyclic_iterator_impl.hpp"
 #include <queue>
 #include <vector>
+#include <set>
 
 namespace
 {
-typedef std::vector<rofl::graph::vertex_descriptor> deletion_vector;
+// This is a giant hack and it goes as follows: We want to remove 
+// vertices from the graph and at the same time use a vector to 
+// store those vertices (because then astar will be faster). 
+// While iterating through the vertices, deletion is not advisable, so
+// we store the vertices in a container. This could be a vector or a list.
+// At the end of the algorithm, we delete all of the vertices in this
+// container _but_ one deletion invalidates all other vertex_descriptors
+// because we use a vector. To tackle this problem we use a set which is sorted
+// with std::greater. This only works because we know vertex_descriptor is 
+// the index into the vector where the vertices are stored. And it works very well
+// because the larger indices are deleted first.
+typedef 
+std::set
+<
+	rofl::graph::vertex_descriptor,
+	std::greater<rofl::graph::vertex_descriptor>
+> deletion_set;
+
 typedef std::queue<rofl::graph::edge_descriptor> out_queue;
 
 void edit_out_edge(
-	deletion_vector &deletes,
+	deletion_set &deletes,
 	out_queue &out_edges,
 	rofl::graph::object &g,
 	rofl::graph::vertex_descriptor u,
 	rofl::graph::vertex_descriptor v,
 	rofl::graph::edge_properties const &ep)
 {
-	SGE_ASSERT(
-		std::find(deletes.begin(),deletes.end(),v) == deletes.end());
+	if (deletes.find(v) != deletes.end())
+		return;
 	
 	rofl::graph::vertex_properties 
 		&up = 
@@ -75,7 +93,7 @@ void edit_out_edge(
 			boost::source(*q.first,g) == v);
 			
 		SGE_ASSERT(
-			std::find(deletes.begin(),deletes.end(),v) == deletes.end());
+			deletes.find(v) == deletes.end());
 			
 		rofl::graph::vertex_descriptor w = 
 			boost::target(
@@ -98,6 +116,7 @@ void edit_out_edge(
 		out_edges.push(
 			n.first);
 		
+		/* very pedantic asserts
 		SGE_ASSERT(
 			std::find(
 				g[u].polygon().begin(),
@@ -108,26 +127,26 @@ void edit_out_edge(
 			std::find(
 				g[u].polygon().begin(),
 				g[u].polygon().end(),
-				g[*q.first].adjacent_edge().end()) != g[u].polygon().end());
+				g[*q.first].adjacent_edge().end()) != g[u].polygon().end());*/
 	}
 	
 	boost::clear_vertex(
 		v,
 		g);
 		
-	deletes.push_back(
+	deletes.insert(
 		v);
 }
 
 void edit_vertex(
-	deletion_vector &deletes,
+	deletion_set &deletes,
 	rofl::graph::object &g,
 	rofl::graph::vertex_descriptor u)
 {
 	// Wurde diese Ecke schon gelöscht? Dann nicht bearbeiten (wir müssen lazy
 	// löschen, weil sonst alles durcheinanderkommt (wir löschen Vertizes an
-	// beliebigen Stellen)
-	if (std::find(deletes.begin(),deletes.end(),u) != deletes.end())
+	// beliebigen Stellen))
+	if (deletes.find(u) != deletes.end())
 		return;
 	
 	out_queue out_edges;
@@ -197,17 +216,14 @@ void rofl::graph::simplify(
 	}
 #endif
 
-	deletion_vector deletes;
-	for (vertex_iterator v = vertices_begin(g),next = v; v != vertices_end(g);v = next)
-	{
-		++next;
+	deletion_set deletes;
+	for (vertex_iterator v = vertices_begin(g); v != vertices_end(g); ++v)
 		edit_vertex(
 			deletes,
 			g,
 			*v);
-	}
 
-	BOOST_FOREACH(deletion_vector::reference r,deletes)
+	BOOST_FOREACH(deletion_set::const_reference r,deletes)
 		boost::remove_vertex(
 			r,
 			g);
