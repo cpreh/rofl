@@ -10,6 +10,7 @@
 #include "../fill_points.hpp"
 #include "../fill_intermediate.hpp"
 #include "../determine_adjacent_edge.hpp"
+#include "../log.hpp"
 #include <rofl/unit.hpp>
 #include <rofl/point.hpp>
 #include <rofl/polygon_with_holes.hpp>
@@ -36,10 +37,11 @@
 
 namespace
 {
-sge::log::logger mylogger(
-	sge::log::global(),
-	SGE_TEXT("rofl: polygonizers: triangle: object: "),
-	true);
+sge::log::object 
+mylogger(
+	sge::log::parameters::inherited(
+		rofl::polygonizers::triangle::log(),
+		SGE_TEXT("object")));
 
 typedef sge::container::raw_vector<rofl::unit> point_vector;
 typedef sge::container::raw_vector<int> segment_vector;
@@ -129,42 +131,42 @@ rofl::polygonizers::triangle::object::polygonize(
 
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Outputting points:"));
+		sge::log::_ << SGE_TEXT("Outputting points:"));
 	BOOST_FOREACH(point_vector::const_reference r,points)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_1 << r);
+			sge::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Points end"));
+		sge::log::_ << SGE_TEXT("Points end"));
 		
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Outputting segments:"));
+		sge::log::_ << SGE_TEXT("Outputting segments:"));
 	BOOST_FOREACH(segment_vector::const_reference r,segments)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_1 << r);
+			sge::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Segments end"));
+		sge::log::_ << SGE_TEXT("Segments end"));
 		
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Outputting holes:"));
+		sge::log::_ << SGE_TEXT("Outputting holes:"));
 	BOOST_FOREACH(hole_vector::const_reference r,holes)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_1 << r);
+			sge::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Holes end"));
+		sge::log::_ << SGE_TEXT("Holes end"));
 	
 	triangulation t(
 	//	"pznQ", // q for quality
@@ -174,16 +176,16 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Outputting neighbors:"));
+		sge::log::_ << SGE_TEXT("Outputting neighbors:"));
 	for (int i = 0; i < out.numberoftriangles*3; ++i)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_1 << out.neighborlist[i]);
+			sge::log::_ << out.neighborlist[i]);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_1 << SGE_TEXT("Neighbors end"));
+		sge::log::_ << SGE_TEXT("Neighbors end"));
 	
 	SGE_ASSERT(out.numberofcorners == 3);
 	
@@ -246,13 +248,13 @@ rofl::polygonizers::triangle::object::polygonize(
 			{
 				SGE_LOG_DEBUG(
 					mylogger,
-					sge::log::_1 << SGE_TEXT("Edge already added"));
+					sge::log::_ << SGE_TEXT("Edge already added"));
 			}
 			else
 			{
 				SGE_LOG_DEBUG(
 					mylogger,
-					sge::log::_1 << SGE_TEXT("Adding edge"));
+					sge::log::_ << SGE_TEXT("Adding edge"));
 			}
 		}
 	}

@@ -1,5 +1,6 @@
 FILE (GLOB roflcorefiles 
 	*.cpp
+	polygonizers/src/*.cpp
 	graph/*.cpp
 	math/*.cpp
 	astar/*.cpp)

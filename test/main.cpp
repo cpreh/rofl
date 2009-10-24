@@ -28,7 +28,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/polygon.hpp>
-#include <rofl/astar/generate_path.hpp>
+#include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
 #include <sge/config/media_path.hpp>
@@ -62,8 +62,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #include <sge/time/second.hpp>
 #include <sge/time/resolution.hpp>
 #include <sge/mainloop/dispatch.hpp>
-#include <sge/log/global.hpp>
-#include <sge/log/logger.hpp>
 #include <sge/cerr.hpp>
 #include <sge/exception.hpp>
 #include <sge/renderer/matrix_pixel_to_space.hpp>
@@ -171,6 +169,7 @@ try
 	sge::renderer::device_ptr const rend = sys.renderer();
 	sge::image::loader_ptr const    pl   = sys.image_loader();
 
+
 	bool running = true;
 
 	sge::signal::scoped_connection const cb(
@@ -196,25 +195,25 @@ try
 		
 	rofl::polygon_with_holes polys(
 		sge::assign::make_container<rofl::polygon>
-			(rofl::point(10,10,0))
-			(rofl::point(10,700,0))
-			(rofl::point(700,700,0))
-			(rofl::point(700,10,0))
+			(rofl::point(10,10))
+			(rofl::point(10,700))
+			(rofl::point(700,700))
+			(rofl::point(700,10))
 	);
 	
 	polys.add_hole(
 		sge::assign::make_container<rofl::polygon>
-			(rofl::point(50,50,0))
-			(rofl::point(400,50,0))
-			(rofl::point(400,400,0))
-			(rofl::point(50,400,0)));
+			(rofl::point(50,50))
+			(rofl::point(400,50))
+			(rofl::point(400,400))
+			(rofl::point(50,400)));
 
 	polys.add_hole(
 		sge::assign::make_container<rofl::polygon>
-			(rofl::point(600,500,0))
-			(rofl::point(600,550,0))
-			(rofl::point(660,550,0))
-			(rofl::point(660,500,0)));
+			(rofl::point(600,500))
+			(rofl::point(600,550))
+			(rofl::point(660,550))
+			(rofl::point(660,500)));
 	
 	rofl::graph::object g;
 	rofl::create_polygonizer()->polygonize(
@@ -264,7 +263,8 @@ try
 			boost::vertices(g).second);
 	
 	std::srand(
-		std::time(0));
+		std::time(
+			0));
 	
 	vertex 
 		start = 
@@ -277,12 +277,14 @@ try
 				std::rand() % number_of_vertices);
 		
 		
-	rofl::astar::path splist;
-	rofl::astar::generate_path(
+	rofl::astar::trail splist;
+	rofl::astar::generate_trail(
 		g,
 		start,
 		end,
 		splist);
+	
+	//sge::cerr << splist.size() << " elements\n";
 	
 	line_strip path_strip(
 			rend,
@@ -294,7 +296,7 @@ try
 							mizuiro::color::init::blue %= 0.0,
 							mizuiro::color::init::alpha %= 1.0f )));
 		
-	BOOST_FOREACH(rofl::astar::path::const_reference r,splist)
+	BOOST_FOREACH(rofl::astar::trail::const_reference r,splist)
 		path_strip.push_back(
 			g[r].barycenter());
 	

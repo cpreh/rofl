@@ -1,71 +1,50 @@
 #include <rofl/astar/generate_path.hpp>
-#include <rofl/graph/vertex_iterator.hpp>
-#include <boost/graph/astar_search.hpp>
-#include "found_goal.hpp"
-#include "goal_visitor.hpp"
-#include "heuristic.hpp"
+#include <rofl/line_segment.hpp>
+#include <sge/assert.hpp>
+#include <boost/foreach.hpp>
+#include <boost/next_prior.hpp>
 
-void
+void 
 rofl::astar::generate_path(
 	graph::object const &g,
-	graph::vertex_descriptor const &start,
-	graph::vertex_descriptor const &goal,
-	path &_path)
+	trail const &t,
+	point const &start,
+	point const &end,
+	path &p)
 {
-	typedef
-	std::map
-	<
-		graph::vertex_descriptor,
-		graph::vertex_descriptor
-	>
-	predecessors;
-	
-	predecessors p;
+	/*
+	SGE_ASSERT(
+		!t.empty());
 		
-	try
+	if (t.size() == 1)
 	{
-		typedef 
-		boost::property_map
-		<
-			graph::object, 
-			rofl::unit rofl::graph::edge_properties::*
-		>::type
-		edge_weight_map;
-		
-		edge_weight_map w = 
-			boost::get(
-				&rofl::graph::edge_properties::length_, 
-				const_cast<graph::object &>(
-					g)); 
+		p.push_back(
+			start);
+		p.push_back(
+			end);
+		return;
+	}
+	
+	point last_point = 
+		start;
+	graph::vertex_descriptor last_vertex = 
+		t.front();
 
-		boost::astar_search(
-			const_cast<graph::object &>(
-				g),
-			start,
-			heuristic(
-				g,
-				goal),
-			boost::visitor(
-				goal_visitor(
-					goal)).
-			weight_map(
-				w).
-			predecessor_map(
-				boost::associative_property_map<predecessors>(
-					p)).
-			visitor(
-				goal_visitor(
-					goal)));
-	}
-	catch (found_goal const &)
+	for(
+		trail::const_iterator i = 
+			boost::next(
+				t.begin()); 
+		i != t.end(); 
+		++i)
 	{
-	}
+		line_segment const &r = 
+			g[boost::edge(
+				last_vertex,
+				*i,
+				g)].adjacent_edge();
 	
-	for (graph::vertex_descriptor v = goal;;v = p[v])
-	{
-		_path.push_front(
-			v);
-		if (p[v] == v)
+		if (!math::line_segments_intersect(l,r))
 			break;
 	}
+	*/
 }
