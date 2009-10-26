@@ -4,6 +4,45 @@
 #include <boost/foreach.hpp>
 #include <boost/next_prior.hpp>
 
+/* Pseudocode
+ */
+// Sei der Pfad hier gespeichert
+
+/*
+typedef (punkt,kante) paar;
+paar pfad[n];
+
+int current = 0;
+while (true)
+{
+	int i;
+	for (i = current+1; i < n; ++i)
+	{
+		c = 
+			strecke
+			(
+				pfad[current].punkt,
+				pfad[i].punkt
+			);
+
+		for (int j = current+1; j < i; ++j)
+			if (!intersect(c,pfad[j].kante))
+				break;
+	}
+	ergebnis.push_back(
+		strecke(
+			pfad[current].punkt,
+			pfad[i-1].punkt));
+
+	// in i-1 steht jetzt der letzte gueltige Index
+	if (i == n)
+		break;
+
+	current = i-1;
+}
+*/
+
+
 void 
 rofl::astar::generate_path(
 	graph::object const &g,

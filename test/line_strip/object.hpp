@@ -36,15 +36,34 @@ public:
 	object(
 		sge::renderer::device_ptr,
 		parameters<unit,color> const &);
+		
 	object(
 		object const &);
-	object &operator=(
+		
+	object &
+	operator=(
 		object const &);
-
-	void push_back(
+		
+	void 
+	push_back(
 		point const &);
-	void clear();
-	void draw() const;
+	
+	void
+	pop_back();
+		
+	void 
+	clear();
+	
+	void 
+	draw() const;
+	
+	// only read access because we have to regenerate the vb afterwards
+	point_sequence const &
+	points() const;
+
+	void
+	back(
+		point const &);
 private:
 	sge::renderer::device_ptr renderer_;
 	style::type style_;

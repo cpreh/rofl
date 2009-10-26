@@ -1,3 +1,6 @@
 ADD_EXECUTABLE (roflmaintest main.cpp)
+ADD_EXECUTABLE (roflpolygonbuilder polygon.cpp default_texture_creator.cpp)
 TARGET_LINK_LIBRARIES (roflmaintest sgecore rofl)
+TARGET_LINK_LIBRARIES (roflpolygonbuilder sgecore)
 INSTALL (TARGETS roflmaintest DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)
+INSTALL (TARGETS roflpolygonbuilder DESTINATION ${CMAKE_INSTALL_PREFIX}/bin)

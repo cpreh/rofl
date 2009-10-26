@@ -99,6 +99,18 @@ template
 	typename B
 >
 void 
+sge::line_strip::object<A,B>::pop_back()
+{
+	points_.pop_back();
+	regenerate_vb();
+}
+
+template
+<
+	typename A,
+	typename B
+>
+void 
 sge::line_strip::object<A,B>::clear()
 {
 	points_.clear();
@@ -194,4 +206,29 @@ sge::line_strip::object<A,B>::regenerate_vb()
 				color_);
 		break;
 	}
+}
+
+template
+<
+	typename A,
+	typename B
+>
+typename sge::line_strip::object<A,B>::point_sequence const &
+sge::line_strip::object<A,B>::points() const
+{
+	return 
+		points_;
+}
+
+template
+<
+	typename A,
+	typename B
+>
+void
+sge::line_strip::object<A,B>::back(
+	point const &p)
+{
+	points_.back() = p;
+	regenerate_vb();
 }
