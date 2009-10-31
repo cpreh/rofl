@@ -3,9 +3,11 @@
 
 #include <sge/ostream.hpp>
 #include <sge/text.hpp>
-#include <boost/foreach.hpp>
+#include <sge/cerr.hpp>
+#include <sge/math/detail/one_dimensional_output.hpp>
 #include <vector>
 #include <ostream>
+#include <limits>
 
 namespace rofl
 {
@@ -46,6 +48,7 @@ public:
 	const_iterator begin() const { return points_.begin(); }
 	iterator end() { return points_.end(); }
 	const_iterator end() const { return points_.end(); }
+	bool empty() const { return points_.empty(); }
 	template<typename It>
 	void insert(iterator const x, It const b, It const e) 
 	{ 
@@ -66,8 +69,63 @@ operator<<(
 	std::basic_ostream<Ch, Traits> &s,
 	math::polygon<T> const &p)
 {
-	BOOST_FOREACH(typename rofl::math::polygon<T>::const_reference r,p)
-		s << r << SGE_TEXT(' ');
+	return
+		sge::math::detail::one_dimensional_output(
+			s,
+			p);
+}
+
+template
+<
+	typename T,
+	typename Ch,
+	typename Traits
+>
+std::basic_istream<Ch, Traits> &
+operator>>(
+	std::basic_istream<Ch, Traits> &s,
+	math::polygon<T> &p)
+{
+	Ch c;
+	s >> c;
+	if(c != s.widen('(') || s.eof())
+	{
+		s.setstate(
+			std::ios_base::failbit);
+		return s;
+	}
+
+	if (s.peek() == s.widen(')'))
+	{
+		s.ignore();
+		return s;
+	}
+
+	while (true)
+	{
+		T t;
+		s >> t;
+		if (!s)
+			return s;
+		p.push_back(
+			t);
+		if (s.eof())
+		{
+			s.setstate(
+				std::ios_base::failbit);
+			return s;
+		}
+		s >> c;
+		if (c == s.widen(')'))
+			break;
+		if (c != s.widen(','))
+		{
+			s.setstate(
+				std::ios_base::failbit);
+			return s;
+		}
+	}
+
 	return s;
 }
 }

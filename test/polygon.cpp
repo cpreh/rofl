@@ -2,6 +2,7 @@
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
 #include "line_strip/parameters_impl.hpp"
+#include "line_strip_output.hpp"
 #include "default_texture_creator.hpp"
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
@@ -21,6 +22,7 @@
 #include <sge/math/vector/structure_cast.hpp>
 #include <sge/math/vector/arithmetic.hpp>
 #include <sge/math/vector/length.hpp>
+#include <sge/math/vector/output.hpp>
 #include <sge/input/action.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
@@ -37,6 +39,7 @@
 #include <sge/time/resolution.hpp>
 #include <sge/mainloop/dispatch.hpp>
 #include <sge/cerr.hpp>
+#include <sge/cout.hpp>
 #include <sge/exception.hpp>
 #include <sge/renderer/matrix_pixel_to_space.hpp>
 #include <sge/math/matrix/orthogonal_xy.hpp>
@@ -58,6 +61,7 @@
 
 namespace
 {
+
 typedef
 sge::line_strip::object
 <
@@ -216,6 +220,7 @@ mouse_handler::callback(
 
 }
 
+
 int main()
 try
 {
@@ -331,7 +336,9 @@ try
 			r.draw();
 	}
 
-	// FIXME: serialize border and holes here!
+	sge::cout << border << "\n";
+	BOOST_FOREACH(hole_vector::const_reference r,holes)
+		sge::cout << r << "\n";
 }
 catch(sge::exception const &e)
 {

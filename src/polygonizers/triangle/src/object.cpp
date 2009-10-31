@@ -110,9 +110,11 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	BOOST_FOREACH(polygon_with_holes::hole_set::const_reference r,p.holes())
 	{
+		/*
 		SGE_ASSERT_MESSAGE(
 			is_convex(r),
 			SGE_TEXT("Holes have to be convex"));
+			*/
 			
 		add_polygon(
 			points,

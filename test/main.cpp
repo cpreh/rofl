@@ -1,3 +1,5 @@
+#include <sge/math/vector/input.hpp>
+#include <sge/math/vector/output.hpp>
 #include "line_strip/object.hpp"
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
@@ -8,6 +10,7 @@
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/polygon.hpp>
+#include <rofl/consume.hpp>
 #include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
@@ -43,6 +46,9 @@
 #include <sge/time/resolution.hpp>
 #include <sge/mainloop/dispatch.hpp>
 #include <sge/cerr.hpp>
+#include <sge/cout.hpp>
+#include <sge/istringstream.hpp>
+#include <sge/cin.hpp>
 #include <sge/exception.hpp>
 #include <sge/renderer/matrix_pixel_to_space.hpp>
 #include <sge/math/matrix/orthogonal_xy.hpp>
@@ -172,28 +178,62 @@ try
 	rend->projection(
 		sge::math::matrix::orthogonal_xy<float>());
 		
+	std::vector<line_strip> strips;
+	
+	sge::cout 
+		<< SGE_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
+		<< SGE_TEXT("Border: \n");
+	rofl::polygon border;
+	sge::string line;
+	std::getline(
+		sge::cin,
+		line);
+	sge::istringstream ss(
+		line);
+	ss >> border;
+	sge::cout 
+		<< SGE_TEXT("The polygon entered was:")
+		<< border 
+		<< SGE_TEXT("\n");
 	rofl::polygon_with_holes polys(
-		sge::assign::make_container<rofl::polygon>
-			(rofl::point(10,10))
-			(rofl::point(10,700))
-			(rofl::point(700,700))
-			(rofl::point(700,10))
-	);
-	
-	polys.add_hole(
-		sge::assign::make_container<rofl::polygon>
-			(rofl::point(50,50))
-			(rofl::point(400,50))
-			(rofl::point(400,400))
-			(rofl::point(50,400)));
-
-	polys.add_hole(
-		sge::assign::make_container<rofl::polygon>
-			(rofl::point(600,500))
-			(rofl::point(600,550))
-			(rofl::point(660,550))
-			(rofl::point(660,500)));
-	
+		border);
+	sge::cout 
+		<< SGE_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
+	while(true)
+	{
+		std::getline(
+			sge::cin,
+			line);
+		if (line.empty())
+			break;
+		sge::istringstream ss(
+			line);
+		rofl::polygon hole;
+		ss >> hole;
+		if (!ss)
+			sge::cerr << SGE_TEXT("Invalid input!");
+		else
+		{
+			sge::cout << SGE_TEXT("The hole entered was: ") << hole << SGE_TEXT("\n");
+			polys.add_hole(
+				hole);
+			line_strip 
+				s(
+					rend,
+					line_strip_params()
+						.style(
+							sge::line_strip::style::loop));
+							
+			BOOST_FOREACH(rofl::polygon::const_reference r,hole)
+				s.push_back(
+					sge::math::vector::structure_cast<line_strip::point>(
+						r));
+					
+			strips.push_back(
+				s);
+		}
+	}
+		
 	rofl::graph::object g;
 	rofl::create_polygonizer()->polygonize(
 		polys,
@@ -202,7 +242,6 @@ try
 	rofl::graph::simplify(
 		g);
 	
-	std::vector<line_strip> strips;
 	for(
 		rofl::graph::const_vertex_iterator i = rofl::graph::vertices_begin(g);
 		i != rofl::graph::vertices_end(g);
@@ -216,14 +255,21 @@ try
 				rend,
 				line_strip_params()
 					.style(
-						sge::line_strip::style::loop));
+						sge::line_strip::style::loop)
+					.color(
+						line_strip::color(
+								mizuiro::color::init::red %= 0.0f,
+								mizuiro::color::init::green %= 0.0,
+								mizuiro::color::init::blue %= 1.0,
+								mizuiro::color::init::alpha %= 1.0f )));
 		
 		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
 			s.push_back(
 				sge::math::vector::structure_cast<line_strip::point>(
 					r.representation()));
 				
-		strips.push_back(
+		strips.insert(
+			strips.begin(),
 			s);
 	}
 		

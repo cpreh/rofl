@@ -16,8 +16,9 @@ template<typename Polygon>
 bool is_convex(
 	Polygon const &p)
 {
+/*
 	SGE_ASSERT(
-		p.size() > static_cast<typename Polygon::size_type>(3));
+		p.size() > static_cast<typename Polygon::size_type>(3));*/
 		
 	typedef
 	typename

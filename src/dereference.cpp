@@ -1,5 +1,6 @@
 #include <rofl/dereference.hpp>
 #include <sge/math/vector/basic_impl.hpp>
+#include <boost/foreach.hpp>
 
 rofl::polygon const rofl::dereference(
 	indexed_polygon const &i)
