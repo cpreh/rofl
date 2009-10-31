@@ -21,6 +21,8 @@
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/system.hpp>
 #include <sge/renderer/scoped_block.hpp>
+#include <sge/renderer/refresh_rate_dont_care.hpp>
+#include <sge/renderer/no_multi_sampling.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
@@ -134,21 +136,31 @@ try
 {
 	sge::systems::instance const sys(
 		sge::systems::list()
-		(sge::window::parameters(
-			SGE_TEXT("pathfinding test")
-		))
-		(sge::renderer::parameters(
-			sge::renderer::display_mode(
-				sge::renderer::screen_size(
-					1024,
-					768),
-				sge::renderer::bit_depth::depth32,
-				sge::renderer::refresh_rate_dont_care),
-			sge::renderer::depth_buffer::off,
-			sge::renderer::stencil_buffer::off,
-			sge::renderer::window_mode::windowed))
+		(
+			sge::window::parameters(
+				SGE_TEXT("pathfinding test")
+			)
+		)
+		(
+			sge::renderer::parameters(
+				sge::renderer::display_mode(
+					sge::renderer::screen_size(
+						1024,
+						768
+					),
+					sge::renderer::bit_depth::depth32,
+					sge::renderer::refresh_rate_dont_care
+				),
+				sge::renderer::depth_buffer::off,
+				sge::renderer::stencil_buffer::off,
+				sge::renderer::window_mode::windowed,
+				sge::renderer::vsync::on,
+				sge::renderer::no_multi_sampling
+			)
+		)	
 		(sge::systems::parameterless::input)
-		(sge::systems::parameterless::image));
+		(sge::systems::parameterless::image)
+	);
 	
 	sge::input::system_ptr const    is   = sys.input_system();
 	sge::renderer::device_ptr const rend = sys.renderer();
