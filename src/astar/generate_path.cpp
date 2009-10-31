@@ -1,5 +1,6 @@
 #include <rofl/astar/generate_path.hpp>
 #include <rofl/line_segment.hpp>
+#include <sge/optional.hpp>
 #include <sge/assert.hpp>
 #include <boost/foreach.hpp>
 #include <boost/next_prior.hpp>
@@ -51,6 +52,35 @@ rofl::astar::generate_path(
 	point const &end,
 	path &p)
 {
+	// Erster Schritt: Generiere Uebergangspfad aus Paaren (Punkt,Kante), wobei Kante die Kante ist, die zwei
+	// Polygone verbindet und Punkt der Mittelpunkt. Die Kante kann natuerlich leer sein, wenn es sich um den
+	// Start- bzw. Endpunkt handelt.
+	typedef
+	sge::optional<rofl::line_segment>
+	optional_line_segment;
+	
+	typedef 
+	std::pair
+	<
+		optional_line_segment,
+		rofl::point
+	>
+	pair;
+	
+	typedef 
+	std::vector<pair> 
+	intermediate_path;
+	
+	intermediate_path ip;
+	ip.push_back(
+		pair(
+			optional_line_segment(),
+			start));
+	
+	for (trail::const_iterator i = t.begin(); i != t.end(); ++i)
+	{
+		boost::edges(*i,*boost::next(i));
+	}
 	/*
 	SGE_ASSERT(
 		!t.empty());
