@@ -55,6 +55,7 @@ rofl::astar::generate_path(
 	// Erster Schritt: Generiere Uebergangspfad aus Paaren (Punkt,Kante), wobei Kante die Kante ist, die zwei
 	// Polygone verbindet und Punkt der Mittelpunkt. Die Kante kann natuerlich leer sein, wenn es sich um den
 	// Start- bzw. Endpunkt handelt.
+	/*
 	typedef
 	sge::optional<rofl::line_segment>
 	optional_line_segment;
@@ -81,6 +82,7 @@ rofl::astar::generate_path(
 	{
 		boost::edges(*i,*boost::next(i));
 	}
+	*/
 	/*
 	SGE_ASSERT(
 		!t.empty());
