@@ -21,13 +21,15 @@
 #include <sge/input/action.hpp>
 #include <sge/input/key_pair.hpp>
 #include <sge/image/loader.hpp>
-#include <sge/sprite/object.hpp>
+#include <sge/sprite/object_impl.hpp>
 #include <sge/sprite/system.hpp>
-#include <sge/sprite/parameters.hpp>
-#include <sge/sprite/texture_animation.hpp>
-#include <sge/time/millisecond.hpp>
-#include <sge/time/second.hpp>
-#include <sge/time/resolution.hpp>
+#include <sge/sprite/external_system_impl.hpp>
+#include <sge/sprite/parameters_impl.hpp>
+#include <sge/sprite/no_color.hpp>
+#include <sge/sprite/choices.hpp>
+#include <sge/sprite/type_choices.hpp>
+#include <sge/sprite/with_texture.hpp>
+#include <sge/sprite/render_one.hpp>
 #include <sge/mainloop/dispatch.hpp>
 #include <sge/exception.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
@@ -48,6 +50,21 @@
 
 namespace
 {
+
+typedef sge::sprite::choices<
+	sge::sprite::type_choices<
+		int,
+		float,
+		sge::sprite::no_color
+	>,
+	boost::mpl::vector1<
+		sge::sprite::with_texture
+	>
+> sprite_choices;
+
+typedef sge::sprite::object<
+	sprite_choices
+> sprite_object;
 
 typedef
 sge::line_strip::object
@@ -106,14 +123,15 @@ public:
 		line_strip &current,
 		line_strip &border,
 		hole_vector &holes,
-		sge::sprite::object &);
+		sprite_object &
+	);
 private:
 	line_strip &current_;
 	line_strip &border_;
 	hole_vector &holes_;
 	bool has_border_;
 	fcppt::signal::scoped_connection connection_;
-	sge::sprite::object &cursor_sprite_;
+	sprite_object &cursor_sprite_;
 	
 	void
 	callback(
@@ -125,7 +143,7 @@ mouse_handler::mouse_handler(
 	line_strip &_current,
 	line_strip &_border,
 	hole_vector &_holes,
-	sge::sprite::object &_cursor_sprite)
+	sprite_object &_cursor_sprite)
 :
 	current_(
 		_current),
@@ -145,9 +163,12 @@ mouse_handler::mouse_handler(
 		_cursor_sprite)
 {
 	current_.push_back(
-		line_strip::point::null());
-	cursor_sprite_.pos() = 
-		sge::sprite::point::null();
+		line_strip::point::null()
+	);
+
+	cursor_sprite_.pos( 
+		sprite_object::point::null()
+	);
 }
 
 void
@@ -158,10 +179,18 @@ mouse_handler::callback(
 		p.key().code() == sge::input::kc::mouse_x_axis || 
 		p.key().code() == sge::input::kc::mouse_y_axis)
 	{
-		cursor_sprite_.pos() += 
-			fcppt::math::vector::structure_cast<sge::sprite::point>(
+		cursor_sprite_.pos(
+			cursor_sprite_.pos()
+			+ 
+			fcppt::math::vector::structure_cast<
+				sprite_object::point
+			>(
 				mouse_delta(
-					p));
+					p
+				)
+			)
+		);
+
 		current_.back(
 			fcppt::math::vector::structure_cast<line_strip::point>(
 				cursor_sprite_.pos()));
@@ -266,7 +295,11 @@ try
 	sys.renderer()->projection(
 		fcppt::math::matrix::orthogonal_xy<float>());
 
-	sge::sprite::system ss(
+	typedef sge::sprite::system<
+		sprite_choices
+	>::type sprite_system;
+
+	sprite_system ss(
 		sys.renderer());
 		
 	line_strip border(
@@ -299,13 +332,23 @@ try
 		sys.image_loader(),
 		sys.renderer());
 
-	sge::sprite::object cursor_sprite(
-		sge::sprite::parameters()
+	typedef sge::sprite::parameters<
+		sprite_choices
+	> sprite_parameters;
+
+	sprite_object cursor_sprite(
+		sprite_parameters()
 		.pos(
-			sge::sprite::point(0,0))
+			sprite_object::point::null()
+		)
 		.texture(
-				creator_.load(
-					sge::config::media_path()/FCPPT_TEXT("gui")/FCPPT_TEXT("cursor.png"))));
+			creator_.load(
+				sge::config::media_path()/FCPPT_TEXT("gui")/FCPPT_TEXT("cursor.png")
+			)
+		)
+		.texture_size()
+		.elements()
+	);
 
 	mouse_handler m(
 		sys.input_system(),
@@ -323,12 +366,19 @@ try
 	while(running)
 	{
 		sge::mainloop::dispatch();
-		sge::renderer::scoped_block const block_(sys.renderer());
-		ss.render(
-			&cursor_sprite,
-			&cursor_sprite+1);
+		sge::renderer::scoped_block const block_(
+			sys.renderer()
+		);
+
+		sge::sprite::render_one(
+			ss,
+			cursor_sprite
+		);
+
 		current_strip.draw();
+
 		border.draw();
+
 		BOOST_FOREACH(hole_vector::reference r,holes)
 			r.draw();
 	}

@@ -1,15 +1,15 @@
 #ifndef ROFL_TEST_LINE_STRIP_OUTPUT_HPP_INCLUDED
 #define ROFL_TEST_LINE_STRIP_OUTPUT_HPP_INCLUDED
 
-#include <sge/ostream.hpp>
+#include <fcppt/io/ostream.hpp>
 #include <fcppt/math/detail/one_dimensional_output.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include "line_strip/object.hpp"
 
 template<typename A,typename B>
-sge::ostream &
+fcppt::io::ostream &
 operator<<(
-	sge::ostream &o,
+	fcppt::io::ostream &o,
 	sge::line_strip::object<A,B> const &s)
 {
 	return 
