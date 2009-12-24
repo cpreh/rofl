@@ -1,18 +1,18 @@
 #ifndef SGE_BULLET_TEST_DEFAULT_TEXTURE_CREATOR_HPP_INCLUDED
 #define SGE_BULLET_TEST_DEFAULT_TEXTURE_CREATOR_HPP_INCLUDED
 
-#include <sge/image/loader_fwd.hpp>
+#include <sge/image/loader_ptr.hpp>
 
-#include <sge/renderer/device_fwd.hpp>
+#include <sge/renderer/device_ptr.hpp>
 
-#include <sge/filesystem/path.hpp>
-
-#include <sge/texture/part_fwd.hpp>
+#include <sge/texture/part_ptr.hpp>
 #include <sge/texture/default_creator.hpp>
 #include <sge/texture/no_fragmented.hpp>
 #include <sge/texture/manager.hpp>
 
-#include <sge/noncopyable.hpp>
+#include <fcppt/filesystem/path.hpp>
+
+#include <fcppt/noncopyable.hpp>
 
 namespace sge
 {
@@ -22,7 +22,7 @@ namespace test
 {
 class default_texture_creator
 {
-SGE_NONCOPYABLE(default_texture_creator)
+FCPPT_NONCOPYABLE(default_texture_creator)
 public:
 	default_texture_creator(
 		sge::image::loader_ptr,
@@ -30,7 +30,7 @@ public:
 	
 	sge::texture::const_part_ptr
 	load(
-		sge::filesystem::path const &);
+		fcppt::filesystem::path const &);
 private:
 	sge::image::loader_ptr il_;
 	sge::renderer::device_ptr rend_;

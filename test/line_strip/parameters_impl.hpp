@@ -1,7 +1,7 @@
 #include "parameters.hpp"
 #include <sge/image/colors.hpp>
-#include <sge/variant/object.hpp>
 #include <sge/image/color/init.hpp>
+#include <fcppt/variant/object.hpp>
 #include <algorithm>
 
 template

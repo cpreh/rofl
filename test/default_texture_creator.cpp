@@ -24,7 +24,7 @@ sge::bullet::test::default_texture_creator::default_texture_creator(
 
 sge::texture::const_part_ptr
 sge::bullet::test::default_texture_creator::load(
-	sge::filesystem::path const &_path)
+	fcppt::filesystem::path const &_path)
 {
 	return 
 		sge::texture::add_image(

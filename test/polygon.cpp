@@ -8,58 +8,43 @@
 #include <sge/systems/list.hpp>
 #include <sge/config/media_path.hpp>
 #include <sge/image/colors.hpp>
-#include <sge/assign/make_container.hpp>
-#include <sge/signal/scoped_connection.hpp>
 #include <sge/renderer/device.hpp>
-#include <sge/renderer/system.hpp>
 #include <sge/renderer/scoped_block.hpp>
+#include <sge/renderer/matrix_pixel_to_space.hpp>
 #include <sge/renderer/refresh_rate_dont_care.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
-#include <sge/renderer/filter/linear.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/input/system.hpp>
-#include <fcppt/math/vector/structure_cast.hpp>
-#include <fcppt/math/vector/arithmetic.hpp>
-#include <fcppt/math/vector/length.hpp>
-#include <fcppt/math/vector/output.hpp>
 #include <sge/input/action.hpp>
+#include <sge/input/key_pair.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
 #include <sge/sprite/system.hpp>
 #include <sge/sprite/parameters.hpp>
 #include <sge/sprite/texture_animation.hpp>
-#include <sge/texture/manager.hpp>
-#include <sge/texture/add_image.hpp>
-#include <sge/texture/no_fragmented.hpp>
-#include <sge/texture/default_creator.hpp>
-#include <sge/texture/default_creator_impl.hpp>
 #include <sge/time/millisecond.hpp>
 #include <sge/time/second.hpp>
 #include <sge/time/resolution.hpp>
 #include <sge/mainloop/dispatch.hpp>
-#include <sge/cerr.hpp>
-#include <sge/cout.hpp>
 #include <sge/exception.hpp>
-#include <sge/renderer/matrix_pixel_to_space.hpp>
+#include <fcppt/signal/scoped_connection.hpp>
+#include <fcppt/math/vector/structure_cast.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/matrix/orthogonal_xy.hpp>
+#include <fcppt/math/almost_zero.hpp>
+#include <fcppt/tr1/functional.hpp>
+#include <fcppt/io/cerr.hpp>
+#include <fcppt/io/cout.hpp>
+#include <fcppt/text.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
-#include <boost/assign/list_of.hpp>
-#include <boost/vector_property_map.hpp>
-#include <cstdlib>
 #include <exception>
+#include <vector>
 #include <ostream>
-
-
-#include <sge/assign/make_array.hpp>
-
-#include <cstdlib>
-#include <ctime>
-#include <sge/input/key_pair.hpp>
-#include <fcppt/math/almost_zero.hpp>
 
 namespace
 {
@@ -127,7 +112,7 @@ private:
 	line_strip &border_;
 	hole_vector &holes_;
 	bool has_border_;
-	sge::signal::scoped_connection connection_;
+	fcppt::signal::scoped_connection connection_;
 	sge::sprite::object &cursor_sprite_;
 	
 	void
@@ -260,7 +245,7 @@ try
 
 	bool running = true;
 
-	sge::signal::scoped_connection const cb(
+	fcppt::signal::scoped_connection const cb(
 		is->register_callback(
 			sge::input::action(
 				sge::input::kc::key_escape,
@@ -320,7 +305,7 @@ try
 			sge::sprite::point(0,0))
 		.texture(
 				creator_.load(
-					sge::config::media_path()/FCPPT_TEXT("gui")/SGE_TEXT("cursor.png"))));
+					sge::config::media_path()/FCPPT_TEXT("gui")/FCPPT_TEXT("cursor.png"))));
 
 	mouse_handler m(
 		sys.input_system(),
@@ -348,17 +333,17 @@ try
 			r.draw();
 	}
 
-	sge::cout << border << "\n";
+	fcppt::io::cout << border << "\n";
 	BOOST_FOREACH(hole_vector::const_reference r,holes)
-		sge::cout << r << "\n";
+		fcppt::io::cout << r << "\n";
 }
 catch(sge::exception const &e)
 {
-	sge::cerr << e.string() << FCPPT_TEXT('\n');
+	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }
 catch(std::exception const &e)
 {
-	sge::cerr << e.what() << FCPPT_TEXT('\n');
+	fcppt::io::cerr << e.what() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }

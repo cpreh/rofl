@@ -1,5 +1,3 @@
-#include <fcppt/math/vector/input.hpp>
-#include <fcppt/math/vector/output.hpp>
 #include "line_strip/object.hpp"
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
@@ -14,58 +12,42 @@
 #include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
-#include <sge/config/media_path.hpp>
 #include <sge/image/colors.hpp>
-#include <sge/assign/make_container.hpp>
-#include <sge/signal/scoped_connection.hpp>
 #include <sge/renderer/device.hpp>
-#include <sge/renderer/system.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/refresh_rate_dont_care.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
+#include <sge/renderer/matrix_pixel_to_space.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
-#include <sge/renderer/filter/linear.hpp>
 #include <sge/image/color/rgba8.hpp>
+#include <sge/input/action.hpp>
 #include <sge/input/system.hpp>
+#include <sge/mainloop/dispatch.hpp>
+#include <sge/exception.hpp>
+#include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
-#include <sge/input/action.hpp>
-#include <sge/image/loader.hpp>
-#include <sge/sprite/object.hpp>
-#include <sge/sprite/system.hpp>
-#include <sge/sprite/parameters.hpp>
-#include <sge/sprite/texture_animation.hpp>
-#include <sge/texture/manager.hpp>
-#include <sge/texture/add_image.hpp>
-#include <sge/texture/no_fragmented.hpp>
-#include <sge/texture/default_creator.hpp>
-#include <sge/texture/default_creator_impl.hpp>
-#include <sge/time/millisecond.hpp>
-#include <sge/time/second.hpp>
-#include <sge/time/resolution.hpp>
-#include <sge/mainloop/dispatch.hpp>
-#include <sge/cerr.hpp>
-#include <sge/cout.hpp>
-#include <sge/istringstream.hpp>
-#include <sge/cin.hpp>
-#include <sge/exception.hpp>
-#include <sge/renderer/matrix_pixel_to_space.hpp>
+#include <fcppt/math/vector/input.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/matrix/orthogonal_xy.hpp>
+#include <fcppt/io/istringstream.hpp>
+#include <fcppt/io/cin.hpp>
+#include <fcppt/io/cerr.hpp>
+#include <fcppt/io/cout.hpp>
+#include <fcppt/string.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
-#include <boost/assign/list_of.hpp>
-#include <boost/vector_property_map.hpp>
-#include <cstdlib>
 #include <exception>
+#include <vector>
+#include <iterator>
 #include <ostream>
+#include <string>
 
 #include <rofl/create_polygonizer.hpp>
 #include <rofl/polygonizer.hpp>
-
-#include <sge/assign/make_array.hpp>
 
 #include <cstdlib>
 #include <ctime>
@@ -164,12 +146,11 @@ try
 	
 	sge::input::system_ptr const    is   = sys.input_system();
 	sge::renderer::device_ptr const rend = sys.renderer();
-	sge::image::loader_ptr const    pl   = sys.image_loader();
 
 
 	bool running = true;
 
-	sge::signal::scoped_connection const cb(
+	fcppt::signal::scoped_connection const cb(
 		is->register_callback(
 			sge::input::action(
 				sge::input::kc::key_escape,
@@ -192,41 +173,41 @@ try
 		
 	std::vector<line_strip> strips;
 	
-	sge::cout 
+	fcppt::io::cout 
 		<< FCPPT_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
 		<< FCPPT_TEXT("Border: \n");
 	rofl::polygon border;
-	sge::string line;
+	fcppt::string line;
 	std::getline(
-		sge::cin,
+		fcppt::io::cin,
 		line);
-	sge::istringstream ss(
+	fcppt::io::istringstream ss(
 		line);
 	ss >> border;
-	sge::cout 
+	fcppt::io::cout 
 		<< FCPPT_TEXT("The polygon entered was:")
 		<< border 
 		<< FCPPT_TEXT("\n");
 	rofl::polygon_with_holes polys(
 		border);
-	sge::cout 
+	fcppt::io::cout 
 		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
 	while(true)
 	{
 		std::getline(
-			sge::cin,
+			fcppt::io::cin,
 			line);
 		if (line.empty())
 			break;
-		sge::istringstream ss(
+		fcppt::io::istringstream ss(
 			line);
 		rofl::polygon hole;
 		ss >> hole;
 		if (!ss)
-			sge::cerr << FCPPT_TEXT("Invalid input!");
+			fcppt::io::cerr << FCPPT_TEXT("Invalid input!");
 		else
 		{
-			sge::cout << FCPPT_TEXT("The hole entered was: ") << hole << SGE_TEXT("\n");
+			fcppt::io::cout << FCPPT_TEXT("The hole entered was: ") << hole << FCPPT_TEXT("\n");
 			polys.add_hole(
 				hole);
 			line_strip 
@@ -321,7 +302,7 @@ try
 		end,
 		splist);
 	
-	//sge::cerr << splist.size() << " elements\n";
+	//fcppt::io::cerr << splist.size() << " elements\n";
 	
 	line_strip path_strip(
 			rend,
@@ -350,11 +331,11 @@ try
 }
 catch(sge::exception const &e)
 {
-	sge::cerr << e.string() << FCPPT_TEXT('\n');
+	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }
 catch(std::exception const &e)
 {
-	sge::cerr << e.what() << FCPPT_TEXT('\n');
+	fcppt::io::cerr << e.what() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }

@@ -14,7 +14,6 @@
 #include <sge/renderer/vertex_buffer.hpp>
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>
-#include <sge/cerr.hpp>
 #include <fcppt/math/null.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/foreach.hpp>
@@ -128,8 +127,12 @@ sge::line_strip::object<A,B>::draw() const
 	if (!points_.empty())
 		renderer_->render(
 			vb_,
-			fcppt::math::null<sge::renderer::size_type>(),
-			vb_->size(),
+			renderer::first_vertex(
+				fcppt::math::null<sge::renderer::size_type>()
+			),
+			renderer::vertex_count(
+				vb_->size()
+			),
 			sge::renderer::nonindexed_primitive_type::line_strip);
 }
 

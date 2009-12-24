@@ -4,8 +4,8 @@
 #include "parameters_fwd.hpp"
 #include "style.hpp"
 #include <fcppt/math/vector/static.hpp>
-#include <sge/renderer/device_fwd.hpp>
-#include <sge/renderer/vertex_buffer_fwd.hpp>
+#include <sge/renderer/device_ptr.hpp>
+#include <sge/renderer/vertex_buffer_ptr.hpp>
 #include <vector>
 
 namespace sge
