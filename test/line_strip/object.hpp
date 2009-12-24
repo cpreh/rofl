@@ -3,7 +3,7 @@
 
 #include "parameters_fwd.hpp"
 #include "style.hpp"
-#include <sge/math/vector/static.hpp>
+#include <fcppt/math/vector/static.hpp>
 #include <sge/renderer/device_fwd.hpp>
 #include <sge/renderer/vertex_buffer_fwd.hpp>
 #include <vector>
@@ -22,7 +22,7 @@ class object
 public:
 	typedef Value unit;
 	typedef typename
-	sge::math::vector::static_
+	fcppt::math::vector::static_
 	<
 		unit,
 	2>::type point;

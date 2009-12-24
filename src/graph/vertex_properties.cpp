@@ -1,6 +1,6 @@
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/math/barycenter.hpp>
-#include <sge/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
 
 rofl::graph::vertex_properties::vertex_properties()
 :

@@ -1,5 +1,5 @@
 #include <rofl/graph/properties.hpp>
-#include <sge/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
 
 rofl::graph::properties::properties()
 :

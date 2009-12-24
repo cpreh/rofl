@@ -1,7 +1,7 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_FILL_POINTS_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_FILL_POINTS_HPP_INCLUDED
 
-#include <sge/math/null.hpp>
+#include <fcppt/math/null.hpp>
 
 namespace rofl
 {
@@ -32,7 +32,7 @@ void fill_points(
 	point::value_type	
 	unit;
 
-	for (size_type i = sge::math::null<size_type>(); i < size; i += static_cast<size_type>(2))
+	for (size_type i = fcppt::math::null<size_type>(); i < size; i += static_cast<size_type>(2))
 		p.push_back(
 			point(
 				static_cast<unit>(

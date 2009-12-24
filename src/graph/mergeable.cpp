@@ -2,8 +2,8 @@
 #include "find_adjacent.hpp"
 #include "../math/left_on.hpp"
 #include "../math/left.hpp"
-#include <sge/math/vector/basic_impl.hpp>
-#include <sge/math/vector/output.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include <sge/cerr.hpp>
 
 bool rofl::graph::mergeable(

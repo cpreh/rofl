@@ -1,8 +1,8 @@
 #ifndef ROFL_MATH_AREA_SIGN_HPP_INCLUDED
 #define ROFL_MATH_AREA_SIGN_HPP_INCLUDED
 
-#include <sge/math/vector/cross.hpp>
-#include <sge/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/cross.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
 
 namespace rofl
 {
@@ -16,7 +16,7 @@ int area_sign(
 {
 	typename T::value_type 
 	area2 = 
-		sge::math::vector::cross(
+		fcppt::math::vector::cross(
 			b-a,
 			c-a);
 

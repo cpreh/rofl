@@ -15,7 +15,7 @@
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/cerr.hpp>
-#include <sge/math/null.hpp>
+#include <fcppt/math/null.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/foreach.hpp>
 
@@ -128,7 +128,7 @@ sge::line_strip::object<A,B>::draw() const
 	if (!points_.empty())
 		renderer_->render(
 			vb_,
-			sge::math::null<sge::renderer::size_type>(),
+			fcppt::math::null<sge::renderer::size_type>(),
 			vb_->size(),
 			sge::renderer::nonindexed_primitive_type::line_strip);
 }

@@ -2,7 +2,7 @@
 #define SGE_LINE_STRIP_PARAMETERS_HPP_INCLUDED
 
 #include "style.hpp"
-#include <sge/math/vector/static.hpp>
+#include <fcppt/math/vector/static.hpp>
 #include <vector>
 #include <iterator>
 
@@ -19,7 +19,7 @@ class parameters
 {
 public:
 	typedef typename
-	sge::math::vector::static_
+	fcppt::math::vector::static_
 	<
 		Value,
 	2>::type point;

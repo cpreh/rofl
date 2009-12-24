@@ -2,12 +2,12 @@
 #define ROFL_MATH_POINT_HPP_INCLUDED
 
 #include <rofl/unit.hpp>
-#include <sge/math/vector/static.hpp>
+#include <fcppt/math/vector/static.hpp>
 
 namespace rofl
 {
 typedef
-sge::math::vector::static_
+fcppt::math::vector::static_
 <
 	unit,
 	2

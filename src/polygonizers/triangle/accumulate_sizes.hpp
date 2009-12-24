@@ -1,7 +1,7 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_ACCUMULATE_SIZES_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_ACCUMULATE_SIZES_HPP_INCLUDED
 
-#include <sge/math/null.hpp>
+#include <fcppt/math/null.hpp>
 #include <boost/foreach.hpp>
 
 namespace rofl
@@ -15,7 +15,7 @@ typename Container::size_type accumulate_sizes(
 	Container const &c)
 {
 	typename Container::size_type s = 
-		sge::math::null<typename Container::size_type>();
+		fcppt::math::null<typename Container::size_type>();
 	BOOST_FOREACH(typename Container::const_reference r,c)
 		s += r.size();
 	return s;

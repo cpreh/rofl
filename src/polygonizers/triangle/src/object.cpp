@@ -23,10 +23,10 @@
 #include <rofl/indexed_point.hpp>
 #include <sge/container/raw_vector.hpp>
 #include <sge/assign/make_array.hpp>
-#include <sge/math/vector/length.hpp>
-#include <sge/math/vector/arithmetic.hpp>
-#include <sge/math/null.hpp>
-#include <sge/math/vector/output.hpp>
+#include <fcppt/math/vector/length.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/null.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include <sge/assert.hpp>
 #include <sge/text.hpp>
 #include <sge/log/headers.hpp>
@@ -235,7 +235,7 @@ rofl::polygonizers::triangle::object::polygonize(
 				c1 = props1.barycenter();
 			unit const 
 				l = 
-					sge::math::vector::length(
+					fcppt::math::vector::length(
 						c0-c1);
 			
 			if (boost::add_edge(

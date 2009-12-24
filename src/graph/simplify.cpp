@@ -10,9 +10,9 @@
 #include <rofl/graph/edge_descriptor.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/dereference.hpp>
-#include <sge/math/vector/output.hpp>
-#include <sge/math/vector/length.hpp>
-#include <sge/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/output.hpp>
+#include <fcppt/math/vector/length.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
 #include <sge/assert.hpp>
 #include <sge/cerr.hpp>
 #include "../cyclic_iterator.hpp"
@@ -108,7 +108,7 @@ void edit_out_edge(
 				u,
 				w,
 				rofl::graph::edge_properties(
-					sge::math::vector::length(
+					fcppt::math::vector::length(
 						vp.barycenter()-g[w].barycenter()),
 					g[*q.first].adjacent_edge()),
 				g);

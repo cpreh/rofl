@@ -1,7 +1,7 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_EDGE_ANGLE_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_EDGE_ANGLE_HPP_INCLUDED
 
-#include <sge/math/vector/cross.hpp>
+#include <fcppt/math/vector/cross.hpp>
 
 namespace rofl
 {

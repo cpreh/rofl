@@ -1,25 +1,25 @@
 #include <rofl/log.hpp>
 #include <rofl/log_context.hpp>
-#include <sge/log/parameters/root.hpp>
-#include <sge/text.hpp>
-#include <sge/cout.hpp>
-#include <sge/log/level.hpp>
+#include <fcppt/log/parameters/root.hpp>
+#include <fcppt/text.hpp>
+#include <fcppt/io/cout.hpp>
+#include <fcppt/log/level.hpp>
 
-sge::log::object &
+fcppt::log::object &
 rofl::log()
 {
-	static sge::log::object global_(
-		sge::log::parameters::root(
-			sge::cout
+	static fcppt::log::object global_(
+		fcppt::log::parameters::root(
+			fcppt::io::cout
 		)
 		.prefix(
-			SGE_TEXT("rofl")
+			FCPPT_TEXT("rofl")
 		)
 		.enabled(
 			true
 		)
 		.level(
-			sge::log::level::warning
+			fcppt::log::level::warning
 		)
 		.context(
 			log_context()

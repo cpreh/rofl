@@ -2,8 +2,7 @@
 #define ROFL_POLYGONIZERS_TRIANGLE_IS_CONVEX_HPP_INCLUDED
 
 #include "edge_angle.hpp"
-#include <sge/assert.hpp>
-#include <sge/math/compare.hpp>
+#include <fcppt/math/compare.hpp>
 #include <boost/next_prior.hpp>
 
 namespace rofl
@@ -16,10 +15,6 @@ template<typename Polygon>
 bool is_convex(
 	Polygon const &p)
 {
-/*
-	SGE_ASSERT(
-		p.size() > static_cast<typename Polygon::size_type>(3));*/
-		
 	typedef
 	typename
 	Polygon::value_type
@@ -40,7 +35,7 @@ bool is_convex(
 	cyclic_iterator<Polygon::const_iterator> i;
 	for (typename Polygon::size_type c = 0; c < p.size(); ++c)
 		if(
-			sge::math::compare(
+			fcppt::math::compare(
 				edge_angle(*i,*boost::next(i),*boost::next(i,2)),
 				sign))
 				*/
@@ -66,7 +61,7 @@ bool is_convex(
 					:
 						*boost::next(i,2));
 		
-		if (!sge::math::compare(edge_angle(a,b,c),sign))
+		if (!fcppt::math::compare(edge_angle(a,b,c),sign))
 			return false;
 	}
 	return true;

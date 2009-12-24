@@ -1,5 +1,6 @@
 #include "../triangulation.hpp"
-#include <sge/container/raw_vector.hpp>
+#include <fcppt/container/raw_vector.hpp>
+#include <string>
 #include <cstring>
 #include <cstdlib>
 

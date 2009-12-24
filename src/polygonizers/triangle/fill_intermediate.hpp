@@ -7,7 +7,7 @@
 #include <rofl/index.hpp>
 #include <rofl/dereference.hpp>
 #include <rofl/graph/object.hpp>
-#include <sge/assign/make_array.hpp>
+#include <fcppt/assign/make_array.hpp>
 #include <cstddef>
 
 namespace rofl
@@ -59,7 +59,7 @@ void fill_intermediate(
 							dereference(
 								g))),
 					output),
-				sge::assign::make_array<intermediate::index>
+				fcppt::assign::make_array<intermediate::index>
 					(neighborlist[3*tri])
 					(neighborlist[3*tri+1])
 					(neighborlist[3*tri+2])));

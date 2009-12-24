@@ -1,6 +1,6 @@
 #include <rofl/indexed_point.hpp>
 #include <rofl/graph/properties.hpp>
-#include <sge/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
 
 rofl::indexed_point::indexed_point(
 	graph::object const &_parent,

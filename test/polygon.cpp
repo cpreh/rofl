@@ -21,10 +21,10 @@
 #include <sge/renderer/filter/linear.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/input/system.hpp>
-#include <sge/math/vector/structure_cast.hpp>
-#include <sge/math/vector/arithmetic.hpp>
-#include <sge/math/vector/length.hpp>
-#include <sge/math/vector/output.hpp>
+#include <fcppt/math/vector/structure_cast.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/length.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include <sge/input/action.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
@@ -44,7 +44,7 @@
 #include <sge/cout.hpp>
 #include <sge/exception.hpp>
 #include <sge/renderer/matrix_pixel_to_space.hpp>
-#include <sge/math/matrix/orthogonal_xy.hpp>
+#include <fcppt/math/matrix/orthogonal_xy.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
 #include <boost/assign/list_of.hpp>
@@ -59,7 +59,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <sge/input/key_pair.hpp>
-#include <sge/math/almost_zero.hpp>
+#include <fcppt/math/almost_zero.hpp>
 
 namespace
 {
@@ -87,7 +87,7 @@ std::vector
 >
 hole_vector;
 
-sge::math::vector::static_
+fcppt::math::vector::static_
 <
 	sge::input::key_state,
 	2
@@ -96,7 +96,7 @@ mouse_delta(
 	sge::input::key_pair const &p)
 {
 	return 
-		sge::math::vector::static_
+		fcppt::math::vector::static_
 		<
 			sge::input::key_state,
 			2
@@ -105,12 +105,12 @@ mouse_delta(
 			? 
 				p.value() 
 			: 
-				sge::math::null<sge::input::key_state>(),
+				fcppt::math::null<sge::input::key_state>(),
 			p.key().code() == sge::input::kc::mouse_y_axis 
 			? 
 				p.value() 
 			: 
-				sge::math::null<sge::input::key_state>());
+				fcppt::math::null<sge::input::key_state>());
 }
 
 class mouse_handler
@@ -174,16 +174,16 @@ mouse_handler::callback(
 		p.key().code() == sge::input::kc::mouse_y_axis)
 	{
 		cursor_sprite_.pos() += 
-			sge::math::vector::structure_cast<sge::sprite::point>(
+			fcppt::math::vector::structure_cast<sge::sprite::point>(
 				mouse_delta(
 					p));
 		current_.back(
-			sge::math::vector::structure_cast<line_strip::point>(
+			fcppt::math::vector::structure_cast<line_strip::point>(
 				cursor_sprite_.pos()));
 		return;
 	}
 	
-	if (sge::math::almost_zero(p.value()))
+	if (fcppt::math::almost_zero(p.value()))
 		return;
 
 	if (p.key().code() == sge::input::kc::mouse_l)
@@ -279,7 +279,7 @@ try
 		sge::renderer::matrix_pixel_to_space<float>( 
 			sys.renderer()->screen_size()));
 	sys.renderer()->projection(
-		sge::math::matrix::orthogonal_xy<float>());
+		fcppt::math::matrix::orthogonal_xy<float>());
 
 	sge::sprite::system ss(
 		sys.renderer());

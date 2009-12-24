@@ -1,5 +1,5 @@
-#include <sge/math/vector/input.hpp>
-#include <sge/math/vector/output.hpp>
+#include <fcppt/math/vector/input.hpp>
+#include <fcppt/math/vector/output.hpp>
 #include "line_strip/object.hpp"
 #include "line_strip/parameters.hpp"
 #include "line_strip/object_impl.hpp"
@@ -29,9 +29,9 @@
 #include <sge/renderer/filter/linear.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/input/system.hpp>
-#include <sge/math/vector/structure_cast.hpp>
-#include <sge/math/vector/arithmetic.hpp>
-#include <sge/math/vector/length.hpp>
+#include <fcppt/math/vector/structure_cast.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/length.hpp>
 #include <sge/input/action.hpp>
 #include <sge/image/loader.hpp>
 #include <sge/sprite/object.hpp>
@@ -53,7 +53,7 @@
 #include <sge/cin.hpp>
 #include <sge/exception.hpp>
 #include <sge/renderer/matrix_pixel_to_space.hpp>
-#include <sge/math/matrix/orthogonal_xy.hpp>
+#include <fcppt/math/matrix/orthogonal_xy.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
 #include <boost/assign/list_of.hpp>
@@ -119,10 +119,10 @@ void push_edges(
 			&p1 = g[boost::target(*i,g)].barycenter();
 			
 		s.push_back(
-			sge::math::vector::structure_cast<line_strip::point>(
+			fcppt::math::vector::structure_cast<line_strip::point>(
 				p0));
 		s.push_back(
-			sge::math::vector::structure_cast<line_strip::point>(
+			fcppt::math::vector::structure_cast<line_strip::point>(
 				p1));
 				
 		strips.push_back(
@@ -188,7 +188,7 @@ try
 		sge::renderer::matrix_pixel_to_space<float>( 
 			rend->screen_size()));
 	rend->projection(
-		sge::math::matrix::orthogonal_xy<float>());
+		fcppt::math::matrix::orthogonal_xy<float>());
 		
 	std::vector<line_strip> strips;
 	
@@ -238,7 +238,7 @@ try
 							
 			BOOST_FOREACH(rofl::polygon::const_reference r,hole)
 				s.push_back(
-					sge::math::vector::structure_cast<line_strip::point>(
+					fcppt::math::vector::structure_cast<line_strip::point>(
 						r));
 					
 			strips.push_back(
@@ -277,7 +277,7 @@ try
 		
 		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
 			s.push_back(
-				sge::math::vector::structure_cast<line_strip::point>(
+				fcppt::math::vector::structure_cast<line_strip::point>(
 					r.representation()));
 				
 		strips.insert(

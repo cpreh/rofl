@@ -2,7 +2,7 @@
 #define AI_POLYGON_WITH_HOLES_HPP_INCLUDED
 
 #include <rofl/math/polygon.hpp>
-#include <sge/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
 #include <vector>
 
 namespace rofl

@@ -5,8 +5,8 @@
 #include "triangle_line_segments.hpp"
 #include <rofl/indexed_line_segment.hpp>
 #include <rofl/indexed_polygon.hpp>
-#include <sge/assert.hpp>
-#include <sge/text.hpp>
+#include <fcppt/assert_message.hpp>
+#include <fcppt/text.hpp>
 #include <boost/foreach.hpp>
 
 namespace rofl

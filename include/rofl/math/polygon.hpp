@@ -1,10 +1,8 @@
 #ifndef ROFL_MATH_POLYGON_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_HPP_INCLUDED
 
-#include <sge/ostream.hpp>
-#include <sge/text.hpp>
-#include <sge/cerr.hpp>
-#include <sge/math/detail/one_dimensional_output.hpp>
+#include <fcppt/math/detail/one_dimensional_output.hpp>
+#include <fcppt/text.hpp>
 #include <vector>
 #include <ostream>
 #include <limits>
@@ -70,7 +68,7 @@ operator<<(
 	math::polygon<T> const &p)
 {
 	return
-		sge::math::detail::one_dimensional_output(
+		fcppt::math::detail::one_dimensional_output(
 			s,
 			p);
 }

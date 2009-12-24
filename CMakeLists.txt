@@ -9,17 +9,9 @@ IF(${CMAKE_BINARY_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
 	message(FATAL_ERROR "In-source builds are not permitted. Make a separate folder for building:\nmkdir build; cd build; cmake ..\nBefore that, remove the files that cmake just created:\nrm -rf CMakeCache.txt CMakeFiles")
 ENDIF()
 
-INCLUDE (CheckIncludeFile)
-INCLUDE (CheckCXXCompilerFlag)
-INCLUDE (CheckCXXSourceCompiles)
-INCLUDE (CheckCXXSourceRuns)
 INCLUDE (FindPkgConfig)
 
 SET (CMAKE_VERBOSE_MAKEFILE ON)
-
-IF (ENABLE_NARROW_STRING)
-       SET (SGE_NARROW_STRING true)
-ENDIF()
 
 IF (CMAKE_COMPILER_IS_GNUCXX)
 	#CHECK_CXX_COMPILER_FLAG(
@@ -63,27 +55,20 @@ INCLUDE_DIRECTORIES (${CMAKE_SOURCE_DIR}/include)
 SET (LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 SET (EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
 
-FIND_PACKAGE(Boost 1.35.0 COMPONENTS
-	filesystem
+SET (Boost_ADDITIONAL_VERSIONS "1.41" "1.41.0")
+
+IF(MSVC)
+	SET(Boost_USE_STATIC_LIBS ON)
+ENDIF()
+
+FIND_PACKAGE(
+	Boost 1.41.0 REQUIRED COMPONENTS
 	program_options
-	system
-	thread)
+)
 
-IF(NOT Boost_FOUND)
-	MESSAGE(STATUS "Boost not found!")
-ENDIF()
+INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
 
-IF(Boost_INCLUDE_DIR)
-	INCLUDE_DIRECTORIES(${Boost_INCLUDE_DIR})
-ELSE()
-	MESSAGE(STATUS "Boost headers not found. You will have to specify them in your build environment or you can use -DBOOST_ROOT= or -DBoost_INCLUDE_DIR to tell cmake where your boost installation is.")
-ENDIF()
-
-IF(Boost_LIBRARY_DIRS)
-	LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
-ELSE()
-	MESSAGE(STATUS "Boost libraries not found. Please set -DBoost_LIBRARY_DIR manually.")
-ENDIF()
+LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
 
 OPTION(ENABLE_TEST "Build the tests" ON)
 
@@ -92,11 +77,5 @@ IF (ENABLE_TEST)
 ENDIF ()
 
 ADD_SUBDIRECTORY (src)
-
-#OPTION(ENABLE_TEST "Build the tests" OFF)
-#
-#IF (ENABLE_TEST)
-#	ADD_SUBDIRECTORY (test)
-#ENDIF ()
 
 INSTALL (DIRECTORY include/ DESTINATION include/)

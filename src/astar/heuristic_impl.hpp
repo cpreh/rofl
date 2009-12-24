@@ -1,5 +1,5 @@
-#include <sge/math/vector/length.hpp>
-#include <sge/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/length.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
 
 rofl::astar::heuristic::heuristic(
 	graph::object const &_graph,
@@ -17,7 +17,7 @@ rofl::astar::heuristic::operator()(
 	graph::vertex_descriptor const &v) const
 {
 	return 
-		sge::math::vector::length(
+		fcppt::math::vector::length(
 			graph_[v].barycenter()-
 			graph_[destination_].barycenter());
 }

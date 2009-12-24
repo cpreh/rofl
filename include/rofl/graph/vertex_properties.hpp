@@ -3,7 +3,7 @@
 
 #include <rofl/polygon.hpp>
 #include <rofl/indexed_polygon.hpp>
-#include <sge/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
 
 namespace rofl
 {

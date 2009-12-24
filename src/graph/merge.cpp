@@ -2,8 +2,8 @@
 #include "on_boundary.hpp"
 #include "../cyclic_iterator.hpp"
 #include "../cyclic_iterator_impl.hpp"
-#include <sge/math/vector/output.hpp>
-#include <sge/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/output.hpp>
+#include <fcppt/math/vector/basic_impl.hpp>
 #include <sge/cerr.hpp>
 
 rofl::indexed_polygon const rofl::graph::merge(
