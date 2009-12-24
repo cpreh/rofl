@@ -39,7 +39,7 @@ determine_adjacent_edge(
 	
 	SGE_ASSERT_MESSAGE(
 		false,
-		SGE_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
+		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
 }
 }
 }

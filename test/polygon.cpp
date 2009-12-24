@@ -230,7 +230,7 @@ try
 		sge::systems::list()
 		(
 			sge::window::parameters(
-				SGE_TEXT("pathfinding test")
+				FCPPT_TEXT("pathfinding test")
 			)
 		)
 		(
@@ -320,7 +320,7 @@ try
 			sge::sprite::point(0,0))
 		.texture(
 				creator_.load(
-					sge::config::media_path()/SGE_TEXT("gui")/SGE_TEXT("cursor.png"))));
+					sge::config::media_path()/FCPPT_TEXT("gui")/SGE_TEXT("cursor.png"))));
 
 	mouse_handler m(
 		sys.input_system(),
@@ -354,11 +354,11 @@ try
 }
 catch(sge::exception const &e)
 {
-	sge::cerr << e.string() << SGE_TEXT('\n');
+	sge::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }
 catch(std::exception const &e)
 {
-	sge::cerr << e.what() << SGE_TEXT('\n');
+	sge::cerr << e.what() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }

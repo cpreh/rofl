@@ -5,7 +5,7 @@
 
 namespace rofl
 {
-sge::log::object &
+fcppt::log::object &
 log();
 }
 

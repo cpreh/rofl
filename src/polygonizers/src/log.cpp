@@ -1,12 +1,12 @@
 #include "../log.hpp"
 #include <rofl/log.hpp>
 
-sge::log::object &
+fcppt::log::object &
 rofl::polygonizers::log()
 {
-	static sge::log::object o(
-		sge::log::parameters::inherited(
+	static fcppt::log::object o(
+		fcppt::log::parameters::inherited(
 			rofl::log(),
-			SGE_TEXT("polygonizers")));
+			FCPPT_TEXT("polygonizers")));
 	return o;
 }

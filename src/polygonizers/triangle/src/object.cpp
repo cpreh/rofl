@@ -28,8 +28,8 @@
 #include <fcppt/math/null.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <sge/assert.hpp>
-#include <sge/text.hpp>
-#include <sge/log/headers.hpp>
+#include <fcppt/text.hpp>
+#include <fcppt/log/headers.hpp>
 #include <cstring>
 #include <cstddef>
 #include <cmath>
@@ -37,11 +37,11 @@
 
 namespace
 {
-sge::log::object 
+fcppt::log::object 
 mylogger(
-	sge::log::parameters::inherited(
+	fcppt::log::parameters::inherited(
 		rofl::polygonizers::triangle::log(),
-		SGE_TEXT("object")));
+		FCPPT_TEXT("object")));
 
 typedef sge::container::raw_vector<rofl::unit> point_vector;
 typedef sge::container::raw_vector<int> segment_vector;
@@ -55,7 +55,7 @@ rofl::polygonizers::triangle::object::polygonize(
 {
 /*
 	mylogger.activate(
-		sge::log::level::debug);
+		fcppt::log::level::debug);
 		*/
 	
 	triangulateio 
@@ -113,7 +113,7 @@ rofl::polygonizers::triangle::object::polygonize(
 		/*
 		SGE_ASSERT_MESSAGE(
 			is_convex(r),
-			SGE_TEXT("Holes have to be convex"));
+			FCPPT_TEXT("Holes have to be convex"));
 			*/
 			
 		add_polygon(
@@ -133,42 +133,42 @@ rofl::polygonizers::triangle::object::polygonize(
 
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Outputting points:"));
+		fcppt::log::_ << FCPPT_TEXT("Outputting points:"));
 	BOOST_FOREACH(point_vector::const_reference r,points)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_ << r);
+			fcppt::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Points end"));
+		fcppt::log::_ << FCPPT_TEXT("Points end"));
 		
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Outputting segments:"));
+		fcppt::log::_ << FCPPT_TEXT("Outputting segments:"));
 	BOOST_FOREACH(segment_vector::const_reference r,segments)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_ << r);
+			fcppt::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Segments end"));
+		fcppt::log::_ << FCPPT_TEXT("Segments end"));
 		
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Outputting holes:"));
+		fcppt::log::_ << FCPPT_TEXT("Outputting holes:"));
 	BOOST_FOREACH(hole_vector::const_reference r,holes)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_ << r);
+			fcppt::log::_ << r);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Holes end"));
+		fcppt::log::_ << FCPPT_TEXT("Holes end"));
 	
 	triangulation t(
 	//	"pznQ", // q for quality
@@ -178,16 +178,16 @@ rofl::polygonizers::triangle::object::polygonize(
 	
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Outputting neighbors:"));
+		fcppt::log::_ << FCPPT_TEXT("Outputting neighbors:"));
 	for (int i = 0; i < out.numberoftriangles*3; ++i)
 	{
 		SGE_LOG_DEBUG(
 			mylogger,
-			sge::log::_ << out.neighborlist[i]);
+			fcppt::log::_ << out.neighborlist[i]);
 	}
 	SGE_LOG_DEBUG(
 		mylogger,
-		sge::log::_ << SGE_TEXT("Neighbors end"));
+		fcppt::log::_ << FCPPT_TEXT("Neighbors end"));
 	
 	SGE_ASSERT(out.numberofcorners == 3);
 	
@@ -250,13 +250,13 @@ rofl::polygonizers::triangle::object::polygonize(
 			{
 				SGE_LOG_DEBUG(
 					mylogger,
-					sge::log::_ << SGE_TEXT("Edge already added"));
+					fcppt::log::_ << FCPPT_TEXT("Edge already added"));
 			}
 			else
 			{
 				SGE_LOG_DEBUG(
 					mylogger,
-					sge::log::_ << SGE_TEXT("Adding edge"));
+					fcppt::log::_ << FCPPT_TEXT("Adding edge"));
 			}
 		}
 	}

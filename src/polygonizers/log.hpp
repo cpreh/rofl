@@ -7,7 +7,7 @@ namespace rofl
 {
 namespace polygonizers
 {
-sge::log::object &
+fcppt::log::object &
 log();
 }
 }

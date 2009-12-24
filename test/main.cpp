@@ -138,7 +138,7 @@ try
 		sge::systems::list()
 		(
 			sge::window::parameters(
-				SGE_TEXT("pathfinding test")
+				FCPPT_TEXT("pathfinding test")
 			)
 		)
 		(
@@ -193,8 +193,8 @@ try
 	std::vector<line_strip> strips;
 	
 	sge::cout 
-		<< SGE_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
-		<< SGE_TEXT("Border: \n");
+		<< FCPPT_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
+		<< FCPPT_TEXT("Border: \n");
 	rofl::polygon border;
 	sge::string line;
 	std::getline(
@@ -204,13 +204,13 @@ try
 		line);
 	ss >> border;
 	sge::cout 
-		<< SGE_TEXT("The polygon entered was:")
+		<< FCPPT_TEXT("The polygon entered was:")
 		<< border 
-		<< SGE_TEXT("\n");
+		<< FCPPT_TEXT("\n");
 	rofl::polygon_with_holes polys(
 		border);
 	sge::cout 
-		<< SGE_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
+		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
 	while(true)
 	{
 		std::getline(
@@ -223,10 +223,10 @@ try
 		rofl::polygon hole;
 		ss >> hole;
 		if (!ss)
-			sge::cerr << SGE_TEXT("Invalid input!");
+			sge::cerr << FCPPT_TEXT("Invalid input!");
 		else
 		{
-			sge::cout << SGE_TEXT("The hole entered was: ") << hole << SGE_TEXT("\n");
+			sge::cout << FCPPT_TEXT("The hole entered was: ") << hole << SGE_TEXT("\n");
 			polys.add_hole(
 				hole);
 			line_strip 
@@ -350,11 +350,11 @@ try
 }
 catch(sge::exception const &e)
 {
-	sge::cerr << e.string() << SGE_TEXT('\n');
+	sge::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }
 catch(std::exception const &e)
 {
-	sge::cerr << e.what() << SGE_TEXT('\n');
+	sge::cerr << e.what() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
 }

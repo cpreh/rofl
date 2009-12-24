@@ -2,7 +2,7 @@
 #define ROFL_POLYGONIZERS_TRIANGLE_LOG_HPP_INCLUDED
 
 #include <rofl/log.hpp>
-#include <sge/log/headers.hpp>
+#include <fcppt/log/headers.hpp>
 
 namespace rofl
 {
@@ -10,7 +10,7 @@ namespace polygonizers
 {
 namespace triangle
 {
-sge::log::object &
+fcppt::log::object &
 log();
 }
 }
