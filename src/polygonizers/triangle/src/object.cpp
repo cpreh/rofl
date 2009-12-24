@@ -21,19 +21,19 @@
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/indexed_point.hpp>
-#include <sge/container/raw_vector.hpp>
-#include <sge/assign/make_array.hpp>
+#include <fcppt/container/raw_vector.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/null.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <sge/assert.hpp>
-#include <fcppt/text.hpp>
+#include <fcppt/log/parameters/inherited.hpp>
 #include <fcppt/log/headers.hpp>
+#include <fcppt/tr1/array.hpp>
+#include <fcppt/assert.hpp>
+#include <fcppt/text.hpp>
 #include <cstring>
 #include <cstddef>
 #include <cmath>
-#include <tr1/array>
 
 namespace
 {
@@ -43,9 +43,9 @@ mylogger(
 		rofl::polygonizers::triangle::log(),
 		FCPPT_TEXT("object")));
 
-typedef sge::container::raw_vector<rofl::unit> point_vector;
-typedef sge::container::raw_vector<int> segment_vector;
-typedef sge::container::raw_vector<rofl::unit> hole_vector;
+typedef fcppt::container::raw_vector<rofl::unit> point_vector;
+typedef fcppt::container::raw_vector<int> segment_vector;
+typedef fcppt::container::raw_vector<rofl::unit> hole_vector;
 }
 
 void 
@@ -111,7 +111,7 @@ rofl::polygonizers::triangle::object::polygonize(
 	BOOST_FOREACH(polygon_with_holes::hole_set::const_reference r,p.holes())
 	{
 		/*
-		SGE_ASSERT_MESSAGE(
+		FCPPT_ASSERT_MESSAGE(
 			is_convex(r),
 			FCPPT_TEXT("Holes have to be convex"));
 			*/
@@ -131,42 +131,42 @@ rofl::polygonizers::triangle::object::polygonize(
 	}
 	// add points and holes end
 
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Outputting points:"));
 	BOOST_FOREACH(point_vector::const_reference r,points)
 	{
-		SGE_LOG_DEBUG(
+		FCPPT_LOG_DEBUG(
 			mylogger,
 			fcppt::log::_ << r);
 	}
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Points end"));
 		
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Outputting segments:"));
 	BOOST_FOREACH(segment_vector::const_reference r,segments)
 	{
-		SGE_LOG_DEBUG(
+		FCPPT_LOG_DEBUG(
 			mylogger,
 			fcppt::log::_ << r);
 	}
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Segments end"));
 		
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Outputting holes:"));
 	BOOST_FOREACH(hole_vector::const_reference r,holes)
 	{
-		SGE_LOG_DEBUG(
+		FCPPT_LOG_DEBUG(
 			mylogger,
 			fcppt::log::_ << r);
 	}
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Holes end"));
 	
@@ -176,20 +176,20 @@ rofl::polygonizers::triangle::object::polygonize(
 		in,
 		out);
 	
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Outputting neighbors:"));
 	for (int i = 0; i < out.numberoftriangles*3; ++i)
 	{
-		SGE_LOG_DEBUG(
+		FCPPT_LOG_DEBUG(
 			mylogger,
 			fcppt::log::_ << out.neighborlist[i]);
 	}
-	SGE_LOG_DEBUG(
+	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Neighbors end"));
 	
-	SGE_ASSERT(out.numberofcorners == 3);
+	FCPPT_ASSERT(out.numberofcorners == 3);
 	
 	// first, create an array rofl::points from the out.pointlist. 
 	// This is stored in the graph properties, and the indexed_points 
@@ -248,13 +248,13 @@ rofl::polygonizers::triangle::object::polygonize(
 						p1)),
 				output).second == false)
 			{
-				SGE_LOG_DEBUG(
+				FCPPT_LOG_DEBUG(
 					mylogger,
 					fcppt::log::_ << FCPPT_TEXT("Edge already added"));
 			}
 			else
 			{
-				SGE_LOG_DEBUG(
+				FCPPT_LOG_DEBUG(
 					mylogger,
 					fcppt::log::_ << FCPPT_TEXT("Adding edge"));
 			}

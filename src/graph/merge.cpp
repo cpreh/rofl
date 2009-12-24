@@ -4,7 +4,6 @@
 #include "../cyclic_iterator_impl.hpp"
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/vector/basic_impl.hpp>
-#include <sge/cerr.hpp>
 
 rofl::indexed_polygon const rofl::graph::merge(
 	rofl::indexed_polygon const &a,

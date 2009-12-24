@@ -1,9 +1,11 @@
 #include <rofl/log.hpp>
 #include <rofl/log_context.hpp>
 #include <fcppt/log/parameters/root.hpp>
-#include <fcppt/text.hpp>
-#include <fcppt/io/cout.hpp>
+#include <fcppt/log/parameters/all.hpp>
+#include <fcppt/log/object.hpp>
 #include <fcppt/log/level.hpp>
+#include <fcppt/io/cout.hpp>
+#include <fcppt/text.hpp>
 
 fcppt::log::object &
 rofl::log()

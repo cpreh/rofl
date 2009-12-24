@@ -1,5 +1,8 @@
 #include "../log.hpp"
 #include <rofl/log.hpp>
+#include <fcppt/log/parameters/inherited.hpp>
+#include <fcppt/log/object.hpp>
+#include <fcppt/text.hpp>
 
 fcppt::log::object &
 rofl::polygonizers::log()

@@ -13,8 +13,7 @@
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
-#include <sge/assert.hpp>
-#include <sge/cerr.hpp>
+#include <fcppt/assert.hpp>
 #include "../cyclic_iterator.hpp"
 #include "../cyclic_iterator_impl.hpp"
 #include <queue>
@@ -89,10 +88,10 @@ void edit_out_edge(
 	
 	for (; q.first != q.second; ++q.first)
 	{
-		SGE_ASSERT(
+		FCPPT_ASSERT(
 			boost::source(*q.first,g) == v);
 			
-		SGE_ASSERT(
+		FCPPT_ASSERT(
 			deletes.find(v) == deletes.end());
 			
 		rofl::graph::vertex_descriptor w = 
@@ -117,13 +116,13 @@ void edit_out_edge(
 			n.first);
 		
 		/* very pedantic asserts
-		SGE_ASSERT(
+		FCPPT_ASSERT(
 			std::find(
 				g[u].polygon().begin(),
 				g[u].polygon().end(),
 				g[*q.first].adjacent_edge().start()) != g[u].polygon().end());
 				
-		SGE_ASSERT(
+		FCPPT_ASSERT(
 			std::find(
 				g[u].polygon().begin(),
 				g[u].polygon().end(),

@@ -1,7 +1,7 @@
 #include <rofl/astar/generate_path.hpp>
 #include <rofl/line_segment.hpp>
-#include <sge/optional.hpp>
-#include <sge/assert.hpp>
+#include <fcppt/optional.hpp>
+#include <fcppt/assert.hpp>
 #include <boost/foreach.hpp>
 #include <boost/next_prior.hpp>
 
@@ -84,7 +84,7 @@ rofl::astar::generate_path(
 	}
 	*/
 	/*
-	SGE_ASSERT(
+	FCPPT_ASSERT(
 		!t.empty());
 		
 	if (t.size() == 1)

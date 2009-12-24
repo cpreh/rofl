@@ -4,7 +4,6 @@
 #include "../math/left.hpp"
 #include <fcppt/math/vector/basic_impl.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <sge/cerr.hpp>
 
 bool rofl::graph::mergeable(
 	indexed_polygon const &a,

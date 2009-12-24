@@ -1,5 +1,5 @@
 #include "find_adjacent.hpp"
-#include <sge/assert.hpp>
+#include <fcppt/assert.hpp>
 #include <boost/next_prior.hpp>
 
 std::pair
@@ -38,5 +38,5 @@ rofl::graph::find_adjacent(
 			: 
 				std::make_pair(next,placement::next);
 	}
-	SGE_ASSERT(false);
+	FCPPT_ASSERT(false);
 }
