@@ -29,5 +29,3 @@ ENDIF ()
 INSTALL (TARGETS rofl DESTINATION ${CMAKE_INSTALL_PREFIX}/lib)
 
 ADD_SUBDIRECTORY (polygonizers)
-
-add_subdirectory(astar)
