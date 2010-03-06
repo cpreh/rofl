@@ -166,9 +166,12 @@ try
 	);
 
 	rend->transform(
+		sge::renderer::matrix_mode::world,
 		sge::renderer::matrix_pixel_to_space<float>( 
 			rend->screen_size()));
-	rend->projection(
+
+	rend->transform(
+		sge::renderer::matrix_mode::projection,
 		fcppt::math::matrix::orthogonal_xy<float>());
 		
 	std::vector<line_strip> strips;

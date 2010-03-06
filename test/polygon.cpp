@@ -290,9 +290,11 @@ try
 	);
 
 	sys.renderer()->transform(
+		sge::renderer::matrix_mode::world,
 		sge::renderer::matrix_pixel_to_space<float>( 
 			sys.renderer()->screen_size()));
-	sys.renderer()->projection(
+	sys.renderer()->transform(
+		sge::renderer::matrix_mode::projection,
 		fcppt::math::matrix::orthogonal_xy<float>());
 
 	typedef sge::sprite::system<
