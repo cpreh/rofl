@@ -4,10 +4,11 @@
 #include <sge/renderer/vf/color.hpp>
 #include <sge/renderer/vf/format.hpp>
 #include <sge/renderer/vf/view.hpp>
-#include <sge/renderer/vf/make_dynamic_format.hpp>
+#include <sge/renderer/vf/dynamic/make_format.hpp>
 #include <sge/renderer/vf/iterator.hpp>
 #include <sge/renderer/vf/vertex.hpp>
 #include <sge/renderer/scoped_vertex_lock.hpp>
+#include <sge/renderer/scoped_vertex_buffer.hpp>
 #include <sge/renderer/lock_mode.hpp>
 #include <sge/renderer/size_type.hpp>
 #include <sge/renderer/nonindexed_primitive_type.hpp>
@@ -124,16 +125,22 @@ template
 void 
 sge::line_strip::object<A,B>::draw() const
 {
-	if (!points_.empty())
-		renderer_->render(
-			vb_,
-			renderer::first_vertex(
-				fcppt::math::null<sge::renderer::size_type>()
-			),
-			renderer::vertex_count(
-				vb_->size()
-			),
-			sge::renderer::nonindexed_primitive_type::line_strip);
+	if (points_.empty())
+		return;
+
+	sge::renderer::scoped_vertex_buffer const vb_context(
+		renderer_,
+		vb_
+	);
+
+	renderer_->render(
+		renderer::first_vertex(
+			fcppt::math::null<sge::renderer::size_type>()
+		),
+		renderer::vertex_count(
+			vb_->size()
+		),
+		sge::renderer::nonindexed_primitive_type::line_strip);
 }
 
 template
@@ -177,7 +184,7 @@ sge::line_strip::object<A,B>::regenerate_vb()
 		return;
 	vb_ = 
 		renderer_->create_vertex_buffer(
-			renderer::vf::make_dynamic_format<format>(),
+			renderer::vf::dynamic::make_format<format>(),
 			static_cast<renderer::size_type>(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
 			renderer::resource_flags::none);
