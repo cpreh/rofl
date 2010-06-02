@@ -1,11 +1,11 @@
 #include "default_texture_creator.hpp"
 #include <sge/renderer/filter/linear.hpp>
-#include <sge/image/loader.hpp>
+#include <sge/image/multi_loader.hpp>
 #include <sge/texture/add_image.hpp>
 #include <sge/texture/default_creator_impl.hpp>
 
 sge::bullet::test::default_texture_creator::default_texture_creator(
-	sge::image::loader_ptr const _il, 
+	sge::image::multi_loader &_il, 
 	sge::renderer::device_ptr const _rend)
 :
 	il_(
@@ -29,6 +29,6 @@ sge::bullet::test::default_texture_creator::load(
 	return 
 		sge::texture::add_image(
 			man_,
-			il_->load(
+			il_.load(
 				_path));
 }

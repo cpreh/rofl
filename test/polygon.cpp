@@ -6,6 +6,7 @@
 #include "default_texture_creator.hpp"
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
+#include <sge/systems/image_loader.hpp>
 #include <sge/config/media_path.hpp>
 #include <sge/image/colors.hpp>
 #include <sge/renderer/device.hpp>
@@ -17,10 +18,10 @@
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
 #include <sge/image/color/rgba8.hpp>
+#include <sge/image/capabilities_field.hpp>
 #include <sge/input/system.hpp>
 #include <sge/input/action.hpp>
 #include <sge/input/key_pair.hpp>
-#include <sge/image/loader.hpp>
 #include <sge/sprite/object_impl.hpp>
 #include <sge/sprite/system.hpp>
 #include <sge/sprite/external_system_impl.hpp>
@@ -31,7 +32,8 @@
 #include <sge/sprite/with_texture.hpp>
 #include <sge/sprite/render_one.hpp>
 #include <sge/mainloop/dispatch.hpp>
-#include <sge/exception.hpp>
+#include <sge/all_extensions.hpp>
+#include <fcppt/container/bitfield/basic_impl.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
@@ -41,6 +43,7 @@
 #include <fcppt/tr1/functional.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
+#include <fcppt/exception.hpp>
 #include <fcppt/text.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
@@ -264,13 +267,19 @@ try
 				sge::renderer::no_multi_sampling
 			)
 		)	
-		(sge::systems::parameterless::input)
-		(sge::systems::parameterless::image)
+		(
+			sge::systems::parameterless::input
+		)
+		(
+			sge::systems::image_loader(
+				sge::image::capabilities_field::null(),
+				sge::all_extensions
+			)
+		)
 	);
 
 	sge::input::system_ptr const    is   = sys.input_system();
 	sge::renderer::device_ptr const rend = sys.renderer();
-	sge::image::loader_ptr const    pl   = sys.image_loader();
 
 	bool running = true;
 
@@ -389,7 +398,7 @@ try
 	BOOST_FOREACH(hole_vector::const_reference r,holes)
 		fcppt::io::cout << r << "\n";
 }
-catch(sge::exception const &e)
+catch(fcppt::exception const &e)
 {
 	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;

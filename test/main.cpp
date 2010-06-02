@@ -25,7 +25,6 @@
 #include <sge/input/action.hpp>
 #include <sge/input/system.hpp>
 #include <sge/mainloop/dispatch.hpp>
-#include <sge/exception.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
@@ -37,7 +36,9 @@
 #include <fcppt/io/cin.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
+#include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
+#include <fcppt/text.hpp>
 #include <boost/spirit/home/phoenix/core/reference.hpp>
 #include <boost/spirit/home/phoenix/operator/self.hpp>
 #include <exception>
@@ -141,7 +142,6 @@ try
 			)
 		)	
 		(sge::systems::parameterless::input)
-		(sge::systems::parameterless::image)
 	);
 	
 	sge::input::system_ptr const    is   = sys.input_system();
@@ -332,7 +332,7 @@ try
 			r.draw();
 	}
 }
-catch(sge::exception const &e)
+catch(fcppt::exception const &e)
 {
 	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
 	return EXIT_FAILURE;
