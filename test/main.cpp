@@ -92,10 +92,13 @@ void push_edges(
 				line_strip_params()
 					.color(
 						line_strip::color(
-								mizuiro::color::init::red %= 1.0f,
-								mizuiro::color::init::green %= 0.0,
-								mizuiro::color::init::blue %= 0.0,
-								mizuiro::color::init::alpha %= 1.0f )));
+							(mizuiro::color::init::red %= 1.)
+							(mizuiro::color::init::green %= 0.)
+							(mizuiro::color::init::blue %= 0.)
+							(mizuiro::color::init::alpha %= 1.)
+						)
+					)
+			);
 		
 		rofl::point const 
 			&p0 = g[boost::source(*i,g)].barycenter(),
@@ -251,13 +254,17 @@ try
 				rend,
 				line_strip_params()
 					.style(
-						sge::line_strip::style::loop)
+						sge::line_strip::style::loop
+					)
 					.color(
 						line_strip::color(
-								mizuiro::color::init::red %= 0.0f,
-								mizuiro::color::init::green %= 0.0,
-								mizuiro::color::init::blue %= 1.0,
-								mizuiro::color::init::alpha %= 1.0f )));
+							(mizuiro::color::init::red %= 0.)
+							(mizuiro::color::init::green %= 0.)
+							(mizuiro::color::init::blue %= 1.)
+							(mizuiro::color::init::alpha %= 1.)
+						)
+					)
+			);
 		
 		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
 			s.push_back(
@@ -308,15 +315,18 @@ try
 	//fcppt::io::cerr << splist.size() << " elements\n";
 	
 	line_strip path_strip(
-			rend,
-			line_strip_params()
-				.color(
-					line_strip::color(
-							mizuiro::color::init::red %= 0.0f,
-							mizuiro::color::init::green %= 1.0,
-							mizuiro::color::init::blue %= 0.0,
-							mizuiro::color::init::alpha %= 1.0f )));
-		
+		rend,
+		line_strip_params()
+			.color(
+				line_strip::color(
+					(mizuiro::color::init::red %= 0.)
+					(mizuiro::color::init::green %= 1.)
+					(mizuiro::color::init::blue %= 0.)
+					(mizuiro::color::init::alpha %= 1.)
+				)
+			)
+	);
+	
 	BOOST_FOREACH(rofl::astar::trail::const_reference r,splist)
 		path_strip.push_back(
 			g[r].barycenter());

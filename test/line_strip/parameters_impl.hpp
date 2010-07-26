@@ -14,10 +14,11 @@ sge::line_strip::parameters<A,V>::parameters()
 	style_(
 		style::no_loop),
 	color_(
-		sge::image::color::init::red %= 1.0f,
-		sge::image::color::init::green %= 1.0f,
-		sge::image::color::init::blue %= 1.0f,
-		sge::image::color::init::alpha %= 1.0f),
+		(sge::image::color::init::red %= 1.)
+		(sge::image::color::init::green %= 1.)
+		(sge::image::color::init::blue %= 1.)
+		(sge::image::color::init::alpha %= 1.)
+	),
 	points_()
 {
 }

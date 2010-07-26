@@ -314,30 +314,36 @@ try
 		sys.renderer());
 		
 	line_strip border(
-			sys.renderer(),
-			line_strip_params()
-				.style(
-					sge::line_strip::style::loop)
-				.color(
-					line_strip::color(
-							mizuiro::color::init::red %= 1.0f,
-							mizuiro::color::init::green %= 0.0,
-							mizuiro::color::init::blue %= 0.0,
-							mizuiro::color::init::alpha %= 1.0f)));
+		sys.renderer(),
+		line_strip_params()
+			.style(
+				sge::line_strip::style::loop)
+			.color(
+				line_strip::color(
+					(mizuiro::color::init::red %= 1.)
+					(mizuiro::color::init::green %= 0.)
+					(mizuiro::color::init::blue %= 0.)
+					(mizuiro::color::init::alpha %= 1.)
+				)
+			)
+	);
 
 	hole_vector holes;
 	
 	line_strip current_strip(
-			sys.renderer(),
-			line_strip_params()
-				.style(
-					sge::line_strip::style::loop)
-				.color(
-					line_strip::color(
-							mizuiro::color::init::red %= 1.0f,
-							mizuiro::color::init::green %= 1.0,
-							mizuiro::color::init::blue %= 1.0,
-							mizuiro::color::init::alpha %= 1.0f )));
+		sys.renderer(),
+		line_strip_params()
+			.style(
+				sge::line_strip::style::loop)
+			.color(
+				line_strip::color(
+					(mizuiro::color::init::red %= 1.)
+					(mizuiro::color::init::green %= 1.)
+					(mizuiro::color::init::blue %= 1.)
+					(mizuiro::color::init::alpha %= 1.)
+				)
+			)
+	);
 	
 	sge::bullet::test::default_texture_creator creator_(
 		sys.image_loader(),
