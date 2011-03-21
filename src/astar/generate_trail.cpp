@@ -45,17 +45,12 @@ rofl::astar::generate_trail(
 			heuristic(
 				g,
 				goal),
-			boost::visitor(
-				goal_visitor(
-					goal)).
-			weight_map(
-				w).
 			predecessor_map(
 				boost::associative_property_map<predecessors>(
-					p)).
-			visitor(
-				goal_visitor(
-					goal)));
+					p))
+			.weight_map(
+				w)
+			.visitor(goal_visitor(goal)));
 	}
 	catch (found_goal const &)
 	{

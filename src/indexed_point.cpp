@@ -1,5 +1,7 @@
 #include <rofl/indexed_point.hpp>
+#include <rofl/graph/edge_properties.hpp>
 #include <rofl/graph/properties.hpp>
+#include <rofl/graph/vertex_properties.hpp>
 #include <fcppt/math/vector/basic_impl.hpp>
 
 rofl::indexed_point::indexed_point(
