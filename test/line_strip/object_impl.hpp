@@ -3,8 +3,10 @@
 #include <sge/renderer/vf/pos.hpp>
 #include <sge/renderer/vf/color.hpp>
 #include <sge/renderer/vf/format.hpp>
+#include <sge/renderer/vf/part.hpp>
 #include <sge/renderer/vf/view.hpp>
 #include <sge/renderer/vf/dynamic/make_format.hpp>
+#include <sge/renderer/vf/dynamic/part_index.hpp>
 #include <sge/renderer/vf/iterator.hpp>
 #include <sge/renderer/vf/vertex.hpp>
 #include <sge/renderer/scoped_vertex_lock.hpp>
@@ -165,26 +167,40 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	> color_type;
 	
 	typedef 
-	renderer::vf::format
+	renderer::vf::part
 	<
 		boost::mpl::vector
 		<
 			pos_type,
 			color_type
 		>
+	> format_part;
+
+	typedef
+	renderer::vf::format
+	<
+		boost::mpl::vector
+		<
+			format_part
+		>
 	> format;
 	
 	typedef 
 	renderer::vf::view
 	<
-		format
+		format_part
 	> vertex_view;
 	
 	if (points_.empty())
 		return;
+	
+	vertex_declaration_ =
+		renderer_->create_vertex_declaration(
+			renderer::vf::dynamic::make_format<format>());
 	vb_ = 
 		renderer_->create_vertex_buffer(
-			renderer::vf::dynamic::make_format<format>(),
+			vertex_declaration_,
+			renderer::vf::dynamic::part_index(0),
 			static_cast<renderer::size_type>(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
 			renderer::resource_flags::none);

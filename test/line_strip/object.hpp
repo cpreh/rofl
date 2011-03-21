@@ -6,6 +6,7 @@
 #include <fcppt/math/vector/static.hpp>
 #include <sge/renderer/device_ptr.hpp>
 #include <sge/renderer/vertex_buffer_ptr.hpp>
+#include <sge/renderer/vertex_declaration_ptr.hpp>
 #include <vector>
 
 namespace sge
@@ -69,6 +70,7 @@ private:
 	style::type style_;
 	color color_;
 	point_sequence points_;
+	sge::renderer::vertex_declaration_ptr vertex_declaration_;
 	sge::renderer::vertex_buffer_ptr vb_;
 
 	void regenerate_vb();

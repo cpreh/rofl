@@ -91,8 +91,9 @@ INCLUDE_DIRECTORIES(${AWL_INCLUDE_DIRS})
 
 FIND_PACKAGE(
 	SGE REQUIRED
-	COMPONENTS systems texture
 )
+
+INCLUDE_DIRECTORIES(${SGE_INCLUDE_DIRS})
 
 OPTION(ENABLE_TEST "Build the tests" ON)
 
@@ -176,6 +177,7 @@ SET(
 	src/math/area_sign.hpp
 	src/math/left.hpp
 	src/math/left_on.hpp
+	src/polygonizer.cpp
 )
 
 SET(

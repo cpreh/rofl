@@ -22,7 +22,8 @@ public:
 	fcppt::math::vector::static_
 	<
 		Value,
-	2>::type point;
+		2
+	>::type point;
 	typedef 
 	std::vector
 	<

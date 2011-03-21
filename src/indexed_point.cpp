@@ -19,7 +19,10 @@ rofl::point const &
 rofl::indexed_point::representation() const
 {
 	return 
-		parent_->m_property.points()[index_];
+		boost::get_property(
+			*parent_,
+			boost::graph_property_tag()
+		).points()[index_];
 }
 
 bool 

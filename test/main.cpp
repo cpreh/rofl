@@ -12,26 +12,28 @@
 #include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
+#include <sge/systems/running_to_false.hpp>
 #include <sge/image/colors.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/refresh_rate_dont_care.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
-#include <sge/renderer/matrix_pixel_to_space.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
 #include <sge/image/color/rgba8.hpp>
-#include <sge/input/action.hpp>
-#include <sge/input/system.hpp>
-#include <sge/mainloop/dispatch.hpp>
+#include <sge/input/keyboard/action.hpp>
+#include <sge/input/keyboard/device.hpp>
+#include <sge/viewport/center_on_resize.hpp>
+#include <sge/window/dim.hpp>
+#include <sge/window/instance.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/input.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/matrix/orthogonal_xy.hpp>
+#include <fcppt/math/matrix/orthogonal.hpp>
 #include <fcppt/io/istringstream.hpp>
 #include <fcppt/io/cin.hpp>
 #include <fcppt/io/cerr.hpp>
@@ -120,44 +122,56 @@ void push_edges(
 int main()
 try
 {
+	sge::window::dim const window_dim(
+		1024,
+		768
+	);
+
 	sge::systems::instance const sys(
 		sge::systems::list()
 		(
-			sge::window::parameters(
-				FCPPT_TEXT("pathfinding test")
+			sge::systems::window(
+				sge::window::simple_parameters(
+					FCPPT_TEXT("pathfinding test"),
+					window_dim
+				)
 			)
 		)
 		(
-			sge::renderer::parameters(
-				sge::renderer::display_mode(
-					sge::renderer::screen_size(
-						1024,
-						768
-					),
-					sge::renderer::bit_depth::depth32,
-					sge::renderer::refresh_rate_dont_care
+			sge::systems::renderer(
+				sge::renderer::parameters(
+					sge::renderer::visual_depth::depth32,
+					sge::renderer::depth_stencil_buffer::off,
+					sge::renderer::vsync::on,
+					sge::renderer::no_multi_sampling
 				),
-				sge::renderer::depth_buffer::off,
-				sge::renderer::stencil_buffer::off,
-				sge::renderer::window_mode::windowed,
-				sge::renderer::vsync::on,
-				sge::renderer::no_multi_sampling
+				sge::viewport::center_on_resize(
+					window_dim
+				)
 			)
-		)	
-		(sge::systems::parameterless::input)
+		)
+		(
+			sge::systems::input(
+				sge::systems::input_helper_field(
+					sge::systems::input_helper::keyboard_collector
+				),
+				sge::systems::cursor_option_field::null()
+			)
+		)
 	);
 	
-	sge::input::system_ptr const    is   = sys.input_system();
 	sge::renderer::device_ptr const rend = sys.renderer();
 
 
 	bool running = true;
 
 	fcppt::signal::scoped_connection const cb(
-		is->register_callback(
-			sge::input::action(
-				sge::input::kc::key_escape,
-				boost::phoenix::ref(running) = false
+		sys.keyboard_collector()->key_callback(
+			sge::input::keyboard::action(
+				sge::input::keyboard::key_code::escape,
+				sge::systems::running_to_false(
+					running
+				)
 			)
 		)
 	);
@@ -168,14 +182,47 @@ try
 			(sge::renderer::state::color::clear_color = sge::image::colors::black())
 	);
 
+#if 0
 	rend->transform(
 		sge::renderer::matrix_mode::world,
 		sge::renderer::matrix_pixel_to_space<float>( 
 			rend->screen_size()));
-
+#endif
 	rend->transform(
 		sge::renderer::matrix_mode::projection,
-		fcppt::math::matrix::orthogonal_xy<float>());
+		fcppt::math::matrix::orthogonal(
+			static_cast<
+				sge::renderer::scalar
+			>(
+				0
+			),
+			static_cast<
+				sge::renderer::scalar
+			>(
+				window_dim.w()
+			),
+			static_cast<
+				sge::renderer::scalar
+			>(
+				window_dim.h()
+			),
+			static_cast<
+				sge::renderer::scalar
+			>(
+				0
+			),
+			static_cast<
+				sge::renderer::scalar
+			>(
+				0
+			),
+			static_cast<
+				sge::renderer::scalar
+			>(
+				1
+			)
+		)
+	);
 		
 	std::vector<line_strip> strips;
 	
@@ -336,7 +383,7 @@ try
 
 	while(running)
 	{
-		sge::mainloop::dispatch();
+		sys.window()->dispatch();
 		sge::renderer::scoped_block const block_(rend);
 		BOOST_FOREACH(std::vector<line_strip>::reference r,strips)
 			r.draw();
