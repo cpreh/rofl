@@ -1,7 +1,6 @@
 #include <rofl/indexed_point.hpp>
-#include <rofl/graph/edge_properties.hpp>
 #include <rofl/graph/properties.hpp>
-#include <rofl/graph/vertex_properties.hpp>
+#include <rofl/graph/object.hpp>
 #include <fcppt/math/vector/basic_impl.hpp>
 
 rofl::indexed_point::indexed_point(
@@ -21,7 +20,7 @@ rofl::indexed_point::representation() const
 	return 
 		boost::get_property(
 			*parent_,
-			boost::graph_property_tag()
+			rofl::graph::property_tag()
 		).points()[index_];
 }
 

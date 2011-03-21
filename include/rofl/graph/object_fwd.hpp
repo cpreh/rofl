@@ -12,6 +12,8 @@ class vertex_properties;
 class edge_properties;
 class properties;
 
+struct property_tag{};
+
 typedef
 boost::adjacency_list
 <
@@ -20,7 +22,11 @@ boost::adjacency_list
 	boost::undirectedS,
 	vertex_properties,
 	edge_properties,
-	properties
+	boost::property
+	<
+		property_tag,
+		properties
+	>
 >
 object;
 }

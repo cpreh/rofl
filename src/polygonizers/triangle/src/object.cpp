@@ -197,7 +197,10 @@ rofl::polygonizers::triangle::object::polygonize(
 	fill_points(
 		out.pointlist,
 		2*out.numberofpoints,
-		output.m_property.points());
+		boost::get_property(
+			output,
+			rofl::graph::property_tag()
+		).points());
 	
 	typedef 
 	std::vector

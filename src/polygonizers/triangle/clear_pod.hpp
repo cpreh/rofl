@@ -1,8 +1,8 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_CLEAR_POD_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_CLEAR_POD_HPP_INCLUDED
 
-#include <boost/type_traits/is_pod.hpp>
-#include <boost/utility/enable_if.hpp>
+//#include <boost/type_traits/is_pod.hpp>
+//#include <boost/utility/enable_if.hpp>
 #include <cstring>
 
 namespace rofl
@@ -15,12 +15,16 @@ template
 <
 	typename T
 >
+// is_pod is not reliable
+#if 0
 typename
 boost::enable_if
 <
 	boost::is_pod<T>,
 	void
 >::type
+#endif
+void
 clear_pod(
 	T &t)
 {

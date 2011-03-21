@@ -36,6 +36,7 @@ ADD_LIBRARY(
 
 TARGET_LINK_LIBRARIES(
 	triangle
+	rofl
 	triangleimpl
 	${SGE_CORE_LIBRARY}
 )
