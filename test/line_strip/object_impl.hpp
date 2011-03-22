@@ -11,6 +11,7 @@
 #include <sge/renderer/vf/vertex.hpp>
 #include <sge/renderer/scoped_vertex_lock.hpp>
 #include <sge/renderer/scoped_vertex_buffer.hpp>
+#include <sge/renderer/scoped_vertex_declaration.hpp>
 #include <sge/renderer/lock_mode.hpp>
 #include <sge/renderer/size_type.hpp>
 #include <sge/renderer/nonindexed_primitive_type.hpp>
@@ -129,6 +130,11 @@ sge::line_strip::object<A,B>::draw() const
 {
 	if (points_.empty())
 		return;
+
+	sge::renderer::scoped_vertex_declaration const vb_declaration(
+		renderer_,
+		vertex_declaration_
+	);
 
 	sge::renderer::scoped_vertex_buffer const vb_context(
 		renderer_,
