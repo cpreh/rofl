@@ -11,7 +11,6 @@ ADD_EXECUTABLE(
 TARGET_LINK_LIBRARIES(
 	roflmaintest
 	rofl
-	triangle
 	${SGE_CORE_LIBRARY}
 	${SGE_viewport_LIBRARY}
 	${SGE_systems_LIBRARY}

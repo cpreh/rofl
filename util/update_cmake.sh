@@ -30,16 +30,15 @@ update_cmake_file \
 	-r \
 	src/astar \
 	src/graph \
-	src/math
-
-pushd src/polygonizers/triangle > /dev/null || die
+	src/math \
+	-n \
+	src/polygonizers \
+	src/polygonizers/src
 
 update_cmake_file \
 	CMakeLists.txt \
 	ROFL_TRIANGLE_FILES \
 	-n \
-	. \
+	src/polygonizers/triangle \
 	-r \
-	src/
-
-popd > /dev/null
+	src/polygonizers/triangle/src

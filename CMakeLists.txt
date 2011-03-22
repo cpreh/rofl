@@ -182,11 +182,42 @@ SET(
 	src/math/left.hpp
 	src/math/left_on.hpp
 	src/polygonizer.cpp
+	src/polygonizers/log.hpp
+	src/polygonizers/src/log.cpp
+)
+
+SET(
+	ROFL_TRIANGLE_FILES
+	src/polygonizers/triangle/accumulate_sizes.hpp
+	src/polygonizers/triangle/add_polygon.hpp
+	src/polygonizers/triangle/clear_pod.hpp
+	src/polygonizers/triangle/determine_adjacent_edge.hpp
+	src/polygonizers/triangle/edge_angle.hpp
+	src/polygonizers/triangle/fill_intermediate.hpp
+	src/polygonizers/triangle/fill_points.hpp
+	src/polygonizers/triangle/intermediate.hpp
+	src/polygonizers/triangle/is_convex.hpp
+	src/polygonizers/triangle/line_segments.hpp
+	src/polygonizers/triangle/log.hpp
+	src/polygonizers/triangle/object.hpp
+	src/polygonizers/triangle/src/intermediate.cpp
+	src/polygonizers/triangle/src/log.cpp
+	src/polygonizers/triangle/src/object.cpp
+	src/polygonizers/triangle/src/triangulation.cpp
+	src/polygonizers/triangle/triangle_line_segments.hpp
+	src/polygonizers/triangle/triangulation.hpp
+)
+
+SET_SOURCE_FILES_PROPERTIES(
+	${ROFL_TRIANGLE_FILES}
+	PROPERTIES
+	COMPILE_FLAGS
+	"-DTRILIBRARY -DANSI_DECLARATORS -DREAL=float -DVOID=int"
 )
 
 SET(
 	ROFL_CORE_FILES
-	"${ROFL_CORE_INCLUDE_FILES};${ROFL_CORE_SRC_FILES}"
+	"${ROFL_CORE_INCLUDE_FILES};${ROFL_CORE_SRC_FILES};${ROFL_TRIANGLE_FILES}"
 )
 
 ADD_LIBRARY(
@@ -197,6 +228,7 @@ TARGET_LINK_LIBRARIES(
 	rofl
 	${FCPPT_LIBRARIES}
 	${SGE_CORE_LIBRARY}
+	rofltriangleimpl
 )
 
 INSTALL(
@@ -207,7 +239,7 @@ INSTALL(
 )
 
 ADD_SUBDIRECTORY(
-	src/polygonizers/triangle
+	src/polygonizers/triangle/impl
 )
 
 INSTALL (DIRECTORY include/ DESTINATION include)

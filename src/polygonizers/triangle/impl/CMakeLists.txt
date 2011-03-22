@@ -3,6 +3,16 @@ ADD_DEFINITIONS(
 )
 
 ADD_LIBRARY(
-	triangleimpl
+	rofltriangleimpl
+	SHARED
 	triangle.c
 )
+
+IF(
+	UNIX
+)
+	TARGET_LINK_LIBRARIES(
+		rofltriangleimpl
+		m
+	)
+ENDIF()
