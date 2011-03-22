@@ -133,6 +133,7 @@ try
 					window_dim
 				)
 			)
+			.dont_show()
 		)
 		(
 			sge::systems::renderer(
@@ -226,55 +227,84 @@ try
 	fcppt::io::cout 
 		<< FCPPT_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
 		<< FCPPT_TEXT("Border: \n");
+
 	rofl::polygon border;
+
 	fcppt::string line;
-	std::getline(
-		fcppt::io::cin,
-		line);
-	fcppt::io::istringstream ss(
-		line);
-	ss >> border;
-	fcppt::io::cout 
-		<< FCPPT_TEXT("The polygon entered was:")
-		<< border 
-		<< FCPPT_TEXT("\n");
-	rofl::polygon_with_holes polys(
-		border);
-	fcppt::io::cout 
-		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
-	while(true)
-	{
+
+	while(
 		std::getline(
 			fcppt::io::cin,
-			line);
+			line
+		)
+	)
+	{
+		fcppt::io::istringstream ss(
+			line
+		);
+
+		if(
+			ss >> border
+		)
+			break;
+
+		fcppt::io::cerr << "Invalid border!\n";
+	}
+
+	fcppt::io::cout 
+		<< FCPPT_TEXT("The polygon border entered was:")
+		<< border 
+		<< FCPPT_TEXT('\n');
+
+	rofl::polygon_with_holes polys(
+		border
+	);
+
+	fcppt::io::cout 
+		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
+	while(
+		std::getline(
+			fcppt::io::cin,
+			line
+		)
+	)
+	{
 		if (line.empty())
 			break;
+
 		fcppt::io::istringstream ss(
 			line);
+
 		rofl::polygon hole;
-		ss >> hole;
-		if (!ss)
-			fcppt::io::cerr << FCPPT_TEXT("Invalid input!");
-		else
+
+		if(
+			!(ss >> hole)
+		)
 		{
-			fcppt::io::cout << FCPPT_TEXT("The hole entered was: ") << hole << FCPPT_TEXT("\n");
-			polys.add_hole(
-				hole);
-			line_strip 
-				s(
-					rend,
-					line_strip_params()
-						.style(
-							sge::line_strip::style::loop));
-							
-			BOOST_FOREACH(rofl::polygon::const_reference r,hole)
-				s.push_back(
-					fcppt::math::vector::structure_cast<line_strip::point>(
-						r));
-					
-			strips.push_back(
-				s);
+			fcppt::io::cerr << FCPPT_TEXT("Invalid input!");
+
+			continue;
 		}
+		
+		fcppt::io::cout << FCPPT_TEXT("The hole entered was: ") << hole << FCPPT_TEXT("\n");
+
+		polys.add_hole(
+			hole);
+
+		line_strip 
+			s(
+				rend,
+				line_strip_params()
+					.style(
+						sge::line_strip::style::loop));
+							
+		BOOST_FOREACH(rofl::polygon::const_reference r,hole)
+			s.push_back(
+				fcppt::math::vector::structure_cast<line_strip::point>(
+					r));
+					
+		strips.push_back(
+			s);
 	}
 		
 	rofl::graph::object g;
@@ -377,6 +407,8 @@ try
 	
 	strips.push_back(
 		path_strip);
+
+	sys.window()->show();
 
 	while(running)
 	{
