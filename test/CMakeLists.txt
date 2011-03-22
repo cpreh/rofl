@@ -1,6 +1,6 @@
 FIND_PACKAGE(
 	SGE REQUIRED
-	COMPONENTS sprite systems texture viewport
+	COMPONENTS systems texture viewport
 )
 
 ADD_EXECUTABLE(
@@ -11,6 +11,7 @@ ADD_EXECUTABLE(
 TARGET_LINK_LIBRARIES(
 	roflmaintest
 	rofl
+	${FCPPT_LIBRARIES}
 	${SGE_CORE_LIBRARY}
 	${SGE_viewport_LIBRARY}
 	${SGE_systems_LIBRARY}
@@ -24,9 +25,9 @@ ADD_EXECUTABLE(
 
 TARGET_LINK_LIBRARIES(
 	roflpolygonbuilder
+	${FCPPT_LIBRARIES}
 	${SGE_CORE_LIBRARY}
 	${SGE_viewport_LIBRARY}
-	${SGE_sprite_LIBRARY}
 	${SGE_systems_LIBRARY}
 	${SGE_texture_LIBRARY}
 )

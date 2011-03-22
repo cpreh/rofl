@@ -23,16 +23,6 @@
 #include <sge/input/cursor/object.hpp>
 #include <sge/input/keyboard/action.hpp>
 #include <sge/input/keyboard/device.hpp>
-#include <sge/sprite/object_impl.hpp>
-#include <sge/sprite/system.hpp>
-#include <sge/sprite/external_system_impl.hpp>
-#include <sge/sprite/parameters_impl.hpp>
-#include <sge/sprite/no_color.hpp>
-#include <sge/sprite/choices.hpp>
-#include <sge/sprite/type_choices.hpp>
-#include <sge/sprite/with_dim.hpp>
-#include <sge/sprite/with_texture.hpp>
-#include <sge/sprite/render_one.hpp>
 #include <sge/viewport/center_on_resize.hpp>
 #include <sge/window/dim.hpp>
 #include <sge/window/instance.hpp>
@@ -55,22 +45,6 @@
 
 namespace
 {
-
-typedef sge::sprite::choices<
-	sge::sprite::type_choices<
-		int,
-		float,
-		sge::sprite::no_color
-	>,
-	boost::mpl::vector2<
-		sge::sprite::with_dim,
-		sge::sprite::with_texture
-	>
-> sprite_choices;
-
-typedef sge::sprite::object<
-	sprite_choices
-> sprite_object;
 
 typedef
 sge::line_strip::object
@@ -102,8 +76,7 @@ public:
 		sge::input::cursor::object_ptr,
 		line_strip &current,
 		line_strip &border,
-		hole_vector &holes,
-		sprite_object &
+		hole_vector &holes
 	);
 private:
 	line_strip &current_;
@@ -113,7 +86,6 @@ private:
 	fcppt::signal::scoped_connection const
 		button_connection_,
 		move_connection_;
-	sprite_object &cursor_sprite_;
 	
 	void
 	button_callback(
@@ -130,8 +102,8 @@ cursor_handler::cursor_handler(
 	sge::input::cursor::object_ptr const _cursor,
 	line_strip &_current,
 	line_strip &_border,
-	hole_vector &_holes,
-	sprite_object &_cursor_sprite)
+	hole_vector &_holes
+)
 :
 	current_(
 		_current),
@@ -158,16 +130,10 @@ cursor_handler::cursor_handler(
 				std::tr1::placeholders::_1
 			)
 		)
-	),	
-	cursor_sprite_(
-		_cursor_sprite)
+	)
 {
 	current_.push_back(
 		line_strip::point::null()
-	);
-
-	cursor_sprite_.pos( 
-		sprite_object::vector::null()
 	);
 }
 
@@ -226,17 +192,13 @@ cursor_handler::move_callback(
 	sge::input::cursor::move_event const &_event
 )
 {
-	cursor_sprite_.pos(
+	current_.back(
 		fcppt::math::vector::structure_cast<
-			sprite_object::vector
+			line_strip::point
 		>(
 			_event.position()
 		)
 	);
-
-	current_.back(
-		fcppt::math::vector::structure_cast<line_strip::point>(
-			cursor_sprite_.pos()));
 }
 
 }
@@ -348,13 +310,6 @@ try
 		)
 	);
 
-	typedef sge::sprite::system<
-		sprite_choices
-	>::type sprite_system;
-
-	sprite_system ss(
-		sys.renderer());
-		
 	line_strip border(
 		sys.renderer(),
 		line_strip_params()
@@ -391,32 +346,13 @@ try
 		sys.image_loader(),
 		sys.renderer());
 
-	typedef sge::sprite::parameters<
-		sprite_choices
-	> sprite_parameters;
-
-	sprite_object cursor_sprite(
-		sprite_parameters()
-		.pos(
-			sprite_object::vector::null()
-		)
-		.texture(
-			creator_.load(
-				sge::config::media_path()/FCPPT_TEXT("gui")/FCPPT_TEXT("cursor.png")
-			)
-		)
-		.texture_size()
-		.elements()
-	);
-
 	cursor_handler handler(
 		sys.cursor_demuxer(),
 		current_strip,
 		border,
-		holes,
-		cursor_sprite);
+		holes
+	);
 
-	// this is set by sprite::system as well, but rather set it here explicitly
 	sys.renderer()->state(
 		sge::renderer::state::list
 			(sge::renderer::state::bool_::clear_backbuffer = true)
@@ -428,11 +364,6 @@ try
 
 		sge::renderer::scoped_block const block_(
 			sys.renderer()
-		);
-
-		sge::sprite::render_one(
-			ss,
-			cursor_sprite
 		);
 
 		current_strip.draw();
