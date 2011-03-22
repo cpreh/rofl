@@ -16,7 +16,6 @@
 #include <sge/image/colors.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
-#include <sge/renderer/refresh_rate_dont_care.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
@@ -41,8 +40,6 @@
 #include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
-#include <boost/spirit/home/phoenix/core/reference.hpp>
-#include <boost/spirit/home/phoenix/operator/self.hpp>
 #include <exception>
 #include <vector>
 #include <iterator>

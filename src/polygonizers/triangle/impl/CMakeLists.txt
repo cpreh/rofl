@@ -16,3 +16,10 @@ IF(
 		m
 	)
 ENDIF()
+
+INSTALL(
+	TARGETS
+	rofltriangleimpl
+	DESTINATION
+	${CMAKE_INSTALL_PREFIX}/lib
+)
