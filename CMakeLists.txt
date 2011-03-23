@@ -37,6 +37,10 @@ IF (CMAKE_COMPILER_IS_GNUCXX OR COMPILER_IS_CLANGPP)
 		"-Wold-style-cast"
 	)
 
+	IF (CMAKE_COMPILER_IS_GNUCXX)
+		ADD_DEFINITIONS ("-Wsign-conversion")
+	ENDIF()
+
 	SET (CMAKE_CXX_FLAGS_RELEASE "-O3 -fomit-frame-pointer -DNDEBUG")
 ENDIF ()
 
