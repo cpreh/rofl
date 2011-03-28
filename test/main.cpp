@@ -312,8 +312,10 @@ try
 		polys,
 		g);
 
+	/*
 	rofl::graph::simplify(
 		g);
+	*/
 	
 	for(
 		rofl::graph::const_vertex_iterator i = rofl::graph::vertices_begin(g);
