@@ -8,6 +8,7 @@ IF (CMAKE_COMPILER_IS_GNUCXX OR FCPPT_UTILS_COMPILER_IS_CLANGPP)
 	REMOVE_DEFINITIONS(-Wsign-promo)
 	REMOVE_DEFINITIONS(-Wold-style-cast)
 	REMOVE_DEFINITIONS(-pedantic-errors)
+	REMOVE_DEFINITIONS(-fvisibility=hidden)
 ENDIF()
 
 # remove broken timer code
