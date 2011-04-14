@@ -4,14 +4,20 @@
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_iterator.hpp>
 #include <rofl/graph/const_vertex_iterator.hpp>
+#include <rofl/symbol.hpp>
 
 namespace rofl
 {
 namespace graph
 {
-vertex_iterator const vertices_end(
+ROFL_SYMBOL
+vertex_iterator const
+vertices_end(
 	object &);
-const_vertex_iterator const vertices_end(
+
+ROFL_SYMBOL
+const_vertex_iterator const
+vertices_end(
 	object const &);
 }
 }

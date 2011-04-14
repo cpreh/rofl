@@ -3,6 +3,7 @@
 
 #include <rofl/polygon.hpp>
 #include <rofl/indexed_polygon.hpp>
+#include <rofl/symbol.hpp>
 #include <fcppt/math/vector/basic_impl.hpp>
 
 namespace rofl
@@ -14,23 +15,32 @@ class vertex_properties
 {
 public:
 	// vertex properties have to be def-ctible
+	ROFL_SYMBOL
 	vertex_properties();
+
+	ROFL_SYMBOL
 	vertex_properties(
 		indexed_polygon const &);
+
+	ROFL_SYMBOL
 	vertex_properties(
 		indexed_polygon const &,
 		point const &);
 		
+	ROFL_SYMBOL
 	indexed_polygon const &
 	polygon() const;
 	
+	ROFL_SYMBOL
 	void
 	polygon(
 		indexed_polygon const &);
 	
+	ROFL_SYMBOL
 	point const &
 	barycenter() const;
 	
+	ROFL_SYMBOL
 	void
 	barycenter(
 		point const &);
