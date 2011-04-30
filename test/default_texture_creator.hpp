@@ -3,7 +3,7 @@
 
 #include <sge/image2d/multi_loader_fwd.hpp>
 
-#include <sge/renderer/device_ptr.hpp>
+#include <sge/renderer/device_fwd.hpp>
 
 #include <sge/texture/const_part_ptr.hpp>
 #include <sge/texture/manager.hpp>
@@ -26,7 +26,7 @@ class default_texture_creator
 public:
 	default_texture_creator(
 		sge::image2d::multi_loader &,
-		sge::renderer::device_ptr);
+		sge::renderer::device &);
 	
 	sge::texture::const_part_ptr
 	load(

@@ -73,7 +73,7 @@ class cursor_handler
 {
 public:
 	cursor_handler(
-		sge::input::cursor::object_ptr,
+		sge::input::cursor::object &,
 		line_strip &current,
 		line_strip &border,
 		hole_vector &holes
@@ -99,7 +99,7 @@ private:
 };
 
 cursor_handler::cursor_handler(
-	sge::input::cursor::object_ptr const _cursor,
+	sge::input::cursor::object &_cursor,
 	line_strip &_current,
 	line_strip &_border,
 	hole_vector &_holes
@@ -114,7 +114,7 @@ cursor_handler::cursor_handler(
 	has_border_(
 		false),
 	button_connection_(
-		_cursor->button_callback(
+		_cursor.button_callback(
 			std::tr1::bind(
 				&cursor_handler::button_callback,
 				this,
@@ -123,7 +123,7 @@ cursor_handler::cursor_handler(
 		)
 	),
 	move_connection_(
-		_cursor->move_callback(
+		_cursor.move_callback(
 			std::tr1::bind(
 				&cursor_handler::move_callback,
 				this,
@@ -253,12 +253,10 @@ try
 		)
 	);
 
-	sge::renderer::device_ptr const rend = sys.renderer();
-
 	bool running = true;
 
 	fcppt::signal::scoped_connection const cb(
-		sys.keyboard_collector()->key_callback(
+		sys.keyboard_collector().key_callback(
 			sge::input::keyboard::action(
 				sge::input::keyboard::key_code::escape,
 				sge::systems::running_to_false(
@@ -268,13 +266,13 @@ try
 		)
 	);
 
-	sys.renderer()->state(
+	sys.renderer().state(
 		sge::renderer::state::list
 			(sge::renderer::state::bool_::clear_backbuffer = true)
 			(sge::renderer::state::color::clear_color = sge::image::colors::black())
 	);
 
-	sys.renderer()->transform(
+	sys.renderer().transform(
 		sge::renderer::matrix_mode::projection,
 		fcppt::math::matrix::orthogonal(
 			static_cast<
@@ -353,14 +351,14 @@ try
 		holes
 	);
 
-	sys.renderer()->state(
+	sys.renderer().state(
 		sge::renderer::state::list
 			(sge::renderer::state::bool_::clear_backbuffer = true)
 			(sge::renderer::state::color::clear_color = sge::image::colors::black()));
 		
 	while(running)
 	{
-		sys.window()->dispatch();
+		sys.window().dispatch();
 
 		sge::renderer::scoped_block const block_(
 			sys.renderer()

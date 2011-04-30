@@ -7,26 +7,28 @@
 #include <sge/texture/fragmented.hpp>
 #include <sge/texture/fragmented_unique_ptr.hpp>
 #include <sge/texture/no_fragmented.hpp>
+#include <fcppt/ref.hpp>
 #include <boost/spirit/home/phoenix/object/construct.hpp>
 #include <boost/spirit/home/phoenix/object/new.hpp>
 
 sge::bullet::test::default_texture_creator::default_texture_creator(
 	sge::image2d::multi_loader &_il, 
-	sge::renderer::device_ptr const _rend
+	sge::renderer::device &_rend
 )
 :
 	il_(
 		_il
 	),
 	man_(
-		_rend,
 		boost::phoenix::construct<
 			sge::texture::fragmented_unique_ptr
 		>(
 			boost::phoenix::new_<
 				sge::texture::no_fragmented
 			>(
-				_rend,
+				fcppt::ref(
+					_rend
+				),
 				sge::image::color::format::rgba8,
 				sge::renderer::texture::filter::linear,
 				sge::renderer::texture::address_mode2(
@@ -45,6 +47,6 @@ sge::bullet::test::default_texture_creator::load(
 	return 
 		sge::texture::add_image(
 			man_,
-			il_.load(
+			*il_.load(
 				_path));
 }

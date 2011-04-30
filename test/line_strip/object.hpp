@@ -4,7 +4,7 @@
 #include "parameters_fwd.hpp"
 #include "style.hpp"
 #include <fcppt/math/vector/static.hpp>
-#include <sge/renderer/device_ptr.hpp>
+#include <sge/renderer/device_fwd.hpp>
 #include <sge/renderer/vertex_buffer_ptr.hpp>
 #include <sge/renderer/vertex_declaration_ptr.hpp>
 #include <vector>
@@ -35,7 +35,7 @@ public:
 	typedef Color color;
 	
 	object(
-		sge::renderer::device_ptr,
+		sge::renderer::device &,
 		parameters<unit,color> const &);
 		
 	object(
@@ -66,7 +66,7 @@ public:
 	back(
 		point const &);
 private:
-	sge::renderer::device_ptr renderer_;
+	sge::renderer::device *renderer_;
 	style::type style_;
 	color color_;
 	point_sequence points_;

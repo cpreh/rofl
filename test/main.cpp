@@ -81,7 +81,7 @@ void push_edges(
 	EdgeIterator i,
 	EdgeIterator const end,
 	StripContainer &strips,
-	sge::renderer::device_ptr const rend)
+	sge::renderer::device &rend)
 {
 	for (; i != end; ++i)
 	{
@@ -158,13 +158,10 @@ try
 		)
 	);
 	
-	sge::renderer::device_ptr const rend = sys.renderer();
-
-
 	bool running = true;
 
 	fcppt::signal::scoped_connection const cb(
-		sys.keyboard_collector()->key_callback(
+		sys.keyboard_collector().key_callback(
 			sge::input::keyboard::action(
 				sge::input::keyboard::key_code::escape,
 				sge::systems::running_to_false(
@@ -174,7 +171,7 @@ try
 		)
 	);
 
-	rend->state(
+	sys.renderer().state(
 		sge::renderer::state::list
 			(sge::renderer::state::bool_::clear_backbuffer = true)
 			(sge::renderer::state::color::clear_color = sge::image::colors::black())
@@ -186,7 +183,7 @@ try
 		sge::renderer::matrix_pixel_to_space<float>( 
 			rend->screen_size()));
 #endif
-	rend->transform(
+	sys.renderer().transform(
 		sge::renderer::matrix_mode::projection,
 		fcppt::math::matrix::orthogonal(
 			static_cast<
@@ -293,7 +290,7 @@ try
 
 		line_strip 
 			s(
-				rend,
+				sys.renderer(),
 				line_strip_params()
 					.style(
 						sge::line_strip::style::loop));
@@ -327,7 +324,7 @@ try
 		
 		line_strip 
 			s(
-				rend,
+				sys.renderer(),
 				line_strip_params()
 					.style(
 						sge::line_strip::style::loop
@@ -357,7 +354,7 @@ try
 		boost::edges(g).first,
 		boost::edges(g).second,
 		strips,
-		rend);
+		sys.renderer());
 	
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
 	
@@ -391,7 +388,7 @@ try
 	//fcppt::io::cerr << splist.size() << " elements\n";
 	
 	line_strip path_strip(
-		rend,
+		sys.renderer(),
 		line_strip_params()
 			.color(
 				line_strip::color(
@@ -410,12 +407,15 @@ try
 	strips.push_back(
 		path_strip);
 
-	sys.window()->show();
+	sys.window().show();
 
 	while(running)
 	{
-		sys.window()->dispatch();
-		sge::renderer::scoped_block const block_(rend);
+		sys.window().dispatch();
+
+		sge::renderer::scoped_block const block_(
+			sys.renderer()
+		);
 		BOOST_FOREACH(std::vector<line_strip>::reference r,strips)
 			r.draw();
 	}

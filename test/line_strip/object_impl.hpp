@@ -28,11 +28,11 @@ template
 	typename B
 >
 sge::line_strip::object<A,B>::object(
-	sge::renderer::device_ptr const _renderer,
+	sge::renderer::device &_renderer,
 	parameters<A,B> const &params)
 :
 	renderer_(
-		_renderer),
+		&_renderer),
 	style_(
 		params.style()),
 	color_(
@@ -132,13 +132,13 @@ sge::line_strip::object<A,B>::draw() const
 		return;
 
 	sge::renderer::scoped_vertex_declaration const vb_declaration(
-		renderer_,
-		vertex_declaration_
+		*renderer_,
+		*vertex_declaration_
 	);
 
 	sge::renderer::scoped_vertex_buffer const vb_context(
-		renderer_,
-		vb_
+		*renderer_,
+		*vb_
 	);
 
 	renderer_->render(
@@ -205,14 +205,14 @@ sge::line_strip::object<A,B>::regenerate_vb()
 			renderer::vf::dynamic::make_format<format>());
 	vb_ = 
 		renderer_->create_vertex_buffer(
-			vertex_declaration_,
+			*vertex_declaration_,
 			renderer::vf::dynamic::part_index(0),
 			static_cast<renderer::size_type>(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
 			renderer::resource_flags::none);
 
 	renderer::scoped_vertex_lock const vblock(
-		vb_,
+		*vb_,
 		sge::renderer::lock_mode::writeonly);
 	
 	vertex_view const vertices(
