@@ -141,7 +141,7 @@ sge::line_strip::object<A,B>::draw() const
 		*vb_
 	);
 
-	renderer_->render(
+	renderer_->render_nonindexed(
 		renderer::first_vertex(
 			fcppt::math::null<sge::renderer::size_type>()
 		),
