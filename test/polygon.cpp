@@ -13,6 +13,10 @@
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
+#include <sge/renderer/projection/dim.hpp>
+#include <sge/renderer/projection/far.hpp>
+#include <sge/renderer/projection/near.hpp>
+#include <sge/renderer/projection/orthogonal_wh.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
@@ -29,10 +33,11 @@
 #include <sge/all_extensions.hpp>
 #include <fcppt/container/bitfield/basic_impl.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
+#include <fcppt/math/matrix/basic_impl.hpp>
+#include <fcppt/math/dim/structure_cast.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/matrix/orthogonal.hpp>
 #include <fcppt/math/almost_zero.hpp>
 #include <fcppt/tr1/functional.hpp>
 #include <fcppt/io/cerr.hpp>
@@ -274,35 +279,16 @@ try
 
 	sys.renderer().transform(
 		sge::renderer::matrix_mode::projection,
-		fcppt::math::matrix::orthogonal(
-			static_cast<
-				sge::renderer::scalar
+		sge::renderer::projection::orthogonal_wh(
+			fcppt::math::dim::structure_cast<
+				sge::renderer::projection::dim
 			>(
+				window_dim
+			),
+			sge::renderer::projection::near(
 				0
 			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				window_dim.w()
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				window_dim.h()
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				0
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				0
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
+			sge::renderer::projection::far(
 				1
 			)
 		)

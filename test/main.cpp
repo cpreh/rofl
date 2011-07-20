@@ -17,6 +17,10 @@
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
+#include <sge/renderer/projection/dim.hpp>
+#include <sge/renderer/projection/far.hpp>
+#include <sge/renderer/projection/near.hpp>
+#include <sge/renderer/projection/orthogonal_wh.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/renderer/state/var.hpp>
 #include <sge/renderer/state/trampoline.hpp>
@@ -27,12 +31,13 @@
 #include <sge/window/dim.hpp>
 #include <sge/window/instance.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
+#include <fcppt/math/matrix/basic_impl.hpp>
+#include <fcppt/math/dim/structure_cast.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/input.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/matrix/orthogonal.hpp>
 #include <fcppt/io/istringstream.hpp>
 #include <fcppt/io/cin.hpp>
 #include <fcppt/io/cerr.hpp>
@@ -177,48 +182,23 @@ try
 			(sge::renderer::state::color::back_buffer_clear_color = sge::image::colors::black())
 	);
 
-#if 0
-	rend->transform(
-		sge::renderer::matrix_mode::world,
-		sge::renderer::matrix_pixel_to_space<float>( 
-			rend->screen_size()));
-#endif
 	sys.renderer().transform(
 		sge::renderer::matrix_mode::projection,
-		fcppt::math::matrix::orthogonal(
-			static_cast<
-				sge::renderer::scalar
+		sge::renderer::projection::orthogonal_wh(
+			fcppt::math::dim::structure_cast<
+				sge::renderer::projection::dim
 			>(
+				window_dim
+			),
+			sge::renderer::projection::near(
 				0
 			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				window_dim.w()
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				window_dim.h()
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				0
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
-				0
-			),
-			static_cast<
-				sge::renderer::scalar
-			>(
+			sge::renderer::projection::far(
 				1
 			)
 		)
 	);
-		
+
 	std::vector<line_strip> strips;
 	
 	fcppt::io::cout 
