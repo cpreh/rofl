@@ -19,24 +19,24 @@ rofl::astar::generate_trail(
 		graph::vertex_descriptor
 	>
 	predecessors;
-	
+
 	predecessors p;
-		
+
 	try
 	{
-		typedef 
+		typedef
 		boost::property_map
 		<
-			graph::object, 
+			graph::object,
 			rofl::unit rofl::graph::edge_properties::*
 		>::type
 		edge_weight_map;
-		
-		edge_weight_map w = 
+
+		edge_weight_map w =
 			boost::get(
-				&rofl::graph::edge_properties::length_, 
+				&rofl::graph::edge_properties::length_,
 				const_cast<graph::object &>(
-					g)); 
+					g));
 
 		boost::astar_search(
 			const_cast<graph::object &>(
@@ -55,7 +55,7 @@ rofl::astar::generate_trail(
 	catch (found_goal const &)
 	{
 	}
-	
+
 	for (graph::vertex_descriptor v = goal;;v = p[v])
 	{
 		_trail.push_front(

@@ -22,7 +22,7 @@ line_segments(
 	std::vector < math::line_segment<T> > segments;
 	for (typename math::polygon<T>::const_iterator i = p.begin(); i != p.end(); ++i)
 	{
-		T const &next = 
+		T const &next =
 			i == boost::prior(p.end())
 			?
 				p.front()

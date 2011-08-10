@@ -14,34 +14,34 @@ class polygon_with_holes
 {
 public:
 	typedef math::polygon<T> polygon;
-	
-	typedef 
-	std::vector<polygon> 
+
+	typedef
+	std::vector<polygon>
 	hole_set;
 
 	polygon_with_holes();
-	
+
 	polygon_with_holes(
 		polygon const &,
 		hole_set const & = hole_set());
-		
-	void 
+
+	void
 	border(
 		polygon const &);
-		
+
 	polygon const &
 	border() const;
-	
-	void 
+
+	void
 	add_hole(
 		polygon const &);
-		
+
 	hole_set const &
 	holes() const;
-	
+
 	polygon &
 	border();
-	
+
 	hole_set &
 	holes();
 private:
@@ -70,49 +70,49 @@ rofl::math::polygon_with_holes<T>::polygon_with_holes(
 		_holes)
 {
 }
-	
+
 template<typename T>
-void 
+void
 rofl::math::polygon_with_holes<T>::border(
 	polygon const &_border)
 {
-	border_ = 
+	border_ =
 		_border;
 }
-	
+
 template<typename T>
 typename
 rofl::math::polygon_with_holes<T>::polygon const &
 rofl::math::polygon_with_holes<T>::border() const
 {
-	return 
+	return
 		border_;
 }
 
 template<typename T>
-void 
+void
 rofl::math::polygon_with_holes<T>::add_hole(
 	polygon const &_hole)
 {
 	holes_.push_back(
 		_hole);
 }
-	
+
 template<typename T>
-typename 
+typename
 rofl::math::polygon_with_holes<T>::hole_set const &
 rofl::math::polygon_with_holes<T>::holes() const
 {
-	return 
+	return
 		holes_;
 }
 
 template<typename T>
-typename 
+typename
 rofl::math::polygon_with_holes<T>::polygon &
 rofl::math::polygon_with_holes<T>::border()
 {
-	return 
+	return
 		border_;
 }
 
@@ -120,7 +120,7 @@ template<typename T>
 typename rofl::math::polygon_with_holes<T>::hole_set &
 rofl::math::polygon_with_holes<T>::holes()
 {
-	return 
+	return
 		holes_;
 }
 

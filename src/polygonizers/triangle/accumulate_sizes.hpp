@@ -14,7 +14,7 @@ template<typename Container>
 typename Container::size_type accumulate_sizes(
 	Container const &c)
 {
-	typename Container::size_type s = 
+	typename Container::size_type s =
 		fcppt::math::null<typename Container::size_type>();
 	BOOST_FOREACH(typename Container::const_reference r,c)
 		s += r.size();

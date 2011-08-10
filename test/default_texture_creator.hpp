@@ -27,7 +27,7 @@ public:
 	default_texture_creator(
 		sge::image2d::multi_loader &,
 		sge::renderer::device &);
-	
+
 	sge::texture::const_part_ptr
 	load(
 		fcppt::filesystem::path const &);

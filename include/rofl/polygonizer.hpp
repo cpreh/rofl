@@ -17,11 +17,11 @@ class polygonizer
 protected:
 	polygonizer();
 public:
-	virtual void 
+	virtual void
 	polygonize(
 		polygon_with_holes const &,
 		graph::object &) = 0;
-	
+
 	virtual ~polygonizer();
 };
 }

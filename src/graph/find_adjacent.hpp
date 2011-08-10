@@ -14,7 +14,7 @@ std::pair
 <
 	indexed_point,
 	placement::type
-> const 
+> const
 find_adjacent(
 	indexed_polygon const &,
 	indexed_point const &,

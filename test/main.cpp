@@ -74,7 +74,7 @@ sge::line_strip::parameters
 	sge::image::color::rgba8
 >
 line_strip_params;
-	
+
 template
 <
 	typename Graph,
@@ -103,18 +103,18 @@ void push_edges(
 						)
 					)
 			);
-		
-		rofl::point const 
+
+		rofl::point const
 			&p0 = g[boost::source(*i,g)].barycenter(),
 			&p1 = g[boost::target(*i,g)].barycenter();
-			
+
 		s.push_back(
 			fcppt::math::vector::structure_cast<line_strip::point>(
 				p0));
 		s.push_back(
 			fcppt::math::vector::structure_cast<line_strip::point>(
 				p1));
-				
+
 		strips.push_back(
 			s);
 	}
@@ -162,7 +162,7 @@ try
 			)
 		)
 	);
-	
+
 	bool running = true;
 
 	fcppt::signal::scoped_connection const cb(
@@ -200,8 +200,8 @@ try
 	);
 
 	std::vector<line_strip> strips;
-	
-	fcppt::io::cout 
+
+	fcppt::io::cout
 		<< FCPPT_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
 		<< FCPPT_TEXT("Border: \n");
 
@@ -228,16 +228,16 @@ try
 		fcppt::io::cerr << "Invalid border!\n";
 	}
 
-	fcppt::io::cout 
+	fcppt::io::cout
 		<< FCPPT_TEXT("The polygon border entered was:")
-		<< border 
+		<< border
 		<< FCPPT_TEXT('\n');
 
 	rofl::polygon_with_holes polys(
 		border
 	);
 
-	fcppt::io::cout 
+	fcppt::io::cout
 		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
 	while(
 		std::getline(
@@ -262,28 +262,28 @@ try
 
 			continue;
 		}
-		
+
 		fcppt::io::cout << FCPPT_TEXT("The hole entered was: ") << hole << FCPPT_TEXT("\n");
 
 		polys.add_hole(
 			hole);
 
-		line_strip 
+		line_strip
 			s(
 				sys.renderer(),
 				line_strip_params()
 					.style(
 						sge::line_strip::style::loop));
-							
+
 		BOOST_FOREACH(rofl::polygon::const_reference r,hole)
 			s.push_back(
 				fcppt::math::vector::structure_cast<line_strip::point>(
 					r));
-					
+
 		strips.push_back(
 			s);
 	}
-		
+
 	rofl::graph::object g;
 	rofl::create_polygonizer()->polygonize(
 		polys,
@@ -293,16 +293,16 @@ try
 	rofl::graph::simplify(
 		g);
 	*/
-	
+
 	for(
 		rofl::graph::const_vertex_iterator i = rofl::graph::vertices_begin(g);
 		i != rofl::graph::vertices_end(g);
 		++i)
 	{
-		rofl::indexed_polygon const &p = 
+		rofl::indexed_polygon const &p =
 			g[*i].polygon();
-		
-		line_strip 
+
+		line_strip
 			s(
 				sys.renderer(),
 				line_strip_params()
@@ -318,55 +318,55 @@ try
 						)
 					)
 			);
-		
+
 		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
 			s.push_back(
 				fcppt::math::vector::structure_cast<line_strip::point>(
 					r.representation()));
-				
+
 		strips.insert(
 			strips.begin(),
 			s);
 	}
-		
+
 	push_edges(
 		g,
 		boost::edges(g).first,
 		boost::edges(g).second,
 		strips,
 		sys.renderer());
-	
+
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
-	
-	unsigned number_of_vertices = 
+
+	unsigned number_of_vertices =
 		std::distance(
 			boost::vertices(g).first,
 			boost::vertices(g).second);
-	
+
 	std::srand(
 		std::time(
 			0));
-	
-	vertex 
-		start = 
+
+	vertex
+		start =
 			*boost::next(
 				boost::vertices(g).first,
 				std::rand() % number_of_vertices),
-		end = 
+		end =
 			*boost::next(
 				boost::vertices(g).first,
 				std::rand() % number_of_vertices);
-		
-		
+
+
 	rofl::astar::trail splist;
 	rofl::astar::generate_trail(
 		g,
 		start,
 		end,
 		splist);
-	
+
 	//fcppt::io::cerr << splist.size() << " elements\n";
-	
+
 	line_strip path_strip(
 		sys.renderer(),
 		line_strip_params()
@@ -379,11 +379,11 @@ try
 				)
 			)
 	);
-	
+
 	BOOST_FOREACH(rofl::astar::trail::const_reference r,splist)
 		path_strip.push_back(
 			g[r].barycenter());
-	
+
 	strips.push_back(
 		path_strip);
 

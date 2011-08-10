@@ -6,8 +6,8 @@
 
 namespace rofl
 {
-typedef 
-math::polygon<point> 
+typedef
+math::polygon<point>
 polygon;
 }
 

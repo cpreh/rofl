@@ -22,18 +22,18 @@
 
 namespace
 {
-// This is a giant hack and it goes as follows: We want to remove 
-// vertices from the graph and at the same time use a vector to 
-// store those vertices (because then astar will be faster). 
+// This is a giant hack and it goes as follows: We want to remove
+// vertices from the graph and at the same time use a vector to
+// store those vertices (because then astar will be faster).
 // While iterating through the vertices, deletion is not advisable, so
 // we store the vertices in a container. This could be a vector or a list.
 // At the end of the algorithm, we delete all of the vertices in this
 // container _but_ one deletion invalidates all other vertex_descriptors
 // because we use a vector. To tackle this problem we use a set which is sorted
-// with std::greater. This only works because we know vertex_descriptor is 
+// with std::greater. This only works because we know vertex_descriptor is
 // the index into the vector where the vertices are stored. And it works very well
 // because the larger indices are deleted first.
-typedef 
+typedef
 std::set
 <
 	rofl::graph::vertex_descriptor,
@@ -52,57 +52,57 @@ void edit_out_edge(
 {
 	if (deletes.find(v) != deletes.end())
 		return;
-	
-	rofl::graph::vertex_properties 
-		&up = 
+
+	rofl::graph::vertex_properties
+		&up =
 			g[u],
-		&vp = 
+		&vp =
 			g[v];
-			
+
 	if(
 		!rofl::graph::mergeable(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()))
 		return;
-	
+
 	up.polygon(
 		rofl::graph::merge(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()));
-	
+
 	up.barycenter(
 		rofl::math::barycenter(
 			rofl::dereference(
 				up.polygon())));
-	
+
 	std::pair
 	<
 		rofl::graph::out_edge_iterator,
 		rofl::graph::out_edge_iterator
-	> q = 
+	> q =
 		boost::out_edges(
 			v,
 			g);
-	
+
 	for (; q.first != q.second; ++q.first)
 	{
 		FCPPT_ASSERT(
 			boost::source(*q.first,g) == v);
-			
+
 		FCPPT_ASSERT(
 			deletes.find(v) == deletes.end());
-			
-		rofl::graph::vertex_descriptor w = 
+
+		rofl::graph::vertex_descriptor w =
 			boost::target(
 				*q.first,
 				g);
-		
+
 		if (u == w)
 			continue;
-		
-		std::pair<rofl::graph::edge_descriptor,bool> n = 
+
+		std::pair<rofl::graph::edge_descriptor,bool> n =
 			boost::add_edge(
 				u,
 				w,
@@ -111,28 +111,28 @@ void edit_out_edge(
 						vp.barycenter()-g[w].barycenter()),
 					g[*q.first].adjacent_edge()),
 				g);
-		
+
 		out_edges.push(
 			n.first);
-		
+
 		/* very pedantic asserts
 		FCPPT_ASSERT(
 			std::find(
 				g[u].polygon().begin(),
 				g[u].polygon().end(),
 				g[*q.first].adjacent_edge().start()) != g[u].polygon().end());
-				
+
 		FCPPT_ASSERT(
 			std::find(
 				g[u].polygon().begin(),
 				g[u].polygon().end(),
 				g[*q.first].adjacent_edge().end()) != g[u].polygon().end());*/
 	}
-	
+
 	boost::clear_vertex(
 		v,
 		g);
-		
+
 	deletes.insert(
 		v);
 }
@@ -147,7 +147,7 @@ void edit_vertex(
 	// beliebigen Stellen))
 	if (deletes.find(u) != deletes.end())
 		return;
-	
+
 	out_queue out_edges;
 	for(
 		std::pair
@@ -155,18 +155,18 @@ void edit_vertex(
 			rofl::graph::out_edge_iterator,
 			rofl::graph::out_edge_iterator
 		>
-		p = 
+		p =
 		boost::out_edges(
 			u,
 			g);
-		p.first != p.second; 
+		p.first != p.second;
 		p.first++)
 		out_edges.push(
 			*p.first);
-	
+
 	while (!out_edges.empty())
 	{
-		rofl::graph::edge_descriptor e = 
+		rofl::graph::edge_descriptor e =
 			out_edges.front();
 		out_edges.pop();
 		edit_out_edge(
@@ -188,25 +188,25 @@ void rofl::graph::simplify(
 #if 0
 	for (std::pair<edge_iterator,edge_iterator> i = boost::edges(g); i.first != i.second; ++i.first)
 	{
-		bool const m = 
+		bool const m =
 			mergeable(
 				g[boost::source(*i.first,g)].polygon(),
 				g[boost::target(*i.first,g)].polygon(),
 				g[*i.first].adjacent_edge()) ;
-				
-		sge::cerr 
-			<< "polygons " 
-			<< dereference(g[boost::source(*i.first,g)].polygon()) 
-			<< " and " 
-			<< dereference(g[boost::target(*i.first,g)].polygon()) 
-			<< " can be merged: " 
+
+		sge::cerr
+			<< "polygons "
+			<< dereference(g[boost::source(*i.first,g)].polygon())
+			<< " and "
+			<< dereference(g[boost::target(*i.first,g)].polygon())
+			<< " can be merged: "
 			<< m
 			<< "\n";
-		
+
 		if (!m)
 			continue;
-		
-		sge::cerr 
+
+		sge::cerr
 			<< "merging results in " <<
 		dereference(merge(
 			g[boost::source(*i.first,g)].polygon(),
@@ -226,7 +226,7 @@ void rofl::graph::simplify(
 		boost::remove_vertex(
 			r,
 			g);
-	
+
 	/* PSEUDOCODE
 	foreach (vertex v : g)
 	{
@@ -234,18 +234,18 @@ void rofl::graph::simplify(
 		while (!ecken.empty())
 		{
 			(v,u,kante) = ecken.pop(); // u = neue Ecke
-			
+
 			if (!verschmelzbar(v,u,kante)) // guckt, ob kante unnötig ist
 				continue;
-		
-			v.polygon() = 
+
+			v.polygon() =
 				verschmelze(
 					u.polygon(),
 					v.polygon(),
 					kante);
-			
+
 			barycenter anpassen
-					
+
 			// Nachbarn übernehmen und später durchgehen
 			foreach (w in ecken(u,w,anderekante)) // w = neue (transitive) Ecke
 			{
@@ -256,7 +256,7 @@ void rofl::graph::simplify(
 				ecken.insert(
 					(v,w,anderekante));
 			}
-			
+
 			// alle Kanten, die u betreffen
 			delete (u,*,*);
 			// u selber

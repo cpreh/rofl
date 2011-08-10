@@ -14,9 +14,9 @@ namespace detail
 {
 
 template<typename ContainerIterator>
-struct cyclic_iterator_helper 
+struct cyclic_iterator_helper
 {
-	typedef 
+	typedef
 	boost::iterator_facade
 	<
 		cyclic_iterator<ContainerIterator>,
@@ -31,10 +31,10 @@ struct cyclic_iterator_helper
 template<typename ContainerIterator>
 class cyclic_iterator
 :
-	public detail::cyclic_iterator_helper<ContainerIterator>::base_type 
+	public detail::cyclic_iterator_helper<ContainerIterator>::base_type
 {
 public:
-	typedef typename 
+	typedef typename
 	detail::cyclic_iterator_helper
 	<
 		ContainerIterator
@@ -57,50 +57,50 @@ public:
 		container_iterator_type const &it,
 		container_iterator_type const &begin,
 		container_iterator_type const &end);
-		
+
 	template<typename OtherIterator>
 	cyclic_iterator<ContainerIterator> &
 	operator=(
 		cyclic_iterator<OtherIterator> const &);
 
-	void 
+	void
 	begin(
 		container_iterator_type const &);
-		
-	void 
+
+	void
 	end(
 		container_iterator_type const &);
 
-	container_iterator_type 
+	container_iterator_type
 	begin() const;
-	
-	container_iterator_type 
+
+	container_iterator_type
 	end() const;
 
-	container_iterator_type 
+	container_iterator_type
 	get() const;
 private:
 	friend class boost::iterator_core_access;
-	void 
+	void
 	increment();
 
-	void 
+	void
 	decrement();
 
 	template<typename OtherIterator>
-	bool 
+	bool
 	equal(
 		cyclic_iterator<OtherIterator> const &r) const;
 
-	reference 
+	reference
 	dereference() const;
 
 	template<typename OtherIterator>
-	difference_type 
+	difference_type
 	distance_to(
 		cyclic_iterator<OtherIterator> const &r) const;
 private:
-	container_iterator_type 
+	container_iterator_type
 		it_,
 		begin_,
 		end_;

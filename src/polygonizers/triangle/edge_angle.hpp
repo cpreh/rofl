@@ -10,8 +10,8 @@ namespace polygonizers
 namespace triangle
 {
 template<typename Vector>
-typename 
-Vector::value_type 
+typename
+Vector::value_type
 edge_angle(
 	Vector const &a,
 	Vector const &b,

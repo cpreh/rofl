@@ -29,7 +29,7 @@ void fill_points(
 	point;
 
 	typedef typename
-	point::value_type	
+	point::value_type
 	unit;
 
 	for (size_type i = fcppt::math::null<size_type>(); i < size; i += static_cast<size_type>(2))

@@ -24,12 +24,12 @@ public:
 		Value,
 		2
 	>::type point;
-	typedef 
+	typedef
 	std::vector
 	<
 		point
 	> point_sequence;
-	
+
 	parameters();
 	parameters &style(
 		sge::line_strip::style::type);

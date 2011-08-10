@@ -10,7 +10,7 @@ template
 	typename V
 >
 sge::line_strip::parameters<A,V>::parameters()
-: 
+:
 	style_(
 		style::no_loop),
 	color_(
@@ -41,7 +41,7 @@ template
 	typename A,
 	typename V
 >
-sge::line_strip::style::type 
+sge::line_strip::style::type
 sge::line_strip::parameters<A,V>::style() const
 {
 	return style_;

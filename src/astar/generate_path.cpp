@@ -19,7 +19,7 @@ while (true)
 	int i;
 	for (i = current+1; i < n; ++i)
 	{
-		c = 
+		c =
 			strecke
 			(
 				pfad[current].punkt,
@@ -44,7 +44,7 @@ while (true)
 */
 
 
-void 
+void
 rofl::astar::generate_path(
 	graph::object const &g,
 	trail const &t,
@@ -59,25 +59,25 @@ rofl::astar::generate_path(
 	typedef
 	sge::optional<rofl::line_segment>
 	optional_line_segment;
-	
-	typedef 
+
+	typedef
 	std::pair
 	<
 		optional_line_segment,
 		rofl::point
 	>
 	pair;
-	
-	typedef 
-	std::vector<pair> 
+
+	typedef
+	std::vector<pair>
 	intermediate_path;
-	
+
 	intermediate_path ip;
 	ip.push_back(
 		pair(
 			optional_line_segment(),
 			start));
-	
+
 	for (trail::const_iterator i = t.begin(); i != t.end(); ++i)
 	{
 		boost::edges(*i,*boost::next(i));
@@ -86,7 +86,7 @@ rofl::astar::generate_path(
 	/*
 	FCPPT_ASSERT(
 		!t.empty());
-		
+
 	if (t.size() == 1)
 	{
 		p.push_back(
@@ -95,25 +95,25 @@ rofl::astar::generate_path(
 			end);
 		return;
 	}
-	
-	point last_point = 
+
+	point last_point =
 		start;
-	graph::vertex_descriptor last_vertex = 
+	graph::vertex_descriptor last_vertex =
 		t.front();
 
 	for(
-		trail::const_iterator i = 
+		trail::const_iterator i =
 			boost::next(
-				t.begin()); 
-		i != t.end(); 
+				t.begin());
+		i != t.end();
 		++i)
 	{
-		line_segment const &r = 
+		line_segment const &r =
 			g[boost::edge(
 				last_vertex,
 				*i,
 				g)].adjacent_edge();
-	
+
 		if (!math::line_segments_intersect(l,r))
 			break;
 	}

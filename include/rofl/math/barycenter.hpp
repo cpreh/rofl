@@ -15,23 +15,23 @@ typename Container::value_type barycenter(
 	typename
 	Container::value_type
 	vector;
-	
-	typedef 
-	typename 
-	vector::value_type 
+
+	typedef
+	typename
+	vector::value_type
 	scalar;
-	
+
 	scalar const r =
 		static_cast<scalar>(1)/
 		static_cast<scalar>(p.size());
-	
-	vector out = 
+
+	vector out =
 		vector::null();
-	
+
 	BOOST_FOREACH(typename Container::const_reference i,p)
 		out += i;
-	
-	return 
+
+	return
 		r * out;
 }
 }

@@ -6,7 +6,7 @@ std::pair
 <
 	rofl::indexed_point,
 	rofl::graph::placement::type
-> const 
+> const
 rofl::graph::find_adjacent(
 	indexed_polygon const &p,
 	indexed_point const &a,
@@ -16,26 +16,26 @@ rofl::graph::find_adjacent(
 	{
 		if ((*i) != a)
 			continue;
-		
-		rofl::indexed_point const 
-			&next = 
+
+		rofl::indexed_point const
+			&next =
 				i == boost::prior(p.end())
 				?
 					p.front()
 				:
 					*boost::next(i),
-			&prev = 
+			&prev =
 				i == p.begin()
 				?
 					p.back()
 				:
 					*boost::prior(i);
-		
-		return 
-			next == b 
-			? 
+
+		return
+			next == b
+			?
 				std::make_pair(prev,placement::previous)
-			: 
+			:
 				std::make_pair(next,placement::next);
 	}
 	FCPPT_ASSERT(false);

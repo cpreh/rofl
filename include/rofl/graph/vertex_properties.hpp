@@ -26,20 +26,20 @@ public:
 	vertex_properties(
 		indexed_polygon const &,
 		point const &);
-		
+
 	ROFL_SYMBOL
 	indexed_polygon const &
 	polygon() const;
-	
+
 	ROFL_SYMBOL
 	void
 	polygon(
 		indexed_polygon const &);
-	
+
 	ROFL_SYMBOL
 	point const &
 	barycenter() const;
-	
+
 	ROFL_SYMBOL
 	void
 	barycenter(

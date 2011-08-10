@@ -13,13 +13,13 @@ bool left(
 	T const &b,
 	T const &c)
 {
-	return 
+	return
 		area_sign(
 			a,
 			b,
 			c) > 0;
 }
-	
+
 }
 }
 

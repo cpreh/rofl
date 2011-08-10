@@ -10,20 +10,20 @@ class line_segment
 {
 public:
 	typedef Vector point;
-	
+
 	line_segment();
-	
+
 	line_segment(
 		point const &start,
 		point const &end);
-	
+
 	point const &start() const;
 	point const &end() const;
-	
+
 	bool operator==(
 		line_segment const &) const;
 private:
-	point 
+	point
 		start_,end_;
 };
 }
@@ -50,16 +50,16 @@ rofl::math::line_segment<Vector>::line_segment(
 }
 
 template<typename Vector>
-typename 
+typename
 rofl::math::line_segment<Vector>::point const &
 rofl::math::line_segment<Vector>::start() const
 {
-	return 
+	return
 		start_;
 }
 
 template<typename Vector>
-typename 
+typename
 rofl::math::line_segment<Vector>::point const &
 rofl::math::line_segment<Vector>::end() const
 {
@@ -71,7 +71,7 @@ bool
 rofl::math::line_segment<Vector>::operator==(
 	line_segment const &r) const
 {
-	return 
+	return
 		(start_ == r.start_ &&
 		end_ == r.end_) ||
 		(start_ == r.end_ &&

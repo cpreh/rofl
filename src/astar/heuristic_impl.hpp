@@ -16,7 +16,7 @@ rofl::unit
 rofl::astar::heuristic::operator()(
 	graph::vertex_descriptor const &v) const
 {
-	return 
+	return
 		fcppt::math::vector::length(
 			graph_[v].barycenter()-
 			graph_[destination_].barycenter());

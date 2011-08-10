@@ -14,7 +14,7 @@ template<typename ContainerIterator>
 template<typename OtherIterator>
 rofl::cyclic_iterator<ContainerIterator>::cyclic_iterator(
 	cyclic_iterator<OtherIterator> const &other)
-: 
+:
 	it_(
 		other.it_),
 	begin_(
@@ -28,7 +28,7 @@ rofl::cyclic_iterator<ContainerIterator>::cyclic_iterator(
 	container_iterator_type const &_it,
 	container_iterator_type const &_begin,
 	container_iterator_type const &_end)
-: 
+:
 	it_(
 		_it),
 	begin_(
@@ -50,7 +50,7 @@ rofl::cyclic_iterator<ContainerIterator>::operator=(
 }
 
 template<typename ContainerIterator>
-void 
+void
 rofl::cyclic_iterator<ContainerIterator>::begin(
 	container_iterator_type const &_begin)
 {
@@ -58,7 +58,7 @@ rofl::cyclic_iterator<ContainerIterator>::begin(
 }
 
 template<typename ContainerIterator>
-void 
+void
 rofl::cyclic_iterator<ContainerIterator>::end(
 	container_iterator_type const &_end)
 {
@@ -66,7 +66,7 @@ rofl::cyclic_iterator<ContainerIterator>::end(
 }
 
 template<typename ContainerIterator>
-typename 
+typename
 rofl::cyclic_iterator<ContainerIterator>::container_iterator_type
 rofl::cyclic_iterator<ContainerIterator>::begin() const
 {
@@ -74,7 +74,7 @@ rofl::cyclic_iterator<ContainerIterator>::begin() const
 }
 
 template<typename ContainerIterator>
-typename 
+typename
 rofl::cyclic_iterator<ContainerIterator>::container_iterator_type
 rofl::cyclic_iterator<ContainerIterator>::end() const
 {
@@ -82,7 +82,7 @@ rofl::cyclic_iterator<ContainerIterator>::end() const
 }
 
 template<typename ContainerIterator>
-typename 
+typename
 rofl::cyclic_iterator<ContainerIterator>::container_iterator_type
 rofl::cyclic_iterator<ContainerIterator>::get() const
 {
@@ -90,7 +90,7 @@ rofl::cyclic_iterator<ContainerIterator>::get() const
 }
 
 template<typename ContainerIterator>
-void 
+void
 rofl::cyclic_iterator<ContainerIterator>::increment()
 {
 	if (begin_ != end_ && ++it_ == end_)
@@ -98,18 +98,18 @@ rofl::cyclic_iterator<ContainerIterator>::increment()
 }
 
 template<typename ContainerIterator>
-void 
+void
 rofl::cyclic_iterator<ContainerIterator>::decrement()
 {
 	if (begin_ != end_ && it_ == begin_)
-		it_ = 
+		it_ =
 			boost::prior(
 				end_);
 }
 
 template<typename ContainerIterator>
 template<typename OtherIterator>
-bool 
+bool
 rofl::cyclic_iterator<ContainerIterator>::equal(
 	cyclic_iterator<OtherIterator> const &r) const
 {
@@ -125,7 +125,7 @@ rofl::cyclic_iterator<ContainerIterator>::dereference() const
 
 template<typename ContainerIterator>
 template<typename OtherIterator>
-typename 
+typename
 rofl::cyclic_iterator<ContainerIterator>::difference_type
 rofl::cyclic_iterator<ContainerIterator>::distance_to(
 	cyclic_iterator<OtherIterator> const &r) const

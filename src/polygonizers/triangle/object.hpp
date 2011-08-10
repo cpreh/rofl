@@ -14,7 +14,7 @@ class object
 	public polygonizer
 {
 public:
-	void 
+	void
 	polygonize(
 		polygon_with_holes const &,
 		graph::object &);

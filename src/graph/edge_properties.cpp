@@ -11,16 +11,16 @@ rofl::graph::edge_properties::edge_properties(
 {
 }
 
-rofl::unit 
+rofl::unit
 rofl::graph::edge_properties::length() const
 {
-	return 
+	return
 		length_;
 }
 
 rofl::indexed_line_segment const &
 rofl::graph::edge_properties::adjacent_edge() const
 {
-	return 
+	return
 		adjacent_edge_;
 }

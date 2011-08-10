@@ -12,7 +12,7 @@ bool on_boundary(
 	T const &p,
 	rofl::math::line_segment<T> const &l)
 {
-	return 
+	return
 		p == l.start() || p == l.end();
 }
 

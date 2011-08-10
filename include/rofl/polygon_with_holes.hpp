@@ -6,8 +6,8 @@
 
 namespace rofl
 {
-typedef 
-math::polygon_with_holes<point> 
+typedef
+math::polygon_with_holes<point>
 polygon_with_holes;
 }
 

@@ -3,7 +3,7 @@
 rofl::graph::vertex_iterator const rofl::graph::vertices_end(
 	object &o)
 {
-	return 
+	return
 		boost::vertices(
 			o).second;
 }
@@ -11,7 +11,7 @@ rofl::graph::vertex_iterator const rofl::graph::vertices_end(
 rofl::graph::const_vertex_iterator const rofl::graph::vertices_end(
 	object const &o)
 {
-	return 
+	return
 		boost::vertices(
 			o).second;
 }

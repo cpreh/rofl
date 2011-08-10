@@ -32,7 +32,7 @@ rofl::graph::vertex_properties::vertex_properties(
 rofl::indexed_polygon const &
 rofl::graph::vertex_properties::polygon() const
 {
-	return 
+	return
 		polygon_;
 }
 
@@ -40,7 +40,7 @@ void
 rofl::graph::vertex_properties::polygon(
 	indexed_polygon const &_polygon)
 {
-	polygon_ = 
+	polygon_ =
 		_polygon;
 }
 
@@ -48,7 +48,7 @@ rofl::graph::vertex_properties::polygon(
 rofl::point const &
 rofl::graph::vertex_properties::barycenter() const
 {
-	return 
+	return
 		barycenter_;
 }
 

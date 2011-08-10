@@ -33,14 +33,14 @@ void fill_intermediate(
 	for (int tri = 0; tri < numberoftriangles; ++tri)
 	{
 		indexed_polygon g;
-		std::size_t const tri_base = 
+		std::size_t const tri_base =
 			static_cast<std::size_t>(
 				3*tri);
 		// NOTE: somehow triangle outputs the corners in _clockwise_ order
 		// so we switch it here.
 		for (int corner = 2; corner >= 0; --corner)
 		{
-			std::size_t const corner_base = 
+			std::size_t const corner_base =
 				static_cast<std::size_t>(
 					tri_base + corner);
 			g.push_back(
@@ -49,7 +49,7 @@ void fill_intermediate(
 					static_cast<index>(
 						trilist[corner_base])));
 		}
-		
+
 		graph_polygons.push_back(
 			intermediate(
 				boost::add_vertex(

@@ -33,7 +33,7 @@ public:
 	typedef typename container::size_type size_type;
 	typedef typename container::iterator iterator;
 	typedef typename container::const_iterator const_iterator;
-	
+
 	void push_back(point const &p) { points_.push_back(p); }
 	size_type size() const { return points_.size(); }
 	reference front() { return points_.front(); }
@@ -48,9 +48,9 @@ public:
 	const_iterator end() const { return points_.end(); }
 	bool empty() const { return points_.empty(); }
 	template<typename It>
-	void insert(iterator const x, It const b, It const e) 
-	{ 
-		points_.insert(x,b,e); 
+	void insert(iterator const x, It const b, It const e)
+	{
+		points_.insert(x,b,e);
 	}
 private:
 	container points_;

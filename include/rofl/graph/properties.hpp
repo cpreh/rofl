@@ -13,7 +13,7 @@ class properties
 {
 public:
 	typedef std::vector<point> point_vector;
-	
+
 	ROFL_SYMBOL
 	properties();
 

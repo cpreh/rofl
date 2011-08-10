@@ -28,6 +28,6 @@ rofl::log()
 		)
 		.create()
 	);
-	
+
 	return global_;
 }

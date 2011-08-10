@@ -13,7 +13,7 @@ bool left_on(
 	T const &b,
 	T const &c)
 {
-	return 
+	return
 		area_sign(
 			a,
 			b,

@@ -10,7 +10,7 @@ namespace rofl
 {
 namespace astar
 {
-void 
+void
 generate_path(
 	graph::object const &,
 	trail const &,

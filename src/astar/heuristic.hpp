@@ -11,11 +11,11 @@ namespace astar
 class heuristic
 {
 public:
-	inline 
+	inline
 	heuristic(
 		graph::object const &,
 		graph::vertex_descriptor const &);
-		
+
 	inline
 	unit
 	operator()(

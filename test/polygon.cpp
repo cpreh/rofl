@@ -91,7 +91,7 @@ private:
 	fcppt::signal::scoped_connection const
 		button_connection_,
 		move_connection_;
-	
+
 	void
 	button_callback(
 		sge::input::cursor::button_event const &
@@ -166,11 +166,11 @@ cursor_handler::button_callback(
 			if (current_.points().size() < static_cast<line_strip::point_sequence::size_type>(4))
 				return;
 			// last point is the cursor position
-			line_strip::point const last = 
+			line_strip::point const last =
 				current_.points().back();
-				
+
 			current_.pop_back();
-			
+
 			if (!has_border_)
 			{
 				border_ = current_;
@@ -310,7 +310,7 @@ try
 	);
 
 	hole_vector holes;
-	
+
 	line_strip current_strip(
 		sys.renderer(),
 		line_strip_params()
@@ -325,7 +325,7 @@ try
 				)
 			)
 	);
-	
+
 	sge::bullet::test::default_texture_creator creator_(
 		sys.image_loader(),
 		sys.renderer());
@@ -341,7 +341,7 @@ try
 		sge::renderer::state::list
 			(sge::renderer::state::bool_::clear_back_buffer = true)
 			(sge::renderer::state::color::back_buffer_clear_color = sge::image::colors::black()));
-		
+
 	while(running)
 	{
 		sys.window().dispatch();

@@ -22,9 +22,9 @@ public:
 	ROFL_SYMBOL
 	point const &
 	representation() const;
-	
+
 	ROFL_SYMBOL
-	bool 
+	bool
 	operator==(
 		indexed_point const &) const;
 private:

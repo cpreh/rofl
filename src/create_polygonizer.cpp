@@ -4,6 +4,6 @@
 
 rofl::polygonizer_ptr const rofl::create_polygonizer()
 {
-	return 
+	return
 		fcppt::make_shared_ptr<polygonizers::triangle::object>();
 }

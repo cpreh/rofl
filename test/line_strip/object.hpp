@@ -27,37 +27,37 @@ public:
 	<
 		unit,
 	2>::type point;
-	typedef 
+	typedef
 	std::vector
 	<
 		point
 	> point_sequence;
 	typedef Color color;
-	
+
 	object(
 		sge::renderer::device &,
 		parameters<unit,color> const &);
-		
+
 	object(
 		object const &);
-		
+
 	object &
 	operator=(
 		object const &);
-		
-	void 
+
+	void
 	push_back(
 		point const &);
-	
+
 	void
 	pop_back();
-		
-	void 
+
+	void
 	clear();
-	
-	void 
+
+	void
 	draw() const;
-	
+
 	// only read access because we have to regenerate the vb afterwards
 	point_sequence const &
 	points() const;

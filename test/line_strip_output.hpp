@@ -12,7 +12,7 @@ operator<<(
 	fcppt::io::ostream &o,
 	sge::line_strip::object<A,B> const &s)
 {
-	return 
+	return
 		fcppt::math::detail::one_dimensional_output(
 			o,
 			s.points());

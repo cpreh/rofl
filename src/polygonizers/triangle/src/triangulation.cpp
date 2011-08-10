@@ -15,7 +15,7 @@ rofl::polygonizers::triangle::triangulation::triangulation(
 	// Why this? Because triangulate incorrectly takes a "char*" instead of "char const*"
 	std::string options(
 		_options);
-	
+
 	::triangulate(
 		&(*options.begin()),
 		&_in,

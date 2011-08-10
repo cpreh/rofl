@@ -7,8 +7,8 @@ namespace rofl
 {
 namespace graph
 {
-typedef 
-boost::graph_traits<object const>::vertex_iterator 
+typedef
+boost::graph_traits<object const>::vertex_iterator
 const_vertex_iterator;
 }
 }

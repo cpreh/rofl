@@ -87,7 +87,7 @@ template
 	typename A,
 	typename B
 >
-void 
+void
 sge::line_strip::object<A,B>::push_back(
 	sge::line_strip::object<A,B>::point const &v)
 {
@@ -101,7 +101,7 @@ template
 	typename A,
 	typename B
 >
-void 
+void
 sge::line_strip::object<A,B>::pop_back()
 {
 	points_.pop_back();
@@ -113,7 +113,7 @@ template
 	typename A,
 	typename B
 >
-void 
+void
 sge::line_strip::object<A,B>::clear()
 {
 	points_.clear();
@@ -125,7 +125,7 @@ template
 	typename A,
 	typename B
 >
-void 
+void
 sge::line_strip::object<A,B>::draw() const
 {
 	if (points_.empty())
@@ -156,23 +156,23 @@ template
 	typename A,
 	typename B
 >
-void 
+void
 sge::line_strip::object<A,B>::regenerate_vb()
 {
-	typedef 
+	typedef
 	renderer::vf::pos
 	<
 		unit,
 		2
 	> pos_type;
-	
-	typedef 
+
+	typedef
 	renderer::vf::color
 	<
 		typename color::format
 	> color_type;
-	
-	typedef 
+
+	typedef
 	renderer::vf::part
 	<
 		boost::mpl::vector
@@ -190,20 +190,20 @@ sge::line_strip::object<A,B>::regenerate_vb()
 			format_part
 		>
 	> format;
-	
-	typedef 
+
+	typedef
 	renderer::vf::view
 	<
 		format_part
 	> vertex_view;
-	
+
 	if (points_.empty())
 		return;
-	
+
 	vertex_declaration_ =
 		renderer_->create_vertex_declaration(
 			renderer::vf::dynamic::make_format<format>());
-	vb_ = 
+	vb_ =
 		renderer_->create_vertex_buffer(
 			*vertex_declaration_,
 			renderer::vf::dynamic::part_index(0),
@@ -214,12 +214,12 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	renderer::scoped_vertex_lock const vblock(
 		*vb_,
 		sge::renderer::lock_mode::writeonly);
-	
+
 	vertex_view const vertices(
 		vblock.value());
 
 	typename vertex_view::iterator vb_it = vertices.begin();
-	
+
 	BOOST_FOREACH(point const &v,points_)
 	{
 		(*vb_it).template set<pos_type>(
@@ -231,7 +231,7 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	switch (style_)
 	{
 		case style::no_loop: break;
-		case style::loop: 
+		case style::loop:
 			(*vb_it).template set<pos_type>(
 				points_.front());
 			(*vb_it).template set<color_type>(
@@ -248,7 +248,7 @@ template
 typename sge::line_strip::object<A,B>::point_sequence const &
 sge::line_strip::object<A,B>::points() const
 {
-	return 
+	return
 		points_;
 }
 

@@ -8,7 +8,7 @@ rofl::astar::goal_visitor::goal_visitor(
 {
 }
 
-void 
+void
 rofl::astar::goal_visitor::examine_vertex(
 	graph::vertex_descriptor const &v,
 	graph::object const &)

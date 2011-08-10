@@ -15,8 +15,8 @@ int area_sign(
 	T const &c)
 {
 // cross: l.x() * r.y() - l.y() * r.x()
-	typename T::value_type 
-	area2 = 
+	typename T::value_type
+	area2 =
 		(b-a).x() * (c-a).y() - (b-a).y() * (c-a).y();
 #if 0
 		fcppt::math::vector::cross(
@@ -24,14 +24,14 @@ int area_sign(
 			c-a);
 #endif
 
-	if (area2 > static_cast<typename T::value_type>(0.5)) 
+	if (area2 > static_cast<typename T::value_type>(0.5))
 		return 1;
 
-	return 
+	return
 		area2 < static_cast<typename T::value_type>(-0.5)
 		?
 			-1
-		: 
+		:
 			0;
 
 }

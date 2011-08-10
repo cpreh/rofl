@@ -13,21 +13,21 @@ rofl::indexed_point::indexed_point(
 		_index)
 {
 }
-	
+
 rofl::point const &
 rofl::indexed_point::representation() const
 {
-	return 
+	return
 		boost::get_property(
 			*parent_,
 			rofl::graph::property_tag()
 		).points()[index_];
 }
 
-bool 
+bool
 rofl::indexed_point::operator==(
 	indexed_point const &p) const
 {
-	return 
+	return
 		index_ == p.index_;
 }

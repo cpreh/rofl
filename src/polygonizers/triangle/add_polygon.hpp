@@ -20,8 +20,8 @@ void add_polygon(
 	Segments &ss,
 	Polygon const &p)
 {
-	typename 
-	Points::size_type base = 
+	typename
+	Points::size_type base =
 		static_cast<typename Points::size_type>(
 			ps.size()/2);
 	for (typename Polygon::size_type i = 0; i < p.size(); i++)
@@ -32,7 +32,7 @@ void add_polygon(
 			p[i][1]);
 		ss.push_back(
 			base+i);
-		// At the end, loop back to the first vertex in the 
+		// At the end, loop back to the first vertex in the
 		// polygon (do not use 0 here but "base" instead)
 		ss.push_back(
 			i == static_cast<typename Polygon::size_type>(p.size()-1)

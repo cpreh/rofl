@@ -5,7 +5,7 @@ function die()
 
 function update_cmake_file()
 {
-	local cmakefile="$1"	
+	local cmakefile="$1"
 
 	update_cmake \
 		"${cmakefile}" \

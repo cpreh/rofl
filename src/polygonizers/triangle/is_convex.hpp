@@ -19,18 +19,18 @@ bool is_convex(
 	typename
 	Polygon::value_type
 	vector;
-	
-	typedef 
-	typename 
-	vector::value_type 
+
+	typedef
+	typename
+	vector::value_type
 	scalar;
-	
-	scalar const sign = 
+
+	scalar const sign =
 		edge_angle(
 			p.front(),
 			*boost::next(p.begin()),
 			*boost::next(p.begin(),2));
-	
+
 			/*
 	cyclic_iterator<Polygon::const_iterator> i;
 	for (typename Polygon::size_type c = 0; c < p.size(); ++c)
@@ -39,18 +39,18 @@ bool is_convex(
 				edge_angle(*i,*boost::next(i),*boost::next(i,2)),
 				sign))
 				*/
-	
+
 	for (typename Polygon::const_iterator i = p.begin(); i != p.end(); ++i)
 	{
-		vector const 
+		vector const
 			&a = *i,
-			&b = 
-				i == boost::prior(p.end()) 
-				? 
-					p.front() 
-				: 
+			&b =
+				i == boost::prior(p.end())
+				?
+					p.front()
+				:
 					*boost::next(i),
-			&c = 
+			&c =
 				i == boost::prior(p.end())
 				?
 					*boost::next(p.begin(),2)
@@ -60,7 +60,7 @@ bool is_convex(
 						p.front()
 					:
 						*boost::next(i,2));
-		
+
 		if (!fcppt::math::compare(edge_angle(a,b,c),sign))
 			return false;
 	}

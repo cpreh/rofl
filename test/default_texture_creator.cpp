@@ -12,7 +12,7 @@
 #include <boost/spirit/home/phoenix/object/new.hpp>
 
 sge::bullet::test::default_texture_creator::default_texture_creator(
-	sge::image2d::multi_loader &_il, 
+	sge::image2d::multi_loader &_il,
 	sge::renderer::device &_rend
 )
 :
@@ -44,7 +44,7 @@ sge::texture::const_part_ptr
 sge::bullet::test::default_texture_creator::load(
 	fcppt::filesystem::path const &_path)
 {
-	return 
+	return
 		sge::texture::add_image(
 			man_,
 			*il_.load(

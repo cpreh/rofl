@@ -15,7 +15,7 @@ namespace polygonizers
 {
 namespace triangle
 {
-indexed_line_segment const 
+indexed_line_segment const
 determine_adjacent_edge(
 	indexed_polygon const &p0,
 	indexed_polygon const &p1)
@@ -23,7 +23,7 @@ determine_adjacent_edge(
 	triangle_line_segments const
 		p0s(line_segments(p0)),
 		p1s(line_segments(p1));
-		
+
 	BOOST_FOREACH(
 		triangle_line_segments::const_reference r,
 		p0s)
@@ -36,7 +36,7 @@ determine_adjacent_edge(
 				return r;
 		}
 	}
-	
+
 	FCPPT_ASSERT_MESSAGE(
 		false,
 		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));

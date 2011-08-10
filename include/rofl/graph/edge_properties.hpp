@@ -16,12 +16,12 @@ public:
 		unit,
 		indexed_line_segment const &);
 
-	unit 
+	unit
 	length() const;
 
 	indexed_line_segment const &
 	adjacent_edge() const;
-	unit 
+	unit
 		length_;
 private:
 	indexed_line_segment
