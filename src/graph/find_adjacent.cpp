@@ -1,5 +1,5 @@
 #include "find_adjacent.hpp"
-#include <fcppt/assert.hpp>
+#include <fcppt/assert/unreachable.hpp>
 #include <boost/next_prior.hpp>
 
 std::pair
@@ -38,5 +38,6 @@ rofl::graph::find_adjacent(
 			:
 				std::make_pair(next,placement::next);
 	}
-	FCPPT_ASSERT(false);
+
+	FCPPT_ASSERT_UNREACHABLE
 }

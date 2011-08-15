@@ -21,6 +21,7 @@
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/indexed_point.hpp>
+#include <fcppt/assert/error.hpp>
 #include <fcppt/container/raw_vector.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
@@ -29,7 +30,6 @@
 #include <fcppt/log/parameters/inherited.hpp>
 #include <fcppt/log/headers.hpp>
 #include <fcppt/tr1/array.hpp>
-#include <fcppt/assert.hpp>
 #include <fcppt/text.hpp>
 #include <cstring>
 #include <cstddef>
@@ -189,7 +189,7 @@ rofl::polygonizers::triangle::object::polygonize(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Neighbors end"));
 
-	FCPPT_ASSERT(out.numberofcorners == 3);
+	FCPPT_ASSERT_ERROR(out.numberofcorners == 3);
 
 	// first, create an array rofl::points from the out.pointlist.
 	// This is stored in the graph properties, and the indexed_points

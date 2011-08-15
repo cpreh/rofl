@@ -10,10 +10,10 @@
 #include <rofl/graph/edge_descriptor.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/dereference.hpp>
+#include <fcppt/assert/error.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
-#include <fcppt/assert.hpp>
 #include "../cyclic_iterator.hpp"
 #include "../cyclic_iterator_impl.hpp"
 #include <queue>
@@ -88,10 +88,10 @@ void edit_out_edge(
 
 	for (; q.first != q.second; ++q.first)
 	{
-		FCPPT_ASSERT(
+		FCPPT_ASSERT_ERROR(
 			boost::source(*q.first,g) == v);
 
-		FCPPT_ASSERT(
+		FCPPT_ASSERT_ERROR(
 			deletes.find(v) == deletes.end());
 
 		rofl::graph::vertex_descriptor w =

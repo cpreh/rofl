@@ -5,7 +5,7 @@
 #include "triangle_line_segments.hpp"
 #include <rofl/indexed_line_segment.hpp>
 #include <rofl/indexed_polygon.hpp>
-#include <fcppt/assert_message.hpp>
+#include <fcppt/assert/unreachable_message.hpp>
 #include <fcppt/text.hpp>
 #include <boost/foreach.hpp>
 
@@ -37,9 +37,8 @@ determine_adjacent_edge(
 		}
 	}
 
-	FCPPT_ASSERT_MESSAGE(
-		false,
-		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
+	FCPPT_ASSERT_UNREACHABLE_MESSAGE(
+		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"))
 }
 }
 }

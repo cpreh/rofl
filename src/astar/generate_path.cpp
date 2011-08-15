@@ -1,7 +1,6 @@
 #include <rofl/astar/generate_path.hpp>
 #include <rofl/line_segment.hpp>
 #include <fcppt/optional.hpp>
-#include <fcppt/assert.hpp>
 #include <boost/foreach.hpp>
 #include <boost/next_prior.hpp>
 
