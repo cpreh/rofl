@@ -1,33 +1,13 @@
+#include "log_location.hpp"
+#include "log_parameters.hpp"
 #include <rofl/log.hpp>
-#include <rofl/log_context.hpp>
-#include <fcppt/log/parameters/root.hpp>
+#include <sge/log/declare_lib_base.hpp>
 #include <fcppt/log/parameters/all.hpp>
-#include <fcppt/log/object.hpp>
-#include <fcppt/log/level.hpp>
-#include <fcppt/io/cout.hpp>
-#include <fcppt/text.hpp>
+#include <fcppt/log/location.hpp>
 
-fcppt::log::object &
-rofl::log()
-{
-	static fcppt::log::object global_(
-		fcppt::log::parameters::root(
-			fcppt::io::cout
-		)
-		.prefix(
-			FCPPT_TEXT("rofl")
-		)
-		.enabled(
-			true
-		)
-		.level(
-			fcppt::log::level::warning
-		)
-		.context(
-			log_context()
-		)
-		.create()
-	);
-
-	return global_;
-}
+SGE_LOG_DECLARE_LIB_BASE(
+	rofl::log,
+	rofl::log_parameters(
+		rofl::log_location()
+	)
+)

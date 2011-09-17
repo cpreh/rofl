@@ -1,5 +1,5 @@
-#ifndef AI_POLYGON_WITH_HOLES_HPP_INCLUDED
-#define AI_POLYGON_WITH_HOLES_HPP_INCLUDED
+#ifndef ROFL_MATH_POLYGON_WITH_HOLES_HPP_INCLUDED
+#define ROFL_MATH_POLYGON_WITH_HOLES_HPP_INCLUDED
 
 #include <rofl/math/polygon.hpp>
 #include <fcppt/math/vector/basic_impl.hpp>

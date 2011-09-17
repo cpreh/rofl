@@ -1,3 +1,6 @@
+#ifndef ROFL_ASTAR_HEURISTIC_IMPL_HPP_INCLUDED
+#define ROFL_ASTAR_HEURISTIC_IMPL_HPP_INCLUDED
+
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 
@@ -21,3 +24,5 @@ rofl::astar::heuristic::operator()(
 			graph_[v].barycenter()-
 			graph_[destination_].barycenter());
 }
+
+#endif

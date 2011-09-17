@@ -1,15 +1,13 @@
 #include "../log.hpp"
-#include "../../log.hpp"
-#include <fcppt/log/parameters/inherited.hpp>
-#include <fcppt/log/object.hpp>
-#include <fcppt/text.hpp>
+#include "../log_location.hpp"
+#include "../../../log_parameters.hpp"
+#include <sge/log/declare_lib_base.hpp>
+#include <fcppt/log/parameters/all.hpp>
+#include <fcppt/log/location.hpp>
 
-fcppt::log::object &
-rofl::polygonizers::triangle::log()
-{
-	static fcppt::log::object o(
-		fcppt::log::parameters::inherited(
-			polygonizers::log(),
-			FCPPT_TEXT("triangle")));
-	return o;
-}
+SGE_LOG_DECLARE_LIB_BASE(
+	rofl::polygonizers::triangle::log,
+	rofl::log_parameters(
+		rofl::polygonizers::triangle::log_location()
+	)
+)

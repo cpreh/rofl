@@ -1,5 +1,5 @@
-#ifndef ROFL_MATH_POINT_HPP_INCLUDED
-#define ROFL_MATH_POINT_HPP_INCLUDED
+#ifndef ROFL_POINT_HPP_INCLUDED
+#define ROFL_POINT_HPP_INCLUDED
 
 #include <rofl/unit.hpp>
 #include <fcppt/math/vector/static.hpp>

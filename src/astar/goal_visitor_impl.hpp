@@ -1,3 +1,6 @@
+#ifndef ROFL_ASTAR_GOAL_VISITOR_IMPL_HPP_INCLUDED
+#define ROFL_ASTAR_GOAL_VISITOR_IMPL_HPP_INCLUDED
+
 #include "found_goal.hpp"
 
 rofl::astar::goal_visitor::goal_visitor(
@@ -16,3 +19,5 @@ rofl::astar::goal_visitor::examine_vertex(
 	if (v == goal_)
 		throw found_goal();
 }
+
+#endif

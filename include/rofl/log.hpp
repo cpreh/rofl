@@ -5,8 +5,10 @@
 
 namespace rofl
 {
+
 fcppt::log::object &
 log();
+
 }
 
 #endif

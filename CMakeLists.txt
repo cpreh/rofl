@@ -101,6 +101,7 @@ SET(
 	include/rofl/polygon_with_holes.hpp
 	include/rofl/polygonizer.hpp
 	include/rofl/polygonizer_fwd.hpp
+	include/rofl/symbol.hpp
 	include/rofl/unit.hpp
 )
 
@@ -134,11 +135,17 @@ SET(
 	src/indexed_point.cpp
 	src/log.cpp
 	src/log_context.cpp
+	src/log_location.cpp
+	src/log_location.hpp
+	src/log_parameters.cpp
+	src/log_parameters.hpp
 	src/math/area_sign.hpp
 	src/math/left.hpp
 	src/math/left_on.hpp
 	src/polygonizer.cpp
 	src/polygonizers/log.hpp
+	src/polygonizers/log_location.cpp
+	src/polygonizers/log_location.hpp
 	src/polygonizers/src/log.cpp
 )
 
@@ -155,9 +162,11 @@ SET(
 	src/polygonizers/triangle/is_convex.hpp
 	src/polygonizers/triangle/line_segments.hpp
 	src/polygonizers/triangle/log.hpp
+	src/polygonizers/triangle/log_location.hpp
 	src/polygonizers/triangle/object.hpp
 	src/polygonizers/triangle/src/intermediate.cpp
 	src/polygonizers/triangle/src/log.cpp
+	src/polygonizers/triangle/src/log_location.cpp
 	src/polygonizers/triangle/src/object.cpp
 	src/polygonizers/triangle/src/triangulation.cpp
 	src/polygonizers/triangle/triangle_line_segments.hpp

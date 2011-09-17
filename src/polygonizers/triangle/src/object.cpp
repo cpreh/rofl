@@ -10,7 +10,8 @@
 #include "../fill_points.hpp"
 #include "../fill_intermediate.hpp"
 #include "../determine_adjacent_edge.hpp"
-#include "../log.hpp"
+#include "../log_location.hpp"
+#include "../../../log_parameters.hpp"
 #include <rofl/unit.hpp>
 #include <rofl/point.hpp>
 #include <rofl/polygon_with_holes.hpp>
@@ -27,9 +28,9 @@
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/null.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/log/parameters/inherited.hpp>
+#include <fcppt/log/parameters/all.hpp>
+#include <fcppt/log/location.hpp>
 #include <fcppt/log/headers.hpp>
-#include <fcppt/tr1/array.hpp>
 #include <fcppt/text.hpp>
 #include <cstring>
 #include <cstddef>
@@ -37,11 +38,15 @@
 
 namespace
 {
+
 fcppt::log::object
 mylogger(
-	fcppt::log::parameters::inherited(
-		rofl::polygonizers::triangle::log(),
-		FCPPT_TEXT("object")));
+	rofl::log_parameters(
+		rofl::polygonizers::triangle::log_location()
+		/
+		FCPPT_TEXT("object")
+	)
+);
 
 typedef fcppt::container::raw_vector<rofl::unit> point_vector;
 typedef fcppt::container::raw_vector<int> segment_vector;
