@@ -201,7 +201,7 @@ try
 
 	std::vector<line_strip> strips;
 
-	fcppt::io::cout
+	fcppt::io::cout()
 		<< FCPPT_TEXT("Enter polygons in the format \"(p+)\" where p has the format \"(a,b)\".\n")
 		<< FCPPT_TEXT("Border: \n");
 
@@ -211,7 +211,7 @@ try
 
 	while(
 		std::getline(
-			fcppt::io::cin,
+			fcppt::io::cin(),
 			line
 		)
 	)
@@ -225,10 +225,11 @@ try
 		)
 			break;
 
-		fcppt::io::cerr << "Invalid border!\n";
+		fcppt::io::cerr()
+			<< FCPPT_TEXT("Invalid border!\n");
 	}
 
-	fcppt::io::cout
+	fcppt::io::cout()
 		<< FCPPT_TEXT("The polygon border entered was:")
 		<< border
 		<< FCPPT_TEXT('\n');
@@ -237,11 +238,11 @@ try
 		border
 	);
 
-	fcppt::io::cout
+	fcppt::io::cout()
 		<< FCPPT_TEXT("Now the holes. An empty line exits the input mode and starts the program:\n");
 	while(
 		std::getline(
-			fcppt::io::cin,
+			fcppt::io::cin(),
 			line
 		)
 	)
@@ -258,12 +259,16 @@ try
 			!(ss >> hole)
 		)
 		{
-			fcppt::io::cerr << FCPPT_TEXT("Invalid input!");
+			fcppt::io::cerr()
+				<< FCPPT_TEXT("Invalid input!");
 
 			continue;
 		}
 
-		fcppt::io::cout << FCPPT_TEXT("The hole entered was: ") << hole << FCPPT_TEXT("\n");
+		fcppt::io::cout()
+			<< FCPPT_TEXT("The hole entered was: ")
+			<< hole
+			<< FCPPT_TEXT("\n");
 
 		polys.add_hole(
 			hole);
@@ -400,13 +405,23 @@ try
 			r.draw();
 	}
 }
-catch(fcppt::exception const &e)
+catch(
+	fcppt::exception const &_error
+)
 {
-	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
+	fcppt::io::cerr()
+		<< _error.string()
+		<< FCPPT_TEXT('\n');
+
 	return EXIT_FAILURE;
 }
-catch(std::exception const &e)
+catch(
+	std::exception const &_error
+)
 {
-	fcppt::io::cerr << e.what() << FCPPT_TEXT('\n');
+	std::cerr
+		<< _error.what()
+		<< '\n';
+
 	return EXIT_FAILURE;
 }

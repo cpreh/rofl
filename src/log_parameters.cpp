@@ -14,7 +14,7 @@ rofl::log_parameters(
 	return
 		fcppt::log::parameters::with_context(
 			rofl::log_context(),
-			fcppt::io::clog,
+			fcppt::io::clog(),
 			_location
 		)
 		.enabled(

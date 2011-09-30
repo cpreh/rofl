@@ -354,22 +354,48 @@ try
 
 		border.draw();
 
-		BOOST_FOREACH(hole_vector::reference r,holes)
-			r.draw();
+		for(
+			hole_vector::const_iterator it(
+				holes.begin()
+			);
+			it != holes.end();
+			++it
+		)
+			it->draw();
 	}
 
-	fcppt::io::cout << border << FCPPT_TEXT('\n');
+	fcppt::io::cout()
+		<< border
+		<< FCPPT_TEXT('\n');
 
-	BOOST_FOREACH(hole_vector::const_reference r,holes)
-		fcppt::io::cout << r << FCPPT_TEXT('\n');
+	for(
+		hole_vector::const_iterator it(
+			holes.begin()
+		);
+		it != holes.end();
+		++it
+	)
+		fcppt::io::cout()
+			<< *it
+			<< FCPPT_TEXT('\n');
 }
-catch(fcppt::exception const &e)
+catch(
+	fcppt::exception const &_error
+)
 {
-	fcppt::io::cerr << e.string() << FCPPT_TEXT('\n');
+	fcppt::io::cerr()
+		<< _error.string()
+		<< FCPPT_TEXT('\n');
+
 	return EXIT_FAILURE;
 }
-catch(std::exception const &e)
+catch(
+	std::exception const &_error
+)
 {
-	fcppt::io::cerr << e.what() << FCPPT_TEXT('\n');
+	std::cerr
+		<< _error.what()
+		<< '\n';
+
 	return EXIT_FAILURE;
 }
