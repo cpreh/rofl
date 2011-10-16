@@ -96,10 +96,10 @@ void push_edges(
 				line_strip_params()
 					.color(
 						line_strip::color(
-							(mizuiro::color::init::red %= 1.)
-							(mizuiro::color::init::green %= 0.)
-							(mizuiro::color::init::blue %= 0.)
-							(mizuiro::color::init::alpha %= 1.)
+							(mizuiro::color::init::red() %= 1.)
+							(mizuiro::color::init::green() %= 0.)
+							(mizuiro::color::init::blue() %= 0.)
+							(mizuiro::color::init::alpha() %= 1.)
 						)
 					)
 			);
@@ -316,10 +316,10 @@ try
 					)
 					.color(
 						line_strip::color(
-							(mizuiro::color::init::red %= 0.)
-							(mizuiro::color::init::green %= 0.)
-							(mizuiro::color::init::blue %= 1.)
-							(mizuiro::color::init::alpha %= 1.)
+							(mizuiro::color::init::red() %= 0.)
+							(mizuiro::color::init::green() %= 0.)
+							(mizuiro::color::init::blue() %= 1.)
+							(mizuiro::color::init::alpha() %= 1.)
 						)
 					)
 			);
@@ -377,10 +377,10 @@ try
 		line_strip_params()
 			.color(
 				line_strip::color(
-					(mizuiro::color::init::red %= 0.)
-					(mizuiro::color::init::green %= 1.)
-					(mizuiro::color::init::blue %= 0.)
-					(mizuiro::color::init::alpha %= 1.)
+					(mizuiro::color::init::red() %= 0.)
+					(mizuiro::color::init::green() %= 1.)
+					(mizuiro::color::init::blue() %= 0.)
+					(mizuiro::color::init::alpha() %= 1.)
 				)
 			)
 	);

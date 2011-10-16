@@ -301,10 +301,10 @@ try
 				sge::line_strip::style::loop)
 			.color(
 				line_strip::color(
-					(mizuiro::color::init::red %= 1.)
-					(mizuiro::color::init::green %= 0.)
-					(mizuiro::color::init::blue %= 0.)
-					(mizuiro::color::init::alpha %= 1.)
+					(mizuiro::color::init::red() %= 1.)
+					(mizuiro::color::init::green() %= 0.)
+					(mizuiro::color::init::blue() %= 0.)
+					(mizuiro::color::init::alpha() %= 1.)
 				)
 			)
 	);
@@ -318,10 +318,10 @@ try
 				sge::line_strip::style::loop)
 			.color(
 				line_strip::color(
-					(mizuiro::color::init::red %= 1.)
-					(mizuiro::color::init::green %= 1.)
-					(mizuiro::color::init::blue %= 1.)
-					(mizuiro::color::init::alpha %= 1.)
+					(mizuiro::color::init::red() %= 1.)
+					(mizuiro::color::init::green() %= 1.)
+					(mizuiro::color::init::blue() %= 1.)
+					(mizuiro::color::init::alpha() %= 1.)
 				)
 			)
 	);
