@@ -39,5 +39,5 @@ rofl::graph::find_adjacent(
 				std::make_pair(next,placement::next);
 	}
 
-	FCPPT_ASSERT_UNREACHABLE
+	FCPPT_ASSERT_UNREACHABLE;
 }

@@ -38,7 +38,7 @@ determine_adjacent_edge(
 	}
 
 	FCPPT_ASSERT_UNREACHABLE_MESSAGE(
-		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"))
+		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise"));
 }
 }
 }
