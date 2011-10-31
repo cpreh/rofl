@@ -6,7 +6,7 @@
 #include <sge/renderer/vf/part.hpp>
 #include <sge/renderer/vf/view.hpp>
 #include <sge/renderer/vf/dynamic/make_format.hpp>
-#include <sge/renderer/vf/dynamic/part_index.hpp>
+#include <sge/renderer/vf/dynamic/make_part_index.hpp>
 #include <sge/renderer/vf/iterator.hpp>
 #include <sge/renderer/vf/vertex.hpp>
 #include <sge/renderer/scoped_vertex_lock.hpp>
@@ -16,6 +16,7 @@
 #include <sge/renderer/size_type.hpp>
 #include <sge/renderer/nonindexed_primitive_type.hpp>
 #include <sge/renderer/vertex_buffer.hpp>
+#include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>
 #include <fcppt/math/null.hpp>
@@ -206,8 +207,11 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	vb_ =
 		renderer_->create_vertex_buffer(
 			*vertex_declaration_,
-			renderer::vf::dynamic::part_index(0),
-			static_cast<renderer::size_type>(
+			sge::renderer::vf::dynamic::make_part_index<
+				format,
+				format_part
+			>(),
+			sge::renderer::vertex_count(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
 			renderer::resource_flags::none);
 
