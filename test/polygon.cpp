@@ -197,11 +197,16 @@ cursor_handler::move_callback(
 	sge::input::cursor::move_event const &_event
 )
 {
+	if(
+		!_event.position()
+	)
+		return;
+
 	current_.back(
 		fcppt::math::vector::structure_cast<
 			line_strip::point
 		>(
-			_event.position()
+			*_event.position()
 		)
 	);
 }
