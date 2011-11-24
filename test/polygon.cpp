@@ -6,7 +6,7 @@
 #include "default_texture_creator.hpp"
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
-#include <sge/systems/image_loader.hpp>
+#include <sge/systems/image2d.hpp>
 #include <sge/systems/running_to_false.hpp>
 #include <sge/config/media_path.hpp>
 #include <sge/image/colors.hpp>
@@ -27,10 +27,10 @@
 #include <sge/input/cursor/object.hpp>
 #include <sge/input/keyboard/action.hpp>
 #include <sge/input/keyboard/device.hpp>
+#include <sge/media/all_extensions.hpp>
 #include <sge/viewport/center_on_resize.hpp>
 #include <sge/window/dim.hpp>
 #include <sge/window/instance.hpp>
-#include <sge/all_extensions.hpp>
 #include <fcppt/container/bitfield/basic_impl.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/matrix/basic_impl.hpp>
@@ -256,9 +256,9 @@ try
 			)
 		)
 		(
-			sge::systems::image_loader(
+			sge::systems::image2d(
 				sge::image::capabilities_field::null(),
-				sge::all_extensions
+				sge::media::all_extensions
 			)
 		)
 	);
@@ -332,7 +332,7 @@ try
 	);
 
 	sge::bullet::test::default_texture_creator creator_(
-		sys.image_loader(),
+		sys.image_system(),
 		sys.renderer());
 
 	cursor_handler handler(

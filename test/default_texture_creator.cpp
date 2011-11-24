@@ -2,7 +2,7 @@
 #include <sge/renderer/texture/mipmap/off.hpp>
 #include <sge/renderer/texture/address_mode2.hpp>
 #include <sge/renderer/texture/address_mode.hpp>
-#include <sge/image2d/multi_loader.hpp>
+#include <sge/image2d/system.hpp>
 #include <sge/texture/add_image.hpp>
 #include <sge/texture/fragmented.hpp>
 #include <sge/texture/fragmented_unique_ptr.hpp>
@@ -12,7 +12,7 @@
 #include <boost/spirit/home/phoenix/object/new.hpp>
 
 sge::bullet::test::default_texture_creator::default_texture_creator(
-	sge::image2d::multi_loader &_il,
+	sge::image2d::system &_il,
 	sge::renderer::device &_rend
 )
 :
