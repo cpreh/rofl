@@ -2,7 +2,7 @@
 #define ROFL_POLYGONIZERS_TRIANGLE_IS_CONVEX_HPP_INCLUDED
 
 #include "edge_angle.hpp"
-#include <fcppt/math/compare.hpp>
+#include <fcppt/math/diff.hpp>
 #include <boost/next_prior.hpp>
 
 namespace rofl
@@ -61,7 +61,15 @@ bool is_convex(
 					:
 						*boost::next(i,2));
 
-		if (!fcppt::math::compare(edge_angle(a,b,c),sign))
+		if(
+			fcppt::math::diff(edge_angle(a,b,c),sign)
+			>
+			static_cast<
+				scalar
+			>(
+				0.001f
+			)
+		)
 			return false;
 	}
 	return true;

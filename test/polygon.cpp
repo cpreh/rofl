@@ -38,7 +38,6 @@
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/almost_zero.hpp>
 #include <fcppt/tr1/functional.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
