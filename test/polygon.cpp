@@ -17,9 +17,9 @@
 #include <sge/renderer/projection/far.hpp>
 #include <sge/renderer/projection/near.hpp>
 #include <sge/renderer/projection/orthogonal_wh.hpp>
+#include <sge/renderer/state/bool.hpp>
+#include <sge/renderer/state/color.hpp>
 #include <sge/renderer/state/list.hpp>
-#include <sge/renderer/state/var.hpp>
-#include <sge/renderer/state/trampoline.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/image/capabilities_field.hpp>
 #include <sge/input/cursor/button_event.hpp>
