@@ -19,7 +19,6 @@
 #include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>
-#include <fcppt/math/null.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/foreach.hpp>
 
@@ -144,7 +143,7 @@ sge::line_strip::object<A,B>::draw() const
 
 	renderer_->render_nonindexed(
 		renderer::first_vertex(
-			fcppt::math::null<sge::renderer::size_type>()
+			0u
 		),
 		renderer::vertex_count(
 			vb_->size()

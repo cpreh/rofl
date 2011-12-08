@@ -1,9 +1,6 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_ACCUMULATE_SIZES_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_ACCUMULATE_SIZES_HPP_INCLUDED
 
-#include <fcppt/math/null.hpp>
-#include <boost/foreach.hpp>
-
 namespace rofl
 {
 namespace polygonizers
@@ -12,12 +9,18 @@ namespace triangle
 {
 template<typename Container>
 typename Container::size_type accumulate_sizes(
-	Container const &c)
+	Container const &_container)
 {
-	typename Container::size_type s =
-		fcppt::math::null<typename Container::size_type>();
-	BOOST_FOREACH(typename Container::const_reference r,c)
-		s += r.size();
+	typename Container::size_type s(0u);
+
+	for(
+		typename Container::const_iterator it(
+			_container.begin()
+		);
+		it != _container.end();
+		++it
+	)
+		s += it->size();
 	return s;
 }
 
