@@ -29,7 +29,10 @@
 #include <sge/input/keyboard/device.hpp>
 #include <sge/viewport/center_on_resize.hpp>
 #include <sge/window/dim.hpp>
-#include <sge/window/instance.hpp>
+#include <sge/window/object.hpp>
+#include <sge/window/parameters.hpp>
+#include <sge/window/system.hpp>
+#include <sge/window/title.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/matrix/basic_impl.hpp>
 #include <fcppt/math/dim/structure_cast.hpp>
@@ -133,8 +136,10 @@ try
 		sge::systems::list()
 		(
 			sge::systems::window(
-				sge::window::simple_parameters(
-					FCPPT_TEXT("pathfinding test"),
+				sge::window::parameters(
+					sge::window::title(
+						FCPPT_TEXT("pathfinding test")
+					),
 					window_dim
 				)
 			)
@@ -396,7 +401,7 @@ try
 
 	while(running)
 	{
-		sys.window().dispatch();
+		sys.window_system().poll();
 
 		sge::renderer::scoped_block const block_(
 			sys.renderer()
