@@ -191,7 +191,7 @@ ADD_LIBRARY(
 
 TARGET_LINK_LIBRARIES(
 	rofl
-	${Fcppt_LIBRARIES}
+	${Fcppt_core_LIBRARIES}
 	${SGE_CORE_LIBRARY}
 	rofltriangleimpl
 )
