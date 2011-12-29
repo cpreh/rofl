@@ -50,7 +50,7 @@ INCLUDE_DIRECTORIES(${Awl_INCLUDE_DIRS})
 FIND_PACKAGE(
 	SGE REQUIRED
 	COMPONENTS
-	image image2d input renderer window
+	media image image2d input renderer window
 )
 
 INCLUDE_DIRECTORIES(${SGE_INCLUDE_DIRS})
