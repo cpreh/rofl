@@ -1,7 +1,5 @@
 #include "default_texture_creator.hpp"
 #include <sge/renderer/texture/mipmap/off.hpp>
-#include <sge/renderer/texture/address_mode2.hpp>
-#include <sge/renderer/texture/address_mode.hpp>
 #include <sge/image2d/system.hpp>
 #include <sge/texture/add_image.hpp>
 #include <sge/texture/fragmented.hpp>
@@ -30,10 +28,7 @@ sge::bullet::test::default_texture_creator::default_texture_creator(
 					_rend
 				),
 				sge::image::color::format::rgba8,
-				sge::renderer::texture::mipmap::off(),
-				sge::renderer::texture::address_mode2(
-					sge::renderer::texture::address_mode::repeat
-				)
+				sge::renderer::texture::mipmap::off()
 			)
 		)
 	)
