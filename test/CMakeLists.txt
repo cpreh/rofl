@@ -1,17 +1,23 @@
-FIND_PACKAGE(
+include(
+	AwlMainGenerator
+)
+
+find_package(
 	SGE REQUIRED
 	COMPONENTS systems texture viewport
 )
 
-ADD_EXECUTABLE(
+awl_utils_add_portable_executable(
 	roflmaintest
+	"test_main"
 	main.cpp
 )
 
-TARGET_LINK_LIBRARIES(
+target_link_libraries(
 	roflmaintest
 	rofl
 	${Fcppt_core_LIBRARIES}
+	${Awl_LIBRARIES}
 	${SGE_CORE_LIBRARY}
 	${SGE_IMAGE_LIBRARY}
 	${SGE_INPUT_LIBRARY}
@@ -21,15 +27,16 @@ TARGET_LINK_LIBRARIES(
 	${SGE_WINDOW_LIBRARY}
 )
 
-ADD_EXECUTABLE(
+awl_utils_add_portable_executable(
 	roflpolygonbuilder
-	polygon.cpp
-	default_texture_creator.cpp
+	"test_main"
+	"polygon.cpp;default_texture_creator.cpp"
 )
 
-TARGET_LINK_LIBRARIES(
+target_link_libraries(
 	roflpolygonbuilder
 	${Fcppt_core_LIBRARIES}
+	${Awl_LIBRARIES}
 	${SGE_CORE_LIBRARY}
 	${SGE_MEDIA_LIBRARY}
 	${SGE_IMAGE_LIBRARY}
@@ -42,12 +49,12 @@ TARGET_LINK_LIBRARIES(
 	${SGE_WINDOW_LIBRARY}
 )
 
-INSTALL(
+install(
 	TARGETS roflmaintest
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 
-INSTALL(
+install(
 	TARGETS roflpolygonbuilder
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )

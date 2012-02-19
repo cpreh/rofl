@@ -12,7 +12,7 @@
 #include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
-#include <sge/systems/running_to_false.hpp>
+#include <sge/systems/quit_on_escape.hpp>
 #include <sge/image/colors.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
@@ -25,14 +25,13 @@
 #include <sge/renderer/state/color.hpp>
 #include <sge/renderer/state/list.hpp>
 #include <sge/image/color/rgba8.hpp>
-#include <sge/input/keyboard/action.hpp>
-#include <sge/input/keyboard/device.hpp>
 #include <sge/viewport/center_on_resize.hpp>
 #include <sge/window/dim.hpp>
 #include <sge/window/object.hpp>
 #include <sge/window/parameters.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
+#include <awl/main/function_context_fwd.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/matrix/basic_impl.hpp>
 #include <fcppt/math/dim/structure_cast.hpp>
@@ -124,7 +123,10 @@ void push_edges(
 }
 }
 
-int main()
+int
+test_main(
+	awl::main::function_context const &
+)
 try
 {
 	sge::window::dim const window_dim(
@@ -168,16 +170,9 @@ try
 		)
 	);
 
-	bool running = true;
-
-	fcppt::signal::scoped_connection const cb(
-		sys.keyboard_collector().key_callback(
-			sge::input::keyboard::action(
-				sge::input::keyboard::key_code::escape,
-				sge::systems::running_to_false(
-					running
-				)
-			)
+	fcppt::signal::scoped_connection const escape_connection(
+		sge::systems::quit_on_escape(
+			sys
 		)
 	);
 
@@ -399,16 +394,20 @@ try
 
 	sys.window().show();
 
-	while(running)
+	while(
+		sys.window_system().poll()
+	)
 	{
-		sys.window_system().poll();
-
-		sge::renderer::scoped_block const block_(
+		sge::renderer::scoped_block const block(
 			sys.renderer()
 		);
+
 		BOOST_FOREACH(std::vector<line_strip>::reference r,strips)
 			r.draw();
 	}
+
+	return
+		sys.window_system().exit_code();
 }
 catch(
 	fcppt::exception const &_error
