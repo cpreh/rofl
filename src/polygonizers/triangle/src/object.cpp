@@ -27,7 +27,7 @@
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/log/parameters/all.hpp>
+#include <fcppt/log/parameters/object.hpp>
 #include <fcppt/log/location.hpp>
 #include <fcppt/log/headers.hpp>
 #include <fcppt/text.hpp>
