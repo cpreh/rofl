@@ -291,10 +291,10 @@ try
 				window_dim
 			),
 			sge::renderer::projection::near(
-				0
+				0.f
 			),
 			sge::renderer::projection::far(
-				1
+				1.f
 			)
 		)
 	);
