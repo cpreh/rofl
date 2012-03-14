@@ -29,7 +29,7 @@ INCLUDE_DIRECTORIES(${Mizuiro_INCLUDE_DIRS})
 
 # Find FCPPT
 
-FIND_PACKAGE(
+find_package(
 	Fcppt REQUIRED
 )
 
@@ -39,7 +39,7 @@ INCLUDE_DIRECTORIES(${Fcppt_INCLUDE_DIRS})
 
 # Find AWL
 
-FIND_PACKAGE(
+find_package(
 	Awl REQUIRED
 )
 
@@ -47,10 +47,24 @@ INCLUDE_DIRECTORIES(${Awl_INCLUDE_DIRS})
 
 # Find SGE
 
-FIND_PACKAGE(
+set(
+	SGE_COMPONENTS
+	media image image2d input renderer window
+)
+
+if(
+	ENABLE_TEST
+)
+	set(
+		SGE_COMPONENTS
+		${SGE_COMPONENTS} systems texture viewport
+	)
+endif()
+
+find_package(
 	SGE REQUIRED
 	COMPONENTS
-	media image image2d input renderer window
+	${SGE_COMPONENTS}
 )
 
 INCLUDE_DIRECTORIES(${SGE_INCLUDE_DIRS})

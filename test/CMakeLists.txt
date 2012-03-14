@@ -2,11 +2,6 @@ include(
 	AwlMainGenerator
 )
 
-find_package(
-	SGE REQUIRED
-	COMPONENTS systems texture viewport
-)
-
 awl_utils_add_portable_executable(
 	roflmaintest
 	"test_main"
