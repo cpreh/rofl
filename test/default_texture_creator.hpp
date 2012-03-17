@@ -2,15 +2,13 @@
 #define SGE_BULLET_TEST_DEFAULT_TEXTURE_CREATOR_HPP_INCLUDED
 
 #include <sge/image2d/system_fwd.hpp>
-
 #include <sge/renderer/device_fwd.hpp>
-
 #include <sge/texture/const_part_ptr.hpp>
 #include <sge/texture/manager.hpp>
-
-#include <fcppt/filesystem/path.hpp>
-
 #include <fcppt/noncopyable.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <boost/filesystem/path.hpp>
+#include <fcppt/config/external_end.hpp>
 
 namespace sge
 {
@@ -30,7 +28,7 @@ public:
 
 	sge::texture::const_part_ptr
 	load(
-		fcppt::filesystem::path const &);
+		boost::filesystem::path const &);
 private:
 	sge::image2d::system &il_;
 

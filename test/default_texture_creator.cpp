@@ -6,8 +6,11 @@
 #include <sge/texture/fragmented_unique_ptr.hpp>
 #include <sge/texture/no_fragmented.hpp>
 #include <fcppt/ref.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <boost/filesystem/path.hpp>
 #include <boost/spirit/home/phoenix/object/construct.hpp>
 #include <boost/spirit/home/phoenix/object/new.hpp>
+#include <fcppt/config/external_end.hpp>
 
 sge::bullet::test::default_texture_creator::default_texture_creator(
 	sge::image2d::system &_il,
@@ -37,7 +40,7 @@ sge::bullet::test::default_texture_creator::default_texture_creator(
 
 sge::texture::const_part_ptr
 sge::bullet::test::default_texture_creator::load(
-	fcppt::filesystem::path const &_path)
+	boost::filesystem::path const &_path)
 {
 	return
 		sge::texture::add_image(
