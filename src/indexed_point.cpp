@@ -1,7 +1,7 @@
 #include <rofl/indexed_point.hpp>
 #include <rofl/graph/properties.hpp>
 #include <rofl/graph/object.hpp>
-#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 
 rofl::indexed_point::indexed_point(
 	graph::object const &_parent,

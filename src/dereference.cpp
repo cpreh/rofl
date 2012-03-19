@@ -1,5 +1,5 @@
 #include <rofl/dereference.hpp>
-#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 #include <boost/foreach.hpp>
 
 rofl::polygon const rofl::dereference(

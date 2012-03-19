@@ -2,7 +2,7 @@
 #include "find_adjacent.hpp"
 #include "../math/left_on.hpp"
 #include "../math/left.hpp"
-#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 #include <fcppt/math/vector/output.hpp>
 
 bool rofl::graph::mergeable(

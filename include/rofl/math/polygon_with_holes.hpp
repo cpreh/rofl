@@ -2,7 +2,7 @@
 #define ROFL_MATH_POLYGON_WITH_HOLES_HPP_INCLUDED
 
 #include <rofl/math/polygon.hpp>
-#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 #include <vector>
 
 namespace rofl

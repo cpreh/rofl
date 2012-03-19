@@ -3,7 +3,7 @@
 
 #include <rofl/indexed_line_segment.hpp>
 #include <rofl/unit.hpp>
-#include <fcppt/math/vector/basic_impl.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 
 namespace rofl
 {
