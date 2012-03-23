@@ -52,6 +52,8 @@ set(
 	media image image2d input renderer window
 )
 
+OPTION(ENABLE_TEST "Build the tests" ON)
+
 if(
 	ENABLE_TEST
 )
@@ -68,8 +70,6 @@ find_package(
 )
 
 INCLUDE_DIRECTORIES(${SGE_INCLUDE_DIRS})
-
-OPTION(ENABLE_TEST "Build the tests" ON)
 
 IF (ENABLE_TEST)
 	ADD_SUBDIRECTORY (test)
