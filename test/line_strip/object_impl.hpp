@@ -16,6 +16,7 @@
 #include <sge/renderer/size_type.hpp>
 #include <sge/renderer/nonindexed_primitive_type.hpp>
 #include <sge/renderer/vertex_buffer.hpp>
+#include <sge/renderer/vertex_declaration.hpp>
 #include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>

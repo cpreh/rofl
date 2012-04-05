@@ -3,8 +3,8 @@
 
 #include <sge/image2d/system_fwd.hpp>
 #include <sge/renderer/device_fwd.hpp>
-#include <sge/texture/const_part_ptr.hpp>
 #include <sge/texture/manager.hpp>
+#include <sge/texture/part_unique_ptr.hpp>
 #include <fcppt/noncopyable.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/path.hpp>
@@ -26,7 +26,7 @@ public:
 		sge::image2d::system &,
 		sge::renderer::device &);
 
-	sge::texture::const_part_ptr
+	sge::texture::part_unique_ptr
 	load(
 		boost::filesystem::path const &);
 private:

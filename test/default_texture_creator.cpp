@@ -1,10 +1,12 @@
 #include "default_texture_creator.hpp"
 #include <sge/renderer/texture/mipmap/off.hpp>
+#include <sge/image2d/file.hpp>
 #include <sge/image2d/system.hpp>
 #include <sge/texture/add_image.hpp>
 #include <sge/texture/fragmented.hpp>
 #include <sge/texture/fragmented_unique_ptr.hpp>
 #include <sge/texture/no_fragmented.hpp>
+#include <sge/texture/part.hpp>
 #include <fcppt/ref.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/filesystem/path.hpp>
@@ -38,7 +40,7 @@ sge::bullet::test::default_texture_creator::default_texture_creator(
 {
 }
 
-sge::texture::const_part_ptr
+sge::texture::part_unique_ptr
 sge::bullet::test::default_texture_creator::load(
 	boost::filesystem::path const &_path)
 {
