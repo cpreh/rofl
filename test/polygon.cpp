@@ -35,6 +35,7 @@
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
 #include <fcppt/container/bitfield/object_impl.hpp>
+#include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/matrix/object_impl.hpp>
 #include <fcppt/math/dim/structure_cast.hpp>
