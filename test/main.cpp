@@ -14,9 +14,11 @@
 #include <sge/systems/list.hpp>
 #include <sge/systems/quit_on_escape.hpp>
 #include <sge/image/colors.hpp>
+#include <sge/renderer/bit_depth.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
+#include <sge/renderer/windowed.hpp>
 #include <sge/renderer/projection/dim.hpp>
 #include <sge/renderer/projection/far.hpp>
 #include <sge/renderer/projection/near.hpp>
@@ -152,7 +154,9 @@ try
 		(
 			sge::systems::renderer(
 				sge::renderer::parameters(
-					sge::renderer::visual_depth::depth32,
+					sge::renderer::windowed(
+						sge::renderer::bit_depth::depth32
+					),
 					sge::renderer::depth_stencil_buffer::off,
 					sge::renderer::vsync::on,
 					sge::renderer::no_multi_sampling
