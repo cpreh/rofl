@@ -12,16 +12,15 @@
 #include <sge/image/colors.hpp>
 #include <sge/renderer/bit_depth.hpp>
 #include <sge/renderer/device.hpp>
+#include <sge/renderer/onscreen_target.hpp>
 #include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
 #include <sge/renderer/windowed.hpp>
+#include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/projection/dim.hpp>
 #include <sge/renderer/projection/far.hpp>
 #include <sge/renderer/projection/near.hpp>
 #include <sge/renderer/projection/orthogonal_wh.hpp>
-#include <sge/renderer/state/bool.hpp>
-#include <sge/renderer/state/color.hpp>
-#include <sge/renderer/state/list.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/image/capabilities_field.hpp>
 #include <sge/input/cursor/button_event.hpp>
@@ -281,12 +280,6 @@ try
 		)
 	);
 
-	sys.renderer().state(
-		sge::renderer::state::list
-			(sge::renderer::state::bool_::clear_back_buffer = true)
-			(sge::renderer::state::color::back_buffer_clear_color = sge::image::colors::black())
-	);
-
 	sys.renderer().transform(
 		sge::renderer::matrix_mode::projection,
 		sge::renderer::projection::orthogonal_wh(
@@ -347,16 +340,18 @@ try
 		holes
 	);
 
-	sys.renderer().state(
-		sge::renderer::state::list
-			(sge::renderer::state::bool_::clear_back_buffer = true)
-			(sge::renderer::state::color::back_buffer_clear_color = sge::image::colors::black()));
-
 	while(
 		sys.window_system().poll()
 	)
 	{
-		sge::renderer::scoped_block const block_(
+		sys.renderer().onscreen_target().clear(
+			sge::renderer::clear::parameters()
+			.back_buffer(
+				sge::image::colors::black()
+			)
+		);
+
+		sge::renderer::scoped_block const block(
 			sys.renderer()
 		);
 
