@@ -1,12 +1,12 @@
-#ifndef SGE_LINE_STRIP_PARAMETERS_HPP_INCLUDED
-#define SGE_LINE_STRIP_PARAMETERS_HPP_INCLUDED
+#ifndef ROFL_LINE_STRIP_PARAMETERS_HPP_INCLUDED
+#define ROFL_LINE_STRIP_PARAMETERS_HPP_INCLUDED
 
 #include "style.hpp"
 #include <fcppt/math/vector/static.hpp>
 #include <vector>
 #include <iterator>
 
-namespace sge
+namespace rofl
 {
 namespace line_strip
 {
@@ -32,8 +32,8 @@ public:
 
 	parameters();
 	parameters &style(
-		sge::line_strip::style::type);
-	sge::line_strip::style::type style() const;
+		rofl::line_strip::style::type);
+	rofl::line_strip::style::type style() const;
 	Color const &color() const;
 	parameters &color(
 		Color const &);
@@ -45,7 +45,7 @@ public:
 		Container const &);
 	point_sequence const &points() const;
 private:
-	sge::line_strip::style::type style_;
+	rofl::line_strip::style::type style_;
 	Color color_;
 	point_sequence points_;
 };

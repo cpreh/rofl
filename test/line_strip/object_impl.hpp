@@ -1,4 +1,3 @@
-#include "object.hpp"
 #include "parameters.hpp"
 #include <sge/renderer/vf/pos.hpp>
 #include <sge/renderer/vf/color.hpp>
@@ -20,6 +19,7 @@
 #include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_none.hpp>
 #include <sge/renderer/device.hpp>
+#include <sge/renderer/context/object.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/foreach.hpp>
 
@@ -28,7 +28,7 @@ template
 	typename A,
 	typename B
 >
-sge::line_strip::object<A,B>::object(
+rofl::line_strip::object<A,B>::object(
 	sge::renderer::device &_renderer,
 	parameters<A,B> const &params)
 :
@@ -51,7 +51,7 @@ template
 	typename A,
 	typename B
 >
-sge::line_strip::object<A,B>::object(
+rofl::line_strip::object<A,B>::object(
 	object const &r)
 :
 	renderer_(
@@ -71,8 +71,8 @@ template
 	typename A,
 	typename B
 >
-sge::line_strip::object<A,B> &
-sge::line_strip::object<A,B>::operator=(
+rofl::line_strip::object<A,B> &
+rofl::line_strip::object<A,B>::operator=(
 	object const &r)
 {
 	style_ = r.style_;
@@ -89,8 +89,8 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::push_back(
-	sge::line_strip::object<A,B>::point const &v)
+rofl::line_strip::object<A,B>::push_back(
+	rofl::line_strip::object<A,B>::point const &v)
 {
 	points_.push_back(
 		v);
@@ -103,7 +103,7 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::pop_back()
+rofl::line_strip::object<A,B>::pop_back()
 {
 	points_.pop_back();
 	regenerate_vb();
@@ -115,7 +115,7 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::clear()
+rofl::line_strip::object<A,B>::clear()
 {
 	points_.clear();
 	regenerate_vb();
@@ -127,26 +127,27 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::draw() const
+rofl::line_strip::object<A,B>::draw(
+	sge::renderer::context::object &_render_context) const
 {
 	if (points_.empty())
 		return;
 
 	sge::renderer::scoped_vertex_declaration const vb_declaration(
-		*renderer_,
+		_render_context,
 		*vertex_declaration_
 	);
 
 	sge::renderer::scoped_vertex_buffer const vb_context(
-		*renderer_,
+		_render_context,
 		*vb_
 	);
 
-	renderer_->render_nonindexed(
-		renderer::first_vertex(
+	_render_context.render_nonindexed(
+		sge::renderer::first_vertex(
 			0u
 		),
-		renderer::vertex_count(
+		sge::renderer::vertex_count(
 			vb_->size()
 		),
 		sge::renderer::nonindexed_primitive_type::line_strip);
@@ -158,23 +159,23 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::regenerate_vb()
+rofl::line_strip::object<A,B>::regenerate_vb()
 {
 	typedef
-	renderer::vf::pos
+	sge::renderer::vf::pos
 	<
 		unit,
 		2
 	> pos_type;
 
 	typedef
-	renderer::vf::color
+	sge::renderer::vf::color
 	<
 		typename color::format
 	> color_type;
 
 	typedef
-	renderer::vf::part
+	sge::renderer::vf::part
 	<
 		boost::mpl::vector
 		<
@@ -184,7 +185,7 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	> format_part;
 
 	typedef
-	renderer::vf::format
+	sge::renderer::vf::format
 	<
 		boost::mpl::vector
 		<
@@ -193,7 +194,7 @@ sge::line_strip::object<A,B>::regenerate_vb()
 	> format;
 
 	typedef
-	renderer::vf::view
+	sge::renderer::vf::view
 	<
 		format_part
 	> vertex_view;
@@ -203,7 +204,7 @@ sge::line_strip::object<A,B>::regenerate_vb()
 
 	vertex_declaration_ =
 		renderer_->create_vertex_declaration(
-			renderer::vf::dynamic::make_format<format>());
+			sge::renderer::vf::dynamic::make_format<format>());
 	vb_ =
 		renderer_->create_vertex_buffer(
 			*vertex_declaration_,
@@ -213,9 +214,9 @@ sge::line_strip::object<A,B>::regenerate_vb()
 			>(),
 			sge::renderer::vertex_count(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
-			renderer::resource_flags::none);
+			sge::renderer::resource_flags::none);
 
-	renderer::scoped_vertex_lock const vblock(
+	sge::renderer::scoped_vertex_lock const vblock(
 		*vb_,
 		sge::renderer::lock_mode::writeonly);
 
@@ -249,8 +250,8 @@ template
 	typename A,
 	typename B
 >
-typename sge::line_strip::object<A,B>::point_sequence const &
-sge::line_strip::object<A,B>::points() const
+typename rofl::line_strip::object<A,B>::point_sequence const &
+rofl::line_strip::object<A,B>::points() const
 {
 	return
 		points_;
@@ -262,7 +263,7 @@ template
 	typename B
 >
 void
-sge::line_strip::object<A,B>::back(
+rofl::line_strip::object<A,B>::back(
 	point const &p)
 {
 	points_.back() = p;

@@ -16,15 +16,16 @@
 #include <sge/image/colors.hpp>
 #include <sge/renderer/bit_depth.hpp>
 #include <sge/renderer/device.hpp>
-#include <sge/renderer/scoped_block.hpp>
 #include <sge/renderer/no_multi_sampling.hpp>
-#include <sge/renderer/onscreen_target.hpp>
 #include <sge/renderer/windowed.hpp>
 #include <sge/renderer/clear/parameters.hpp>
+#include <sge/renderer/context/object.hpp>
+#include <sge/renderer/context/scoped.hpp>
 #include <sge/renderer/projection/dim.hpp>
 #include <sge/renderer/projection/far.hpp>
 #include <sge/renderer/projection/near.hpp>
 #include <sge/renderer/projection/orthogonal_wh.hpp>
+#include <sge/renderer/target/onscreen.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/viewport/center_on_resize.hpp>
 #include <sge/window/dim.hpp>
@@ -65,7 +66,7 @@
 namespace
 {
 typedef
-sge::line_strip::object
+rofl::line_strip::object
 <
 	float,
 	sge::image::color::rgba8
@@ -73,7 +74,7 @@ sge::line_strip::object
 line_strip;
 
 typedef
-sge::line_strip::parameters
+rofl::line_strip::parameters
 <
 	float,
 	sge::image::color::rgba8
@@ -181,23 +182,6 @@ try
 		)
 	);
 
-	sys.renderer().transform(
-		sge::renderer::matrix_mode::projection,
-		sge::renderer::projection::orthogonal_wh(
-			fcppt::math::dim::structure_cast<
-				sge::renderer::projection::dim
-			>(
-				window_dim
-			),
-			sge::renderer::projection::near(
-				0.f
-			),
-			sge::renderer::projection::far(
-				1.f
-			)
-		)
-	);
-
 	std::vector<line_strip> strips;
 
 	fcppt::io::cout()
@@ -277,7 +261,7 @@ try
 				sys.renderer(),
 				line_strip_params()
 					.style(
-						sge::line_strip::style::loop));
+						rofl::line_strip::style::loop));
 
 		BOOST_FOREACH(rofl::polygon::const_reference r,hole)
 			s.push_back(
@@ -311,7 +295,7 @@ try
 				sys.renderer(),
 				line_strip_params()
 					.style(
-						sge::line_strip::style::loop
+						rofl::line_strip::style::loop
 					)
 					.color(
 						line_strip::color(
@@ -397,19 +381,39 @@ try
 		sys.window_system().poll()
 	)
 	{
-		sys.renderer().onscreen_target().clear(
+		sge::renderer::context::scoped const scoped_block(
+			sys.renderer(),
+			sys.renderer().onscreen_target()
+		);
+
+		scoped_block.get().transform(
+			sge::renderer::matrix_mode::projection,
+			sge::renderer::projection::orthogonal_wh(
+				fcppt::math::dim::structure_cast<
+					sge::renderer::projection::dim
+				>(
+					window_dim
+				),
+				sge::renderer::projection::near(
+					0.f
+				),
+				sge::renderer::projection::far(
+					1.f
+				)
+			)
+		);
+
+		scoped_block.get().clear(
 			sge::renderer::clear::parameters()
 			.back_buffer(
 				sge::image::colors::black()
 			)
 		);
 
-		sge::renderer::scoped_block const block(
-			sys.renderer()
-		);
 
 		BOOST_FOREACH(std::vector<line_strip>::reference r,strips)
-			r.draw();
+			r.draw(
+				scoped_block.get());
 	}
 
 	return

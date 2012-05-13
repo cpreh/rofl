@@ -10,7 +10,7 @@ template<typename A,typename B>
 fcppt::io::ostream &
 operator<<(
 	fcppt::io::ostream &o,
-	sge::line_strip::object<A,B> const &s)
+	rofl::line_strip::object<A,B> const &s)
 {
 	return
 		fcppt::math::detail::one_dimensional_output(

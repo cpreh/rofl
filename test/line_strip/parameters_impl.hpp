@@ -9,7 +9,7 @@ template
 	typename A,
 	typename V
 >
-sge::line_strip::parameters<A,V>::parameters()
+rofl::line_strip::parameters<A,V>::parameters()
 :
 	style_(
 		style::no_loop),
@@ -28,8 +28,8 @@ template
 	typename A,
 	typename V
 >
-sge::line_strip::parameters<A,V> &
-sge::line_strip::parameters<A,V>::style(
+rofl::line_strip::parameters<A,V> &
+rofl::line_strip::parameters<A,V>::style(
 	style::type const _style)
 {
 	style_ = _style;
@@ -41,8 +41,8 @@ template
 	typename A,
 	typename V
 >
-sge::line_strip::style::type
-sge::line_strip::parameters<A,V>::style() const
+rofl::line_strip::style::type
+rofl::line_strip::parameters<A,V>::style() const
 {
 	return style_;
 }
@@ -52,8 +52,8 @@ template
 	typename A,
 	typename V
 >
-sge::line_strip::parameters<A,V> &
-sge::line_strip::parameters<A,V>::color(
+rofl::line_strip::parameters<A,V> &
+rofl::line_strip::parameters<A,V>::color(
 	V const &_color)
 {
 	color_ = _color;
@@ -66,7 +66,7 @@ template
 	typename V
 >
 V const &
-sge::line_strip::parameters<A,V>::color() const
+rofl::line_strip::parameters<A,V>::color() const
 {
 	return color_;
 }
@@ -77,8 +77,8 @@ template
 	typename V
 >
 typename
-sge::line_strip::parameters<A,V>::point_sequence const &
-sge::line_strip::parameters<A,V>::points() const
+rofl::line_strip::parameters<A,V>::point_sequence const &
+rofl::line_strip::parameters<A,V>::points() const
 {
 	return points_;
 }
@@ -93,8 +93,8 @@ template
 <
 	typename Container
 >
-sge::line_strip::parameters<A,V> &
-sge::line_strip::parameters<A,V>::points(
+rofl::line_strip::parameters<A,V> &
+rofl::line_strip::parameters<A,V>::points(
 	Container const &c)
 {
 	std::copy(

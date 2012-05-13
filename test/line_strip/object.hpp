@@ -1,5 +1,5 @@
-#ifndef SGE_LINE_STRIP_OBJECT_HPP_INCLUDED
-#define SGE_LINE_STRIP_OBJECT_HPP_INCLUDED
+#ifndef ROFL_LINE_STRIP_OBJECT_HPP_INCLUDED
+#define ROFL_LINE_STRIP_OBJECT_HPP_INCLUDED
 
 #include "parameters_fwd.hpp"
 #include "style.hpp"
@@ -7,9 +7,10 @@
 #include <sge/renderer/device_fwd.hpp>
 #include <sge/renderer/vertex_buffer_shared_ptr.hpp>
 #include <sge/renderer/vertex_declaration_shared_ptr.hpp>
+#include <sge/renderer/context/object_fwd.hpp>
 #include <vector>
 
-namespace sge
+namespace rofl
 {
 namespace line_strip
 {
@@ -56,7 +57,8 @@ public:
 	clear();
 
 	void
-	draw() const;
+	draw(
+		sge::renderer::context::object &) const;
 
 	// only read access because we have to regenerate the vb afterwards
 	point_sequence const &

@@ -1,7 +1,7 @@
-#ifndef SGE_LINE_STRIP_OBJECT_FWD_HPP_INCLUDED
-#define SGE_LINE_STRIP_OBJECT_FWD_HPP_INCLUDED
+#ifndef ROFL_LINE_STRIP_OBJECT_FWD_HPP_INCLUDED
+#define ROFL_LINE_STRIP_OBJECT_FWD_HPP_INCLUDED
 
-namespace sge
+namespace rofl
 {
 namespace line_strip
 {
