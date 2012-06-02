@@ -55,6 +55,7 @@
 #include <exception>
 #include <vector>
 #include <iterator>
+#include <iostream>
 #include <ostream>
 #include <string>
 

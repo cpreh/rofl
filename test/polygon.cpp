@@ -51,6 +51,7 @@
 #include <fcppt/text.hpp>
 #include <exception>
 #include <vector>
+#include <iostream>
 #include <ostream>
 
 namespace
