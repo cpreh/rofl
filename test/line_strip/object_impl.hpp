@@ -13,7 +13,7 @@
 #include <sge/renderer/scoped_vertex_declaration.hpp>
 #include <sge/renderer/lock_mode.hpp>
 #include <sge/renderer/size_type.hpp>
-#include <sge/renderer/nonindexed_primitive_type.hpp>
+#include <sge/renderer/primitive_type.hpp>
 #include <sge/renderer/vertex_buffer.hpp>
 #include <sge/renderer/vertex_declaration.hpp>
 #include <sge/renderer/vertex_count.hpp>
@@ -150,7 +150,7 @@ rofl::line_strip::object<A,B>::draw(
 		sge::renderer::vertex_count(
 			vb_->size()
 		),
-		sge::renderer::nonindexed_primitive_type::line_strip);
+		sge::renderer::primitive_type::line_strip);
 }
 
 template
