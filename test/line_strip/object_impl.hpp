@@ -17,7 +17,7 @@
 #include <sge/renderer/vertex_buffer.hpp>
 #include <sge/renderer/vertex_declaration.hpp>
 #include <sge/renderer/vertex_count.hpp>
-#include <sge/renderer/resource_flags_none.hpp>
+#include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device.hpp>
 #include <sge/renderer/context/object.hpp>
 #include <boost/mpl/vector.hpp>
@@ -214,7 +214,7 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 			>(),
 			sge::renderer::vertex_count(
 				points_.size() + (style_ == style::loop ? 1 : 0)),
-			sge::renderer::resource_flags::none);
+			sge::renderer::resource_flags_field::null());
 
 	sge::renderer::scoped_vertex_lock const vblock(
 		*vb_,
