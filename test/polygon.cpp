@@ -3,7 +3,6 @@
 #include "line_strip/object_impl.hpp"
 #include "line_strip/parameters_impl.hpp"
 #include "line_strip_output.hpp"
-#include "default_texture_creator.hpp"
 #include <sge/systems/instance.hpp>
 #include <sge/systems/list.hpp>
 #include <sge/systems/image2d.hpp>
@@ -319,10 +318,6 @@ try
 				)
 			)
 	);
-
-	sge::bullet::test::default_texture_creator creator_(
-		sys.image_system(),
-		sys.renderer());
 
 	cursor_handler handler(
 		sys.cursor_demuxer(),

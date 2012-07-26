@@ -25,7 +25,7 @@ target_link_libraries(
 awl_utils_add_portable_executable(
 	roflpolygonbuilder
 	"test_main"
-	"polygon.cpp;default_texture_creator.cpp"
+	"polygon.cpp"
 )
 
 target_link_libraries(
