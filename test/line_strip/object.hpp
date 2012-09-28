@@ -4,10 +4,10 @@
 #include "parameters_fwd.hpp"
 #include "style.hpp"
 #include <fcppt/math/vector/static.hpp>
-#include <sge/renderer/device_fwd.hpp>
 #include <sge/renderer/vertex_buffer_shared_ptr.hpp>
 #include <sge/renderer/vertex_declaration_shared_ptr.hpp>
-#include <sge/renderer/context/object_fwd.hpp>
+#include <sge/renderer/context/core_fwd.hpp>
+#include <sge/renderer/device/core_fwd.hpp>
 #include <vector>
 
 namespace rofl
@@ -36,7 +36,7 @@ public:
 	typedef Color color;
 
 	object(
-		sge::renderer::device &,
+		sge::renderer::device::core &,
 		parameters<unit,color> const &);
 
 	object(
@@ -58,7 +58,7 @@ public:
 
 	void
 	draw(
-		sge::renderer::context::object &) const;
+		sge::renderer::context::core &) const;
 
 	// only read access because we have to regenerate the vb afterwards
 	point_sequence const &
@@ -68,7 +68,7 @@ public:
 	back(
 		point const &);
 private:
-	sge::renderer::device *renderer_;
+	sge::renderer::device::core *renderer_;
 	style::type style_;
 	color color_;
 	point_sequence points_;

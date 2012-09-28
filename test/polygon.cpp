@@ -9,10 +9,11 @@
 #include <sge/systems/quit_on_escape.hpp>
 #include <sge/config/media_path.hpp>
 #include <sge/image/colors.hpp>
-#include <sge/renderer/device.hpp>
 #include <sge/renderer/clear/parameters.hpp>
-#include <sge/renderer/context/object.hpp>
-#include <sge/renderer/context/scoped.hpp>
+#include <sge/renderer/context/ffp.hpp>
+#include <sge/renderer/context/scoped_ffp.hpp>
+#include <sge/renderer/device/core.hpp>
+#include <sge/renderer/device/ffp.hpp>
 #include <sge/renderer/display_mode/optional_object.hpp>
 #include <sge/renderer/parameters/object.hpp>
 #include <sge/renderer/parameters/vsync.hpp>
@@ -20,11 +21,14 @@
 #include <sge/renderer/pixel_format/depth_stencil.hpp>
 #include <sge/renderer/pixel_format/optional_multi_samples.hpp>
 #include <sge/renderer/pixel_format/srgb.hpp>
-#include <sge/renderer/projection/dim.hpp>
-#include <sge/renderer/projection/far.hpp>
-#include <sge/renderer/projection/near.hpp>
-#include <sge/renderer/projection/orthogonal_wh.hpp>
+#include <sge/renderer/projection/orthogonal_viewport.hpp>
+#include <sge/renderer/state/ffp/transform/mode.hpp>
+#include <sge/renderer/state/ffp/transform/object.hpp>
+#include <sge/renderer/state/ffp/transform/object_scoped_ptr.hpp>
+#include <sge/renderer/state/ffp/transform/parameters.hpp>
+#include <sge/renderer/state/ffp/transform/scoped.hpp>
 #include <sge/renderer/target/onscreen.hpp>
+#include <sge/renderer/target/viewport_is_null.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/image/capabilities_field.hpp>
 #include <sge/input/cursor/button_event.hpp>
@@ -288,7 +292,7 @@ try
 	);
 
 	line_strip border(
-		sys.renderer(),
+		sys.renderer_core(),
 		line_strip_params()
 			.style(
 				rofl::line_strip::style::loop)
@@ -305,7 +309,7 @@ try
 	hole_vector holes;
 
 	line_strip current_strip(
-		sys.renderer(),
+		sys.renderer_core(),
 		line_strip_params()
 			.style(
 				rofl::line_strip::style::loop)
@@ -330,26 +334,32 @@ try
 		sys.window_system().poll()
 	)
 	{
-		sge::renderer::context::scoped const scoped_block(
-			sys.renderer(),
-			sys.renderer().onscreen_target()
+		if(
+			sge::renderer::target::viewport_is_null(
+				sys.renderer_ffp().onscreen_target().viewport()
+			)
+		)
+			continue;
+
+		sge::renderer::context::scoped_ffp const scoped_block(
+			sys.renderer_ffp(),
+			sys.renderer_ffp().onscreen_target()
 		);
 
-		scoped_block.get().transform(
-			sge::renderer::matrix_mode::projection,
-			sge::renderer::projection::orthogonal_wh(
-				fcppt::math::dim::structure_cast<
-					sge::renderer::projection::dim
-				>(
-					window_dim
-				),
-				sge::renderer::projection::near(
-					0.f
-				),
-				sge::renderer::projection::far(
-					1.f
+		sge::renderer::state::ffp::transform::object_scoped_ptr const transform_state(
+			sys.renderer_ffp().create_transform_state(
+				sge::renderer::state::ffp::transform::parameters(
+					*sge::renderer::projection::orthogonal_viewport(
+						scoped_block.get().target().viewport()
+					)
 				)
 			)
+		);
+
+		sge::renderer::state::ffp::transform::scoped const scoped_transform(
+			scoped_block.get(),
+			sge::renderer::state::ffp::transform::mode::projection,
+			*transform_state
 		);
 
 		scoped_block.get().clear(

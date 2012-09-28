@@ -18,8 +18,8 @@
 #include <sge/renderer/vertex_declaration.hpp>
 #include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_field.hpp>
-#include <sge/renderer/device.hpp>
-#include <sge/renderer/context/object.hpp>
+#include <sge/renderer/device/core.hpp>
+#include <sge/renderer/context/core.hpp>
 #include <boost/mpl/vector.hpp>
 #include <boost/foreach.hpp>
 
@@ -29,7 +29,7 @@ template
 	typename B
 >
 rofl::line_strip::object<A,B>::object(
-	sge::renderer::device &_renderer,
+	sge::renderer::device::core &_renderer,
 	parameters<A,B> const &params)
 :
 	renderer_(
@@ -128,7 +128,7 @@ template
 >
 void
 rofl::line_strip::object<A,B>::draw(
-	sge::renderer::context::object &_render_context) const
+	sge::renderer::context::core &_render_context) const
 {
 	if (points_.empty())
 		return;
