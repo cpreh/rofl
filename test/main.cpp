@@ -10,9 +10,19 @@
 #include <rofl/polygon.hpp>
 #include <rofl/consume.hpp>
 #include <rofl/astar/generate_trail.hpp>
+#include <sge/systems/cursor_option_field.hpp>
+#include <sge/systems/input.hpp>
 #include <sge/systems/instance.hpp>
+#include <sge/systems/keyboard_collector.hpp>
 #include <sge/systems/list.hpp>
+#include <sge/systems/make_list.hpp>
 #include <sge/systems/quit_on_escape.hpp>
+#include <sge/systems/renderer.hpp>
+#include <sge/systems/renderer_caps.hpp>
+#include <sge/systems/window.hpp>
+#include <sge/systems/with_input.hpp>
+#include <sge/systems/with_renderer.hpp>
+#include <sge/systems/with_window.hpp>
 #include <sge/image/colors.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/device/core.hpp>
@@ -60,6 +70,7 @@
 #include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
+#include <boost/mpl/vector/vector10.hpp>
 #include <exception>
 #include <vector>
 #include <iterator>
@@ -147,8 +158,20 @@ try
 		768
 	);
 
-	sge::systems::instance const sys(
-		sge::systems::list()
+	sge::systems::instance<
+		boost::mpl::vector3<
+			sge::systems::with_window,
+			sge::systems::with_renderer<
+				sge::systems::renderer_caps::ffp
+			>,
+			sge::systems::with_input<
+				boost::mpl::vector1<
+					sge::systems::keyboard_collector
+				>
+			>
+		>
+	> const sys(
+		sge::systems::make_list
 		(
 			sge::systems::window(
 				sge::window::parameters(
@@ -179,9 +202,6 @@ try
 		)
 		(
 			sge::systems::input(
-				sge::systems::input_helper_field(
-					sge::systems::input_helper::keyboard_collector
-				),
 				sge::systems::cursor_option_field::null()
 			)
 		)
