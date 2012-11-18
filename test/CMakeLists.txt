@@ -11,15 +11,15 @@ awl_utils_add_portable_executable(
 target_link_libraries(
 	roflmaintest
 	rofl
-	${Fcppt_core_LIBRARIES}
-	${Awl_LIBRARIES}
-	${SGE_CORE_LIBRARY}
-	${SGE_IMAGE_LIBRARY}
-	${SGE_INPUT_LIBRARY}
-	${SGE_RENDERER_LIBRARY}
-	${SGE_SYSTEMS_LIBRARY}
-	${SGE_VIEWPORT_LIBRARY}
-	${SGE_WINDOW_LIBRARY}
+	${fcppt_core_TARGET}
+	${awl_TARGET}
+	${sgecore_TARGET}
+	${sgeimage_TARGET}
+	${sgeinput_TARGET}
+	${sgerenderer_TARGET}
+	${sgesystems_TARGET}
+	${sgeviewport_TARGET}
+	${sgewindow_TARGET}
 )
 
 awl_utils_add_portable_executable(
@@ -30,18 +30,18 @@ awl_utils_add_portable_executable(
 
 target_link_libraries(
 	roflpolygonbuilder
-	${Fcppt_core_LIBRARIES}
-	${Awl_LIBRARIES}
-	${SGE_CORE_LIBRARY}
-	${SGE_MEDIA_LIBRARY}
-	${SGE_IMAGE_LIBRARY}
-	${SGE_IMAGE2D_LIBRARY}
-	${SGE_INPUT_LIBRARY}
-	${SGE_RENDERER_LIBRARY}
-	${SGE_SYSTEMS_LIBRARY}
-	${SGE_VIEWPORT_LIBRARY}
-	${SGE_TEXTURE_LIBRARY}
-	${SGE_WINDOW_LIBRARY}
+	${fcppt_core_TARGET}
+	${awl_TARGET}
+	${sgecore_TARGET}
+	${sgemedia_TARGET}
+	${sgeimage_TARGET}
+	${sgeimage2d_TARGET}
+	${sgeinput_TARGET}
+	${sgerenderer_TARGET}
+	${sgesystems_TARGET}
+	${sgetexture_TARGET}
+	${sgeviewport_TARGET}
+	${sgewindow_TARGET}
 )
 
 install(
