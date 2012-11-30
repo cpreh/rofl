@@ -23,7 +23,7 @@
 #include <sge/systems/with_input.hpp>
 #include <sge/systems/with_renderer.hpp>
 #include <sge/systems/with_window.hpp>
-#include <sge/image/colors.hpp>
+#include <sge/image/color/predef.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/device/ffp.hpp>
@@ -443,7 +443,7 @@ try
 		scoped_block.get().clear(
 			sge::renderer::clear::parameters()
 			.back_buffer(
-				sge::image::colors::black()
+				sge::image::color::predef::black()
 			)
 		);
 

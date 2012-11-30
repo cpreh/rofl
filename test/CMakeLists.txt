@@ -14,7 +14,7 @@ target_link_libraries(
 	${fcppt_core_TARGET}
 	${awl_TARGET}
 	${sgecore_TARGET}
-	${sgeimage_TARGET}
+	${sgeimagecolor_TARGET}
 	${sgeinput_TARGET}
 	${sgerenderer_TARGET}
 	${sgesystems_TARGET}
@@ -34,7 +34,7 @@ target_link_libraries(
 	${awl_TARGET}
 	${sgecore_TARGET}
 	${sgemedia_TARGET}
-	${sgeimage_TARGET}
+	${sgeimagecolor_TARGET}
 	${sgeimage2d_TARGET}
 	${sgeinput_TARGET}
 	${sgerenderer_TARGET}
