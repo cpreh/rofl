@@ -8,20 +8,22 @@
 #include <sge/renderer/vf/dynamic/make_part_index.hpp>
 #include <sge/renderer/vf/iterator.hpp>
 #include <sge/renderer/vf/vertex.hpp>
-#include <sge/renderer/scoped_vertex_lock.hpp>
-#include <sge/renderer/scoped_vertex_buffer.hpp>
-#include <sge/renderer/scoped_vertex_declaration.hpp>
+#include <sge/renderer/vertex/buffer.hpp>
+#include <sge/renderer/vertex/buffer_parameters.hpp>
+#include <sge/renderer/vertex/declaration.hpp>
+#include <sge/renderer/vertex/declaration_parameters.hpp>
+#include <sge/renderer/vertex/count.hpp>
+#include <sge/renderer/vertex/first.hpp>
+#include <sge/renderer/vertex/scoped_lock.hpp>
+#include <sge/renderer/vertex/scoped_buffer.hpp>
+#include <sge/renderer/vertex/scoped_declaration.hpp>
 #include <sge/renderer/lock_mode.hpp>
 #include <sge/renderer/size_type.hpp>
 #include <sge/renderer/primitive_type.hpp>
-#include <sge/renderer/vertex_buffer.hpp>
-#include <sge/renderer/vertex_declaration.hpp>
-#include <sge/renderer/vertex_count.hpp>
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/context/core.hpp>
 #include <boost/mpl/vector.hpp>
-#include <boost/foreach.hpp>
 
 template
 <
@@ -133,21 +135,21 @@ rofl::line_strip::object<A,B>::draw(
 	if (points_.empty())
 		return;
 
-	sge::renderer::scoped_vertex_declaration const vb_declaration(
+	sge::renderer::vertex::scoped_declaration const vb_declaration(
 		_render_context,
 		*vertex_declaration_
 	);
 
-	sge::renderer::scoped_vertex_buffer const vb_context(
+	sge::renderer::vertex::scoped_buffer const vb_context(
 		_render_context,
 		*vb_
 	);
 
 	_render_context.render_nonindexed(
-		sge::renderer::first_vertex(
+		sge::renderer::vertex::first(
 			0u
 		),
-		sge::renderer::vertex_count(
+		sge::renderer::vertex::count(
 			vb_->size()
 		),
 		sge::renderer::primitive_type::line_strip);
@@ -204,19 +206,21 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 
 	vertex_declaration_ =
 		renderer_->create_vertex_declaration(
-			sge::renderer::vf::dynamic::make_format<format>());
+			sge::renderer::vertex::declaration_parameters(
+				sge::renderer::vf::dynamic::make_format<format>()));
 	vb_ =
 		renderer_->create_vertex_buffer(
-			*vertex_declaration_,
-			sge::renderer::vf::dynamic::make_part_index<
-				format,
-				format_part
-			>(),
-			sge::renderer::vertex_count(
-				points_.size() + (style_ == style::loop ? 1 : 0)),
-			sge::renderer::resource_flags_field::null());
+			sge::renderer::vertex::buffer_parameters(
+				*vertex_declaration_,
+				sge::renderer::vf::dynamic::make_part_index<
+					format,
+					format_part
+				>(),
+				sge::renderer::vertex::count(
+					points_.size() + (style_ == style::loop ? 1 : 0)),
+				sge::renderer::resource_flags_field::null()));
 
-	sge::renderer::scoped_vertex_lock const vblock(
+	sge::renderer::vertex::scoped_lock const vblock(
 		*vb_,
 		sge::renderer::lock_mode::writeonly);
 
@@ -225,7 +229,9 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 
 	typename vertex_view::iterator vb_it = vertices.begin();
 
-	BOOST_FOREACH(point const &v,points_)
+	for(
+		auto const &v : points_
+	)
 	{
 		(*vb_it).template set<pos_type>(
 			v);

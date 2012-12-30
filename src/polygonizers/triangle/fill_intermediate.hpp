@@ -7,7 +7,6 @@
 #include <rofl/index.hpp>
 #include <rofl/dereference.hpp>
 #include <rofl/graph/object.hpp>
-#include <fcppt/assign/make_array.hpp>
 #include <cstddef>
 
 namespace rofl
@@ -50,8 +49,14 @@ void fill_intermediate(
 						trilist[corner_base])));
 		}
 
+		rofl::polygonizers::triangle::intermediate::neighbor_array const neighbors{{
+			neighborlist[3*tri],
+			neighborlist[3*tri+1],
+			neighborlist[3*tri+2]
+		}};
+
 		graph_polygons.push_back(
-			intermediate(
+			rofl::polygonizers::triangle::intermediate(
 				boost::add_vertex(
 					rofl::graph::vertex_properties(
 						g,
@@ -59,10 +64,7 @@ void fill_intermediate(
 							dereference(
 								g))),
 					output),
-				fcppt::assign::make_array<intermediate::index>
-					(neighborlist[3*tri])
-					(neighborlist[3*tri+1])
-					(neighborlist[3*tri+2])));
+				neighbors));
 	}
 }
 }

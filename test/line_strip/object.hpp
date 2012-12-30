@@ -4,10 +4,10 @@
 #include "parameters_fwd.hpp"
 #include "style.hpp"
 #include <fcppt/math/vector/static.hpp>
-#include <sge/renderer/vertex_buffer_shared_ptr.hpp>
-#include <sge/renderer/vertex_declaration_shared_ptr.hpp>
 #include <sge/renderer/context/core_fwd.hpp>
 #include <sge/renderer/device/core_fwd.hpp>
+#include <sge/renderer/vertex/buffer_shared_ptr.hpp>
+#include <sge/renderer/vertex/declaration_shared_ptr.hpp>
 #include <vector>
 
 namespace rofl
@@ -72,8 +72,8 @@ private:
 	style::type style_;
 	color color_;
 	point_sequence points_;
-	sge::renderer::vertex_declaration_shared_ptr vertex_declaration_;
-	sge::renderer::vertex_buffer_shared_ptr vb_;
+	sge::renderer::vertex::declaration_shared_ptr vertex_declaration_;
+	sge::renderer::vertex::buffer_shared_ptr vb_;
 
 	void regenerate_vb();
 };

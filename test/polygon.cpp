@@ -63,13 +63,13 @@
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/tr1/functional.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
 #include <fcppt/exception.hpp>
 #include <fcppt/text.hpp>
 #include <boost/mpl/vector/vector10.hpp>
 #include <exception>
+#include <functional>
 #include <vector>
 #include <iostream>
 #include <ostream>
@@ -146,19 +146,19 @@ cursor_handler::cursor_handler(
 		false),
 	button_connection_(
 		_cursor.button_callback(
-			std::tr1::bind(
+			std::bind(
 				&cursor_handler::button_callback,
 				this,
-				std::tr1::placeholders::_1
+				std::placeholders::_1
 			)
 		)
 	),
 	move_connection_(
 		_cursor.move_callback(
-			std::tr1::bind(
+			std::bind(
 				&cursor_handler::move_callback,
 				this,
-				std::tr1::placeholders::_1
+				std::placeholders::_1
 			)
 		)
 	)
