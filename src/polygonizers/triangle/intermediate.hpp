@@ -1,8 +1,10 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_INTERMEDIATE_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_INTERMEDIATE_HPP_INCLUDED
 
-#include <fcppt/container/array.hpp>
 #include <rofl/graph/vertex_descriptor.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <array>
+#include <fcppt/config/external_end.hpp>
 
 namespace rofl
 {
@@ -20,7 +22,7 @@ struct intermediate
 	typedef int index;
 
 	typedef
-	fcppt::container::array<index,3>
+	std::array<index,3>
 	neighbor_array;
 
 	graph::vertex_descriptor vertex;
