@@ -1,16 +1,22 @@
+#include <rofl/index.hpp>
 #include <rofl/indexed_point.hpp>
-#include <rofl/graph/properties.hpp>
+#include <rofl/point.hpp>
 #include <rofl/graph/object.hpp>
-#include <fcppt/math/vector/object_impl.hpp>
+#include <rofl/graph/properties.hpp>
+#include <fcppt/math/vector/comparison.hpp>
+
 
 rofl::indexed_point::indexed_point(
-	graph::object const &_parent,
-	index const _index)
+	rofl::graph::object const &_parent,
+	rofl::index const _index
+)
 :
 	parent_(
-		&_parent),
+		_parent
+	),
 	index_(
-		_index)
+		_index
+	)
 {
 }
 
@@ -19,15 +25,34 @@ rofl::indexed_point::representation() const
 {
 	return
 		boost::get_property(
-			*parent_,
+			parent_.get(),
 			rofl::graph::property_tag()
-		).points()[index_];
+		).points()[
+			index_
+		];
 }
 
 bool
 rofl::indexed_point::operator==(
-	indexed_point const &p) const
+	rofl::indexed_point const &_other
+) const
 {
 	return
-		index_ == p.index_;
+		index_
+		==
+		_other.index_;
+}
+
+bool
+rofl::operator!=(
+	rofl::indexed_point const &_p1,
+	rofl::indexed_point const &_p2
+)
+{
+	return
+		!(
+			_p1
+			==
+			_p2
+		);
 }

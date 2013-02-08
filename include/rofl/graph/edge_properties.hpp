@@ -3,30 +3,34 @@
 
 #include <rofl/indexed_line_segment.hpp>
 #include <rofl/unit.hpp>
-#include <fcppt/math/vector/object_impl.hpp>
+#include <rofl/graph/edge_properties_fwd.hpp>
+
 
 namespace rofl
 {
 namespace graph
 {
+
 class edge_properties
 {
 public:
 	edge_properties(
-		unit,
-		indexed_line_segment const &);
+		rofl::unit,
+		rofl::indexed_line_segment const &
+	);
 
-	unit
+	rofl::unit
 	length() const;
 
-	indexed_line_segment const &
+	rofl::indexed_line_segment const &
 	adjacent_edge() const;
-	unit
-		length_;
+
+	// public for boost properties
+	rofl::unit length_;
 private:
-	indexed_line_segment
-		adjacent_edge_;
+	rofl::indexed_line_segment adjacent_edge_;
 };
+
 }
 }
 

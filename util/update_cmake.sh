@@ -18,25 +18,27 @@ function update_cmake_file()
 }
 
 update_cmake_file \
-	CMakeLists.txt \
+	src/CMakeLists.txt \
 	ROFL_CORE_INCLUDE_FILES \
 	include/rofl
 
 update_cmake_file \
-	CMakeLists.txt \
+	src/CMakeLists.txt \
 	ROFL_CORE_SRC_FILES \
 	-n \
 	src \
 	-r \
+	src/aux \
 	src/astar \
 	src/graph \
+	src/include \
 	src/math \
 	-n \
 	src/polygonizers \
 	src/polygonizers/src
 
 update_cmake_file \
-	CMakeLists.txt \
+	src/CMakeLists.txt \
 	ROFL_TRIANGLE_FILES \
 	-n \
 	src/polygonizers/triangle \

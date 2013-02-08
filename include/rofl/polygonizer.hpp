@@ -2,13 +2,14 @@
 #define ROFL_POLYGONIZER_HPP_INCLUDED
 
 #include <rofl/polygonizer_fwd.hpp>
-#include <rofl/polygon_with_holes.hpp>
-#include <rofl/graph/object.hpp>
-#include <rofl/point.hpp>
+#include <rofl/polygon_with_holes_fwd.hpp>
+#include <rofl/graph/object_fwd.hpp>
 #include <fcppt/noncopyable.hpp>
+
 
 namespace rofl
 {
+
 class polygonizer
 {
 	FCPPT_NONCOPYABLE(
@@ -17,13 +18,17 @@ class polygonizer
 protected:
 	polygonizer();
 public:
-	virtual void
+	virtual
+	void
 	polygonize(
-		polygon_with_holes const &,
-		graph::object &) = 0;
+		rofl::polygon_with_holes const &,
+		rofl::graph::object &
+	) = 0;
 
-	virtual ~polygonizer();
+	virtual
+	~polygonizer() = 0;
 };
+
 }
 
 #endif

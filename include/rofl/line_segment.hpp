@@ -1,14 +1,9 @@
 #ifndef ROFL_LINE_SEGMENT_HPP_INCLUDED
 #define ROFL_LINE_SEGMENT_HPP_INCLUDED
 
-#include <rofl/math/line_segment.hpp>
+#include <rofl/line_segment_fwd.hpp>
 #include <rofl/point.hpp>
+#include <rofl/math/line_segment_impl.hpp>
 
-namespace rofl
-{
-typedef
-math::line_segment<point>
-line_segment;
-}
 
 #endif

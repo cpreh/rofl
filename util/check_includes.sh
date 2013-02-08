@@ -1,3 +1,4 @@
 #!/bin/sh
 check_includes include
-check_includes src ROFL_
+
+check_includes src/include

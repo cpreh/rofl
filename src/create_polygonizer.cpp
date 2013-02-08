@@ -1,9 +1,14 @@
 #include "polygonizers/triangle/object.hpp"
 #include <rofl/create_polygonizer.hpp>
-#include <fcppt/make_shared_ptr.hpp>
+#include <rofl/polygonizer_unique_ptr.hpp>
+#include <fcppt/make_unique_ptr.hpp>
 
-rofl::polygonizer_ptr const rofl::create_polygonizer()
+
+rofl::polygonizer_unique_ptr
+rofl::create_polygonizer()
 {
 	return
-		fcppt::make_shared_ptr<polygonizers::triangle::object>();
+		fcppt::make_unique_ptr<
+			rofl::polygonizers::triangle::object
+		>();
 }

@@ -1,23 +1,31 @@
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+cmake_minimum_required(
+	VERSION
+	2.8
+)
 
-PROJECT (rofl)
+project(
+	rofl
+)
 
-INCLUDE(FcpptCMakeUtils)
+include(
+	FcpptCMakeUtils
+)
 
-INCLUDE_DIRECTORIES(
+include_directories(
 	${CMAKE_SOURCE_DIR}/include
 )
 
-FIND_PACKAGE(
+find_package(
 	Boost 1.41.0 REQUIRED
 )
 
-INCLUDE_DIRECTORIES(
-	SYSTEM
+include_directories(
 	${Boost_INCLUDE_DIR}
 )
 
-LINK_DIRECTORIES(${Boost_LIBRARY_DIRS})
+link_directories(
+	${Boost_LIBRARY_DIRS}
+)
 
 # Find Mizuiro
 
@@ -25,7 +33,9 @@ FIND_PACKAGE(
 	mizuiro REQUIRED
 )
 
-INCLUDE_DIRECTORIES(${mizuiro_INCLUDE_DIRS})
+include_directories(
+	${mizuiro_INCLUDE_DIRS}
+)
 
 # Find FCPPT
 
@@ -33,19 +43,32 @@ find_package(
 	fcppt REQUIRED
 )
 
-ADD_DEFINITIONS(${fcppt_DEFINITIONS})
+add_definitions(
+	${fcppt_DEFINITIONS}
+)
 
-INCLUDE_DIRECTORIES(${fcppt_INCLUDE_DIRS})
+include_directories(
+	${fcppt_INCLUDE_DIRS}
+)
 
+add_subdirectory(
+	src
+)
+
+# TODO: Only find AWL and SGE when tests are enabled
 # Find AWL
 
 find_package(
 	awl REQUIRED
 )
 
-ADD_DEFINITIONS(${awl_DEFINITIONS})
+add_definitions(
+	${awl_DEFINITIONS}
+)
 
-INCLUDE_DIRECTORIES(${awl_INCLUDE_DIRS})
+include_directories(
+	${awl_INCLUDE_DIRS}
+)
 
 # Find SGE
 
@@ -54,7 +77,10 @@ set(
 	media image image2d input renderer window
 )
 
-OPTION(ENABLE_TEST "Build the tests" ON)
+option(
+	ENABLE_TEST
+	"Build the tests" ON
+)
 
 if(
 	ENABLE_TEST
@@ -71,156 +97,21 @@ find_package(
 	${SGE_COMPONENTS}
 )
 
-INCLUDE_DIRECTORIES(${sge_INCLUDE_DIRS})
-
-IF (ENABLE_TEST)
-	ADD_SUBDIRECTORY (test)
-ENDIF ()
-
-SET(
-	ROFL_CORE_INCLUDE_FILES
-	include/rofl/astar/generate_path.hpp
-	include/rofl/astar/generate_trail.hpp
-	include/rofl/astar/path.hpp
-	include/rofl/astar/trail.hpp
-	include/rofl/consume.hpp
-	include/rofl/create_polygonizer.hpp
-	include/rofl/dereference.hpp
-	include/rofl/graph/const_vertex_iterator.hpp
-	include/rofl/graph/edge_descriptor.hpp
-	include/rofl/graph/edge_iterator.hpp
-	include/rofl/graph/edge_properties.hpp
-	include/rofl/graph/object.hpp
-	include/rofl/graph/object_fwd.hpp
-	include/rofl/graph/out_edge_iterator.hpp
-	include/rofl/graph/properties.hpp
-	include/rofl/graph/simplify.hpp
-	include/rofl/graph/vertex_descriptor.hpp
-	include/rofl/graph/vertex_iterator.hpp
-	include/rofl/graph/vertex_properties.hpp
-	include/rofl/graph/vertices_begin.hpp
-	include/rofl/graph/vertices_end.hpp
-	include/rofl/index.hpp
-	include/rofl/indexed_line_segment.hpp
-	include/rofl/indexed_point.hpp
-	include/rofl/indexed_polygon.hpp
-	include/rofl/line_segment.hpp
-	include/rofl/log.hpp
-	include/rofl/log_context.hpp
-	include/rofl/math/barycenter.hpp
-	include/rofl/math/line_segment.hpp
-	include/rofl/math/polygon.hpp
-	include/rofl/math/polygon_with_holes.hpp
-	include/rofl/math/polygon_with_holes_fwd.hpp
-	include/rofl/point.hpp
-	include/rofl/polygon.hpp
-	include/rofl/polygon_with_holes.hpp
-	include/rofl/polygonizer.hpp
-	include/rofl/polygonizer_fwd.hpp
-	include/rofl/symbol.hpp
-	include/rofl/unit.hpp
+include_directories(
+	${sge_INCLUDE_DIRS}
 )
 
-SET(
-	ROFL_CORE_SRC_FILES
-	src/astar/found_goal.hpp
-	src/astar/generate_path.cpp
-	src/astar/generate_trail.cpp
-	src/astar/goal_visitor.hpp
-	src/astar/goal_visitor_impl.hpp
-	src/astar/heuristic.hpp
-	src/astar/heuristic_impl.hpp
-	src/create_polygonizer.cpp
-	src/cyclic_iterator.hpp
-	src/cyclic_iterator_impl.hpp
-	src/dereference.cpp
-	src/graph/edge_properties.cpp
-	src/graph/find_adjacent.cpp
-	src/graph/find_adjacent.hpp
-	src/graph/merge.cpp
-	src/graph/merge.hpp
-	src/graph/mergeable.cpp
-	src/graph/mergeable.hpp
-	src/graph/on_boundary.hpp
-	src/graph/placement.hpp
-	src/graph/properties.cpp
-	src/graph/simplify.cpp
-	src/graph/vertex_properties.cpp
-	src/graph/vertices_begin.cpp
-	src/graph/vertices_end.cpp
-	src/indexed_point.cpp
-	src/log.cpp
-	src/log_context.cpp
-	src/log_location.cpp
-	src/log_location.hpp
-	src/log_parameters.cpp
-	src/log_parameters.hpp
-	src/math/area_sign.hpp
-	src/math/left.hpp
-	src/math/left_on.hpp
-	src/polygonizer.cpp
-	src/polygonizers/log.hpp
-	src/polygonizers/log_location.cpp
-	src/polygonizers/log_location.hpp
-	src/polygonizers/src/log.cpp
+if(
+	ENABLE_TEST
 )
+	add_subdirectory(
+		test
+	)
+endif()
 
-SET(
-	ROFL_TRIANGLE_FILES
-	src/polygonizers/triangle/accumulate_sizes.hpp
-	src/polygonizers/triangle/add_polygon.hpp
-	src/polygonizers/triangle/clear_pod.hpp
-	src/polygonizers/triangle/determine_adjacent_edge.hpp
-	src/polygonizers/triangle/edge_angle.hpp
-	src/polygonizers/triangle/fill_intermediate.hpp
-	src/polygonizers/triangle/fill_points.hpp
-	src/polygonizers/triangle/intermediate.hpp
-	src/polygonizers/triangle/is_convex.hpp
-	src/polygonizers/triangle/line_segments.hpp
-	src/polygonizers/triangle/log.hpp
-	src/polygonizers/triangle/log_location.hpp
-	src/polygonizers/triangle/object.hpp
-	src/polygonizers/triangle/src/intermediate.cpp
-	src/polygonizers/triangle/src/log.cpp
-	src/polygonizers/triangle/src/log_location.cpp
-	src/polygonizers/triangle/src/object.cpp
-	src/polygonizers/triangle/src/triangulation.cpp
-	src/polygonizers/triangle/triangle_line_segments.hpp
-	src/polygonizers/triangle/triangulation.hpp
-)
-
-SET_SOURCE_FILES_PROPERTIES(
-	${ROFL_TRIANGLE_FILES}
-	PROPERTIES
-	COMPILE_FLAGS
-	"-DTRILIBRARY -DANSI_DECLARATORS -DREAL=float -DVOID=int"
-)
-
-SET(
-	ROFL_CORE_FILES
-	"${ROFL_CORE_INCLUDE_FILES};${ROFL_CORE_SRC_FILES};${ROFL_TRIANGLE_FILES}"
-)
-
-ADD_LIBRARY(
-	rofl SHARED ${ROFL_CORE_FILES}
-)
-
-TARGET_LINK_LIBRARIES(
-	rofl
-	${fcppt_core_TARGET}
-	${sgecore_TARGET}
-	rofltriangleimpl
-)
-
-INSTALL(
-	TARGETS
-	rofl
+install(
+	DIRECTORY
+	include
 	DESTINATION
-	${CMAKE_INSTALL_PREFIX}/lib
+	include
 )
-
-ADD_SUBDIRECTORY(
-	src/polygonizers/triangle/impl
-)
-
-INSTALL (DIRECTORY include/ DESTINATION include)

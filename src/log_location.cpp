@@ -1,6 +1,7 @@
-#include "log_location.hpp"
-#include <fcppt/log/location.hpp>
+#include <rofl/log_location.hpp>
 #include <fcppt/text.hpp>
+#include <fcppt/log/location.hpp>
+
 
 fcppt::log::location const
 rofl::log_location()

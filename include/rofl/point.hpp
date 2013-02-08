@@ -1,18 +1,8 @@
 #ifndef ROFL_POINT_HPP_INCLUDED
 #define ROFL_POINT_HPP_INCLUDED
 
-#include <rofl/unit.hpp>
-#include <fcppt/math/vector/static.hpp>
+#include <rofl/point_fwd.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 
-namespace rofl
-{
-typedef
-fcppt::math::vector::static_
-<
-	unit,
-	2
->::type
-point;
-}
 
 #endif

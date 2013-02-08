@@ -1,66 +1,110 @@
 #include <rofl/astar/generate_trail.hpp>
+#include <rofl/astar/trail.hpp>
+#include <rofl/aux/astar/found_goal.hpp>
+#include <rofl/aux/astar/goal_visitor.hpp>
+#include <rofl/aux/astar/heuristic.hpp>
+#include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_iterator.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <boost/graph/astar_search.hpp>
-#include "found_goal.hpp"
-#include "goal_visitor.hpp"
-#include "heuristic.hpp"
+#include <boost/graph/properties.hpp>
+#include <fcppt/config/external_end.hpp>
 
-void
+
+rofl::astar::trail
 rofl::astar::generate_trail(
-	graph::object const &g,
-	graph::vertex_descriptor const &start,
-	graph::vertex_descriptor const &goal,
-	trail &_trail)
+	graph::object const &_graph,
+	graph::vertex_descriptor const &_start,
+	graph::vertex_descriptor const &_goal
+)
 {
 	typedef
 	std::map
 	<
-		graph::vertex_descriptor,
-		graph::vertex_descriptor
+		rofl::graph::vertex_descriptor,
+		rofl::graph::vertex_descriptor
 	>
 	predecessors;
 
-	predecessors p;
+	predecessors preds;
 
 	try
 	{
 		typedef
 		boost::property_map
 		<
-			graph::object,
+			rofl::graph::object,
 			rofl::unit rofl::graph::edge_properties::*
 		>::type
 		edge_weight_map;
 
-		edge_weight_map w =
+		edge_weight_map const weight(
 			boost::get(
 				&rofl::graph::edge_properties::length_,
-				const_cast<graph::object &>(
-					g));
+				const_cast<
+					rofl::graph::object &
+				>(
+					_graph
+				)
+			)
+		);
 
 		boost::astar_search(
-			const_cast<graph::object &>(
-				g),
-			start,
-			heuristic(
-				g,
-				goal),
+			const_cast<
+				rofl::graph::object &
+			>(
+				_graph
+			),
+			_start,
+			rofl::aux::astar::heuristic(
+				_graph,
+				_goal
+			),
+			// TODO: where does this come from?
 			predecessor_map(
-				boost::associative_property_map<predecessors>(
-					p))
+				// TODO: and this?
+				boost::associative_property_map<
+					predecessors
+				>(
+					preds
+				)
+			)
 			.weight_map(
-				w)
-			.visitor(goal_visitor(goal)));
+				weight
+			)
+			.visitor(
+				rofl::aux::astar::goal_visitor(
+					_goal
+				)
+			)
+		);
 	}
-	catch (found_goal const &)
+	catch(
+		rofl::aux::astar::found_goal const &
+	)
 	{
 	}
 
-	for (graph::vertex_descriptor v = goal;;v = p[v])
+	rofl::astar::trail ret;
+
+	for(
+		rofl::graph::vertex_descriptor vertex = _goal;
+		;
+		vertex = preds[vertex]
+	)
 	{
-		_trail.push_front(
-			v);
-		if (p[v] == v)
+		ret.push_front(
+			vertex
+		);
+
+		if(
+			preds[vertex]
+			==
+			vertex
+		)
 			break;
 	}
+
+	return
+		ret;
 }

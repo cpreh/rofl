@@ -1,9 +1,12 @@
 #ifndef ROFL_POLYGONIZERS_TRIANGLE_LINE_SEGMENTS_HPP_INCLUDED
 #define ROFL_POLYGONIZERS_TRIANGLE_LINE_SEGMENTS_HPP_INCLUDED
 
-#include <rofl/math/line_segment.hpp>
-#include <rofl/math/polygon.hpp>
+#include <rofl/math/line_segment_impl.hpp>
+#include <rofl/math/polygon_impl.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <vector>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace rofl
 {
@@ -17,10 +20,10 @@ std::vector
 	math::line_segment<T>
 > const
 line_segments(
-	math::polygon<T> const &p)
+	rofl::math::polygon<T> const &p)
 {
 	std::vector < math::line_segment<T> > segments;
-	for (typename math::polygon<T>::const_iterator i = p.begin(); i != p.end(); ++i)
+	for (typename rofl::math::polygon<T>::const_iterator i = p.begin(); i != p.end(); ++i)
 	{
 		T const &next =
 			i == boost::prior(p.end())

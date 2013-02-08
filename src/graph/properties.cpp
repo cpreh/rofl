@@ -1,5 +1,5 @@
 #include <rofl/graph/properties.hpp>
-#include <fcppt/math/vector/object_impl.hpp>
+
 
 rofl::graph::properties::properties()
 :
@@ -8,12 +8,13 @@ rofl::graph::properties::properties()
 }
 
 rofl::graph::properties::properties(
-	point_vector const &_points)
+	point_vector const &_points
+)
 :
 	points_(
-		_points)
+		_points
+	)
 {
-
 }
 
 rofl::graph::properties::point_vector &

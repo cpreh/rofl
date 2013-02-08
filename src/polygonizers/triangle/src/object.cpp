@@ -11,13 +11,12 @@
 #include "../fill_intermediate.hpp"
 #include "../determine_adjacent_edge.hpp"
 #include "../log_location.hpp"
-#include "../../../log_parameters.hpp"
 #include <rofl/unit.hpp>
 #include <rofl/point.hpp>
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/line_segment.hpp>
 #include <rofl/polygon.hpp>
-#include <rofl/math/polygon.hpp>
+#include <rofl/aux/log_parameters.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_properties.hpp>
@@ -40,7 +39,7 @@ namespace
 
 fcppt::log::object
 mylogger(
-	rofl::log_parameters(
+	rofl::aux::log_parameters(
 		rofl::polygonizers::triangle::log_location()
 		/
 		FCPPT_TEXT("object")

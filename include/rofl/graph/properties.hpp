@@ -3,23 +3,31 @@
 
 #include <rofl/point.hpp>
 #include <rofl/symbol.hpp>
+#include <rofl/graph/properties_fwd.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <vector>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace rofl
 {
 namespace graph
 {
+
 class properties
 {
 public:
-	typedef std::vector<point> point_vector;
+	typedef std::vector<
+		rofl::point
+	> point_vector;
 
 	ROFL_SYMBOL
 	properties();
 
 	ROFL_SYMBOL
 	properties(
-		point_vector const &);
+		point_vector const &
+	);
 
 	ROFL_SYMBOL
 	point_vector const &
@@ -31,6 +39,7 @@ public:
 private:
 	point_vector points_;
 };
+
 }
 }
 

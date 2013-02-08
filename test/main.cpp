@@ -7,6 +7,8 @@
 #include <rofl/graph/simplify.hpp>
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
+#include <rofl/math/polygon_input.hpp>
+#include <rofl/math/polygon_output.hpp>
 #include <rofl/polygon.hpp>
 #include <rofl/consume.hpp>
 #include <rofl/astar/generate_trail.hpp>
@@ -377,12 +379,13 @@ try
 				std::rand() % number_of_vertices);
 
 
-	rofl::astar::trail splist;
-	rofl::astar::generate_trail(
-		g,
-		start,
-		end,
-		splist);
+	rofl::astar::trail splist(
+		rofl::astar::generate_trail(
+			g,
+			start,
+			end
+		)
+	);
 
 	//fcppt::io::cerr << splist.size() << " elements\n";
 

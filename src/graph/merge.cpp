@@ -1,9 +1,11 @@
 #include "merge.hpp"
 #include "on_boundary.hpp"
-#include "../cyclic_iterator.hpp"
-#include "../cyclic_iterator_impl.hpp"
+#include <fcppt/cyclic_iterator.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/vector/object_impl.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <iterator>
+#include <fcppt/config/external_end.hpp>
+
 
 rofl::indexed_polygon const rofl::graph::merge(
 	rofl::indexed_polygon const &a,
@@ -24,7 +26,7 @@ rofl::indexed_polygon const rofl::graph::merge(
 	Das Durchlaufen erfolgt zyklisch.
 	*/
 	typedef
-	rofl::cyclic_iterator
+	fcppt::cyclic_iterator
 	<
 		rofl::indexed_polygon::const_iterator
 	> cyclic_iterator;
@@ -37,7 +39,7 @@ rofl::indexed_polygon const rofl::graph::merge(
 
 	while(
 		!rofl::graph::on_boundary(*i,l) ||
-		!rofl::graph::on_boundary(*boost::next(i),l))
+		!rofl::graph::on_boundary(*std::next(i),l))
 		output.push_back(
 			*i++);
 
@@ -51,7 +53,7 @@ rofl::indexed_polygon const rofl::graph::merge(
 
 	while(
 		!rofl::graph::on_boundary(*j,l) ||
-		!rofl::graph::on_boundary(*boost::next(j),l))
+		!rofl::graph::on_boundary(*std::next(j),l))
 		output.push_back(
 			*j++);
 

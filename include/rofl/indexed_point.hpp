@@ -1,36 +1,52 @@
 #ifndef ROFL_INDEXED_POINT_HPP_INCLUDED
 #define ROFL_INDEXED_POINT_HPP_INCLUDED
 
-#include <rofl/graph/object_fwd.hpp>
 #include <rofl/index.hpp>
-#include <rofl/point.hpp>
+#include <rofl/indexed_point_fwd.hpp>
+#include <rofl/point_fwd.hpp>
 #include <rofl/symbol.hpp>
-#include <boost/operators.hpp>
+#include <rofl/graph/object_fwd.hpp>
+#include <fcppt/reference_wrapper.hpp>
+
 
 namespace rofl
 {
+
 class indexed_point
-:
-	public boost::equality_comparable<indexed_point>
 {
 public:
 	ROFL_SYMBOL
 	indexed_point(
 		rofl::graph::object const &,
-		index);
+		rofl::index
+	);
 
 	ROFL_SYMBOL
-	point const &
+	rofl::point const &
 	representation() const;
 
 	ROFL_SYMBOL
 	bool
 	operator==(
-		indexed_point const &) const;
+		rofl::indexed_point const &
+	) const;
 private:
-	rofl::graph::object const *parent_;
-	index index_;
+	typedef fcppt::reference_wrapper<
+		rofl::graph::object const
+	> graph_reference;
+
+	graph_reference parent_;
+
+	rofl::index index_;
 };
+
+ROFL_SYMBOL
+bool
+operator!=(
+	rofl::indexed_point const &,
+	rofl::indexed_point const &
+);
+
 }
 
 #endif

@@ -1,6 +1,9 @@
+#include <rofl/indexed_polygon.hpp>
+#include <rofl/polygon.hpp>
+#include <rofl/graph/properties.hpp> // TODO: why does gcc need this?
 #include <rofl/graph/vertex_properties.hpp>
-#include <rofl/math/barycenter.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
+
 
 rofl::graph::vertex_properties::vertex_properties()
 :
@@ -10,22 +13,27 @@ rofl::graph::vertex_properties::vertex_properties()
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	indexed_polygon const &_polygon)
+	rofl::indexed_polygon const &_polygon
+)
 :
 	polygon_(
-		_polygon),
+		_polygon
+	),
 	barycenter_()
 {
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	indexed_polygon const &_polygon,
-	point const &_barycenter)
+	rofl::indexed_polygon const &_polygon,
+	rofl::point const &_barycenter
+)
 :
 	polygon_(
-		_polygon),
+		_polygon
+	),
 	barycenter_(
-		_barycenter)
+		_barycenter
+	)
 {
 }
 
@@ -38,7 +46,8 @@ rofl::graph::vertex_properties::polygon() const
 
 void
 rofl::graph::vertex_properties::polygon(
-	indexed_polygon const &_polygon)
+	rofl::indexed_polygon const &_polygon
+)
 {
 	polygon_ =
 		_polygon;
@@ -54,7 +63,8 @@ rofl::graph::vertex_properties::barycenter() const
 
 void
 rofl::graph::vertex_properties::barycenter(
-	point const &_barycenter)
+	rofl::point const &_barycenter
+)
 {
 	barycenter_ =
 		_barycenter;

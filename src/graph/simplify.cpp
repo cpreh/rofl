@@ -14,8 +14,6 @@
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
-#include "../cyclic_iterator.hpp"
-#include "../cyclic_iterator_impl.hpp"
 #include <queue>
 #include <vector>
 #include <set>
