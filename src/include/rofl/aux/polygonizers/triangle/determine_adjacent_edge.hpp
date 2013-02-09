@@ -18,6 +18,7 @@ namespace polygonizers
 namespace triangle
 {
 
+inline
 rofl::indexed_line_segment const
 determine_adjacent_edge(
 	rofl::indexed_polygon const &_p0,

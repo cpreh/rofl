@@ -1,15 +1,44 @@
+find_package(
+	awl REQUIRED
+)
+
+add_definitions(
+	${awl_DEFINITIONS}
+)
+
+include_directories(
+	${awl_INCLUDE_DIRS}
+)
+
+# Find SGE
+
+set(
+	SGE_COMPONENTS
+	media image image2d input renderer systems texture viewport window
+)
+
+find_package(
+	sge REQUIRED
+	COMPONENTS
+	${SGE_COMPONENTS}
+)
+
+include_directories(
+	${sge_INCLUDE_DIRS}
+)
+
 include(
 	AwlMainGenerator
 )
 
 awl_utils_add_portable_executable(
-	roflmaintest
+	rofl_main
 	"test_main"
 	main.cpp
 )
 
 target_link_libraries(
-	roflmaintest
+	rofl_main
 	rofl
 	${fcppt_core_TARGET}
 	${awl_TARGET}
@@ -23,13 +52,13 @@ target_link_libraries(
 )
 
 awl_utils_add_portable_executable(
-	roflpolygonbuilder
+	rofl_polygonbuilder
 	"test_main"
 	"polygon.cpp"
 )
 
 target_link_libraries(
-	roflpolygonbuilder
+	rofl_polygonbuilder
 	${fcppt_core_TARGET}
 	${awl_TARGET}
 	${sgecore_TARGET}
@@ -45,11 +74,11 @@ target_link_libraries(
 )
 
 install(
-	TARGETS roflmaintest
+	TARGETS rofl_main
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 
 install(
-	TARGETS roflpolygonbuilder
+	TARGETS rofl_polygonbuilder
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )

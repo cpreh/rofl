@@ -60,63 +60,22 @@ add_subdirectory(
 	src
 )
 
-# TODO: Only find AWL and SGE when tests are enabled
-# Find AWL
-
-find_package(
-	awl REQUIRED
-)
-
-add_definitions(
-	${awl_DEFINITIONS}
-)
-
-include_directories(
-	${awl_INCLUDE_DIRS}
-)
-
-# Find SGE
-
-set(
-	SGE_COMPONENTS
-	media image image2d input renderer window
-)
-
 option(
-	ENABLE_TEST
-	"Build the tests" ON
+	ENABLE_APP
+	"Build the applications" ON
 )
 
 if(
-	ENABLE_TEST
-)
-	set(
-		SGE_COMPONENTS
-		${SGE_COMPONENTS} systems texture viewport
-	)
-endif()
-
-find_package(
-	sge REQUIRED
-	COMPONENTS
-	${SGE_COMPONENTS}
-)
-
-include_directories(
-	${sge_INCLUDE_DIRS}
-)
-
-if(
-	ENABLE_TEST
+	ENABLE_APP
 )
 	add_subdirectory(
-		test
+		app
 	)
 endif()
 
 install(
 	DIRECTORY
-	include
+	include/
 	DESTINATION
-	include
+	${INSTALL_INCLUDE_DIR}
 )
