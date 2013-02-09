@@ -1,15 +1,19 @@
 #ifndef ROFL_LINE_STRIP_PARAMETERS_HPP_INCLUDED
 #define ROFL_LINE_STRIP_PARAMETERS_HPP_INCLUDED
 
-#include "style.hpp"
+#include <rofl/line_strip/style.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 #include <fcppt/math/vector/static.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <vector>
-#include <iterator>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace rofl
 {
 namespace line_strip
 {
+
 template
 <
 	typename Value,
@@ -24,6 +28,7 @@ public:
 		Value,
 		2
 	>::type point;
+
 	typedef
 	std::vector
 	<
@@ -31,24 +36,42 @@ public:
 	> point_sequence;
 
 	parameters();
-	parameters &style(
-		rofl::line_strip::style::type);
-	rofl::line_strip::style::type style() const;
-	Color const &color() const;
-	parameters &color(
-		Color const &);
+
+	parameters &
+	style(
+		rofl::line_strip::style
+	);
+
+	rofl::line_strip::style
+	style() const;
+
+	Color const &
+	color() const;
+
+	parameters &
+	color(
+		Color const &
+	);
+
 	template
 	<
 		typename Container
 	>
-	parameters &points(
-		Container const &);
-	point_sequence const &points() const;
+	parameters &
+	points(
+		Container const &
+	);
+
+	point_sequence const &
+	points() const;
 private:
-	rofl::line_strip::style::type style_;
+	rofl::line_strip::style style_;
+
 	Color color_;
+
 	point_sequence points_;
 };
+
 }
 }
 

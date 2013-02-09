@@ -1,3 +1,7 @@
+include_directories(
+	line_strip/include
+)
+
 find_package(
 	awl REQUIRED
 )
@@ -51,34 +55,34 @@ target_link_libraries(
 	${sgewindow_TARGET}
 )
 
-awl_utils_add_portable_executable(
-	rofl_polygonbuilder
-	"test_main"
-	"polygon.cpp"
-)
+#awl_utils_add_portable_executable(
+#	rofl_polygonbuilder
+#	"test_main"
+#	"polygon.cpp"
+#)
 
-target_link_libraries(
-	rofl_polygonbuilder
-	${fcppt_core_TARGET}
-	${awl_TARGET}
-	${sgecore_TARGET}
-	${sgemedia_TARGET}
-	${sgeimagecolor_TARGET}
-	${sgeimage2d_TARGET}
-	${sgeinput_TARGET}
-	${sgerenderer_TARGET}
-	${sgesystems_TARGET}
-	${sgetexture_TARGET}
-	${sgeviewport_TARGET}
-	${sgewindow_TARGET}
-)
+#target_link_libraries(
+#	rofl_polygonbuilder
+#	${fcppt_core_TARGET}
+#	${awl_TARGET}
+#	${sgecore_TARGET}
+#	${sgemedia_TARGET}
+#	${sgeimagecolor_TARGET}
+#	${sgeimage2d_TARGET}
+#	${sgeinput_TARGET}
+#	${sgerenderer_TARGET}
+#	${sgesystems_TARGET}
+#	${sgetexture_TARGET}
+#	${sgeviewport_TARGET}
+#	${sgewindow_TARGET}
+#)
 
 install(
 	TARGETS rofl_main
 	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
 )
 
-install(
-	TARGETS rofl_polygonbuilder
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
-)
+#install(
+#	TARGETS rofl_polygonbuilder
+#	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+#)

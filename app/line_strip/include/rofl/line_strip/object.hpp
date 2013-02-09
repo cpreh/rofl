@@ -1,14 +1,21 @@
 #ifndef ROFL_LINE_STRIP_OBJECT_HPP_INCLUDED
 #define ROFL_LINE_STRIP_OBJECT_HPP_INCLUDED
 
-#include "parameters_fwd.hpp"
-#include "style.hpp"
+#include <rofl/line_strip/object_fwd.hpp>
+#include <rofl/line_strip/parameters_fwd.hpp>
+#include <rofl/line_strip/style.hpp>
+#include <fcppt/reference_wrapper.hpp>
+#include <fcppt/math/vector/object_impl.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <sge/renderer/context/core_fwd.hpp>
 #include <sge/renderer/device/core_fwd.hpp>
-#include <sge/renderer/vertex/buffer_shared_ptr.hpp>
-#include <sge/renderer/vertex/declaration_shared_ptr.hpp>
+#include <sge/renderer/vertex/buffer_unique_ptr.hpp>
+#include <sge/renderer/vertex/declaration_unique_ptr.hpp>
+#include <fcppt/noncopyable.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <vector>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace rofl
 {
@@ -21,13 +28,19 @@ template
 >
 class object
 {
+	FCPPT_NONCOPYABLE(
+		object
+	);
 public:
 	typedef Value unit;
+
 	typedef typename
 	fcppt::math::vector::static_
 	<
 		unit,
-	2>::type point;
+		2
+	>::type point;
+
 	typedef
 	std::vector
 	<
@@ -39,12 +52,16 @@ public:
 		sge::renderer::device::core &,
 		parameters<unit,color> const &);
 
+	~object();
+
 	object(
-		object const &);
+		object &&
+	);
 
 	object &
 	operator=(
-		object const &);
+		object &&
+	);
 
 	void
 	push_back(
@@ -68,15 +85,26 @@ public:
 	back(
 		point const &);
 private:
-	sge::renderer::device::core *renderer_;
-	style::type style_;
-	color color_;
-	point_sequence points_;
-	sge::renderer::vertex::declaration_shared_ptr vertex_declaration_;
-	sge::renderer::vertex::buffer_shared_ptr vb_;
+	typedef fcppt::reference_wrapper<
+		sge::renderer::device::core
+	> device_reference;
 
-	void regenerate_vb();
+	device_reference renderer_;
+
+	rofl::line_strip::style style_;
+
+	color color_;
+
+	point_sequence points_;
+
+	sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
+
+	sge::renderer::vertex::buffer_unique_ptr vertex_buffer_;
+
+	void
+	regenerate_vb();
 };
+
 }
 }
 

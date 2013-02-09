@@ -1,4 +1,7 @@
-#include "parameters.hpp"
+#ifndef ROFL_LINE_STRIP_OBJECT_IMPL_HPP_INCLUDED
+#define ROFL_LINE_STRIP_OBJECT_IMPL_HPP_INCLUDED
+
+#include <rofl/line_strip/parameters.hpp>
 #include <sge/renderer/vf/pos.hpp>
 #include <sge/renderer/vf/color.hpp>
 #include <sge/renderer/vf/format.hpp>
@@ -23,7 +26,11 @@
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/context/core.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <boost/mpl/vector.hpp>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
+
 
 template
 <
@@ -35,7 +42,7 @@ rofl::line_strip::object<A,B>::object(
 	parameters<A,B> const &params)
 :
 	renderer_(
-		&_renderer),
+		_renderer),
 	style_(
 		params.style()),
 	color_(
@@ -43,7 +50,8 @@ rofl::line_strip::object<A,B>::object(
 	points_(
 		params.points().begin(),
 		params.points().end()),
-	vb_()
+	vertex_declaration_(),
+	vertex_buffer_()
 {
 	regenerate_vb();
 }
@@ -53,19 +61,44 @@ template
 	typename A,
 	typename B
 >
+rofl::line_strip::object<A,B>::~object()
+{
+}
+
+template
+<
+	typename A,
+	typename B
+>
 rofl::line_strip::object<A,B>::object(
-	object const &r)
+	object &&_other
+)
 :
 	renderer_(
-		r.renderer_),
+		_other.renderer_
+	),
 	style_(
-		r.style_),
+		_other.style_
+	),
 	color_(
-		r.color_),
+		_other.color_
+	),
 	points_(
-		r.points_)
+		std::move(
+			_other.points_
+		)
+	),
+	vertex_declaration_(
+		std::move(
+			_other.vertex_declaration_
+		)
+	),
+	vertex_buffer_(
+		std::move(
+			_other.vertex_buffer_
+		)
+	)
 {
-	regenerate_vb();
 }
 
 template
@@ -75,13 +108,30 @@ template
 >
 rofl::line_strip::object<A,B> &
 rofl::line_strip::object<A,B>::operator=(
-	object const &r)
+	object &&_other
+)
 {
-	style_ = r.style_;
-	renderer_ = r.renderer_;
-	color_ = r.color_;
-	points_ = r.points_;
-	regenerate_vb();
+	renderer_ = _other.renderer_;
+
+	style_ = _other.style_;
+
+	color_ = _other.color_;
+
+	points_ =
+		std::move(
+			_other.points_
+		);
+
+	vertex_declaration_ =
+		std::move(
+			_other.vertex_declaration_
+		);
+
+	vertex_buffer_ =
+		std::move(
+			_other.vertex_buffer_
+		);
+
 	return *this;
 }
 
@@ -142,7 +192,7 @@ rofl::line_strip::object<A,B>::draw(
 
 	sge::renderer::vertex::scoped_buffer const vb_context(
 		_render_context,
-		*vb_
+		*vertex_buffer_
 	);
 
 	_render_context.render_nonindexed(
@@ -150,7 +200,7 @@ rofl::line_strip::object<A,B>::draw(
 			0u
 		),
 		sge::renderer::vertex::count(
-			vb_->size()
+			vertex_buffer_->size()
 		),
 		sge::renderer::primitive_type::line_strip);
 }
@@ -205,11 +255,11 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 		return;
 
 	vertex_declaration_ =
-		renderer_->create_vertex_declaration(
+		renderer_.get().create_vertex_declaration(
 			sge::renderer::vertex::declaration_parameters(
 				sge::renderer::vf::dynamic::make_format<format>()));
-	vb_ =
-		renderer_->create_vertex_buffer(
+	vertex_buffer_ =
+		renderer_.get().create_vertex_buffer(
 			sge::renderer::vertex::buffer_parameters(
 				*vertex_declaration_,
 				sge::renderer::vf::dynamic::make_part_index<
@@ -221,7 +271,7 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 				sge::renderer::resource_flags_field::null()));
 
 	sge::renderer::vertex::scoped_lock const vblock(
-		*vb_,
+		*vertex_buffer_,
 		sge::renderer::lock_mode::writeonly);
 
 	vertex_view const vertices(
@@ -275,3 +325,5 @@ rofl::line_strip::object<A,B>::back(
 	points_.back() = p;
 	regenerate_vb();
 }
+
+#endif

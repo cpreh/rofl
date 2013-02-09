@@ -1,17 +1,19 @@
-#include "line_strip/object.hpp"
-#include "line_strip/parameters.hpp"
-#include "line_strip/object_impl.hpp"
-#include "line_strip/parameters_impl.hpp"
+#include <rofl/consume.hpp>
+#include <rofl/create_polygonizer.hpp>
+#include <rofl/polygonizer.hpp>
+#include <rofl/polygon.hpp>
 #include <rofl/polygon_with_holes.hpp>
-#include <rofl/graph/vertices_begin.hpp>
+#include <rofl/astar/generate_trail.hpp>
 #include <rofl/graph/simplify.hpp>
+#include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
+#include <rofl/line_strip/object.hpp>
+#include <rofl/line_strip/parameters.hpp>
+#include <rofl/line_strip/object_impl.hpp>
+#include <rofl/line_strip/parameters_impl.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/math/polygon_input.hpp>
 #include <rofl/math/polygon_output.hpp>
-#include <rofl/polygon.hpp>
-#include <rofl/consume.hpp>
-#include <rofl/astar/generate_trail.hpp>
 #include <sge/systems/cursor_option_field.hpp>
 #include <sge/systems/input.hpp>
 #include <sge/systems/instance.hpp>
@@ -26,6 +28,7 @@
 #include <sge/systems/with_renderer.hpp>
 #include <sge/systems/with_window.hpp>
 #include <sge/image/color/predef.hpp>
+#include <sge/image/color/rgba8.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/device/ffp.hpp>
@@ -72,18 +75,18 @@
 #include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
+#include <fcppt/config/external_begin.hpp>
 #include <boost/mpl/vector/vector10.hpp>
+#include <ctime>
 #include <exception>
-#include <vector>
 #include <iterator>
 #include <iostream>
 #include <ostream>
 #include <string>
+#include <utility>
+#include <vector>
+#include <fcppt/config/external_end.hpp>
 
-#include <rofl/create_polygonizer.hpp>
-#include <rofl/polygonizer.hpp>
-
-#include <ctime>
 
 namespace
 {
@@ -119,7 +122,7 @@ void push_edges(
 	for (; i != end; ++i)
 	{
 		typename StripContainer::value_type
-			s(
+			strip(
 				rend,
 				line_strip_params()
 					.color(
@@ -136,18 +139,26 @@ void push_edges(
 			&p0 = g[boost::source(*i,g)].barycenter(),
 			&p1 = g[boost::target(*i,g)].barycenter();
 
-		s.push_back(
+		strip.push_back(
 			fcppt::math::vector::structure_cast<line_strip::point>(
 				p0));
-		s.push_back(
+		strip.push_back(
 			fcppt::math::vector::structure_cast<line_strip::point>(
 				p1));
 
 		strips.push_back(
-			s);
+			std::move(
+				strip
+			)
+		);
 	}
 }
 }
+
+awl::main::exit_code const
+test_main(
+	awl::main::function_context const &
+);
 
 awl::main::exit_code const
 test_main(
@@ -290,19 +301,24 @@ try
 			hole);
 
 		line_strip
-			s(
+			strip(
 				sys.renderer_core(),
 				line_strip_params()
 					.style(
 						rofl::line_strip::style::loop));
 
-		BOOST_FOREACH(rofl::polygon::const_reference r,hole)
-			s.push_back(
+		for(
+			rofl::polygon::const_reference r : hole
+		)
+			strip.push_back(
 				fcppt::math::vector::structure_cast<line_strip::point>(
 					r));
 
 		strips.push_back(
-			s);
+			std::move(
+				strip
+			)
+		);
 	}
 
 	rofl::graph::object g;
@@ -324,7 +340,7 @@ try
 			g[*i].polygon();
 
 		line_strip
-			s(
+			strip(
 				sys.renderer_core(),
 				line_strip_params()
 					.style(
@@ -340,14 +356,19 @@ try
 					)
 			);
 
-		BOOST_FOREACH(rofl::indexed_polygon::const_reference r,p)
-			s.push_back(
+		for(
+			rofl::indexed_polygon::const_reference r : p
+		)
+			strip.push_back(
 				fcppt::math::vector::structure_cast<line_strip::point>(
 					r.representation()));
 
 		strips.insert(
 			strips.begin(),
-			s);
+			std::move(
+				strip
+			)
+		);
 	}
 
 	push_edges(
@@ -389,25 +410,32 @@ try
 
 	//fcppt::io::cerr << splist.size() << " elements\n";
 
-	line_strip path_strip(
-		sys.renderer_core(),
-		line_strip_params()
-			.color(
-				line_strip::color(
-					(mizuiro::color::init::red() %= 0.)
-					(mizuiro::color::init::green() %= 1.)
-					(mizuiro::color::init::blue() %= 0.)
-					(mizuiro::color::init::alpha() %= 1.)
+	{
+		line_strip path_strip(
+			sys.renderer_core(),
+			line_strip_params()
+				.color(
+					line_strip::color(
+						(mizuiro::color::init::red() %= 0.)
+						(mizuiro::color::init::green() %= 1.)
+						(mizuiro::color::init::blue() %= 0.)
+						(mizuiro::color::init::alpha() %= 1.)
+					)
 				)
+		);
+
+		for(
+			rofl::astar::trail::const_reference r : splist
+		)
+			path_strip.push_back(
+				g[r].barycenter());
+
+		strips.push_back(
+			std::move(
+				path_strip
 			)
-	);
-
-	BOOST_FOREACH(rofl::astar::trail::const_reference r,splist)
-		path_strip.push_back(
-			g[r].barycenter());
-
-	strips.push_back(
-		path_strip);
+		);
+	}
 
 	sys.window().show();
 
@@ -451,8 +479,10 @@ try
 		);
 
 
-		BOOST_FOREACH(std::vector<line_strip>::reference r,strips)
-			r.draw(
+		for(
+			auto const &elem : strips
+		)
+			elem.draw(
 				scoped_block.get());
 	}
 

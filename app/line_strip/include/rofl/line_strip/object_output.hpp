@@ -1,10 +1,16 @@
-#ifndef ROFL_TEST_LINE_STRIP_OUTPUT_HPP_INCLUDED
-#define ROFL_TEST_LINE_STRIP_OUTPUT_HPP_INCLUDED
+#ifndef ROFL_LINE_STRIP_OBJECT_OUTPUT_HPP_INCLUDED
+#define ROFL_LINE_STRIP_OBJECT_OUTPUT_HPP_INCLUDED
 
 #include <fcppt/io/ostream.hpp>
 #include <fcppt/math/detail/one_dimensional_output.hpp>
 #include <fcppt/math/vector/output.hpp>
-#include "line_strip/object.hpp"
+#include <rofl/line_strip/object.hpp>
+
+
+namespace rofl
+{
+namespace line_strip
+{
 
 template<typename A,typename B>
 fcppt::io::ostream &
@@ -18,5 +24,7 @@ operator<<(
 			s.points());
 }
 
+}
+}
 
 #endif

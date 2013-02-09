@@ -1,8 +1,8 @@
-#include "line_strip/object.hpp"
-#include "line_strip/parameters.hpp"
-#include "line_strip/object_impl.hpp"
-#include "line_strip/parameters_impl.hpp"
-#include "line_strip_output.hpp"
+#include <rofl/line_strip/object.hpp>
+#include <rofl/line_strip/object_impl.hpp>
+#include <rofl/line_strip/object_output.hpp>
+#include <rofl/line_strip/parameters.hpp>
+#include <rofl/line_strip/parameters_impl.hpp>
 #include <sge/systems/cursor_demuxer.hpp>
 #include <sge/systems/cursor_option_field.hpp>
 #include <sge/systems/image2d.hpp>
@@ -192,24 +192,33 @@ cursor_handler::button_callback(
 			if (current_.points().size() < static_cast<line_strip::point_sequence::size_type>(4))
 				return;
 			// last point is the cursor position
-			line_strip::point const last =
-				current_.points().back();
+			line_strip::point &&last =
+				std::move(
+					current_.points().back()
+				);
 
 			current_.pop_back();
 
 			if (!has_border_)
 			{
 				border_ = current_;
+
 				has_border_ = true;
 			}
 			else
 			{
 				holes_.push_back(
-					current_);
+					std::move(
+						current_
+					)
+				);
 			}
 			current_.clear();
 			current_.push_back(
-				last);
+				std::move(
+					last
+				)
+			);
 
 			return;
 		}
@@ -398,14 +407,11 @@ try
 			scoped_block.get());
 
 		for(
-			hole_vector::const_iterator it(
-				holes.begin()
-			);
-			it != holes.end();
-			++it
+			auto const &hole : holes
 		)
-			it->draw(
-				scoped_block.get());
+			hole.draw(
+				scoped_block.get()
+			);
 	}
 
 	fcppt::io::cout()
@@ -413,14 +419,10 @@ try
 		<< FCPPT_TEXT('\n');
 
 	for(
-		hole_vector::const_iterator it(
-			holes.begin()
-		);
-		it != holes.end();
-		++it
+		auto const &hole : holes
 	)
 		fcppt::io::cout()
-			<< *it
+			<< hole
 			<< FCPPT_TEXT('\n');
 
 	return
