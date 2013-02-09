@@ -7,6 +7,11 @@ project(
 	rofl
 )
 
+# This is done before the warning flags are set
+add_subdirectory(
+	triangle
+)
+
 include(
 	FcpptCMakeUtils
 )

@@ -1,9 +1,0 @@
-#ifndef ROFL_POLYGONIZERS_TRIANGLE_IMPL_IMPL_HPP_INCLUDED
-#define ROFL_POLYGONIZERS_TRIANGLE_IMPL_IMPL_HPP_INCLUDED
-
-extern "C"
-{
-#include "triangle.h"
-}
-
-#endif

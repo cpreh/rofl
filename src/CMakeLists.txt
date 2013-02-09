@@ -1,5 +1,5 @@
 set(
-	ROFL_CORE_INCLUDE_FILES
+	ROFL_INCLUDE_FILES
 	include/rofl/astar/generate_path.hpp
 	include/rofl/astar/generate_trail.hpp
 	include/rofl/astar/path.hpp
@@ -64,13 +64,20 @@ set(
 )
 
 set(
-	ROFL_CORE_SRC_FILES
+	ROFL_SRC_FILES
 	src/astar/generate_path.cpp
 	src/astar/generate_trail.cpp
 	src/aux/graph/find_adjacent.cpp
 	src/aux/graph/merge.cpp
 	src/aux/graph/mergeable.cpp
 	src/aux/log_parameters.cpp
+	src/aux/polygonizers/log.cpp
+	src/aux/polygonizers/log_location.cpp
+	src/aux/polygonizers/triangle/intermediate.cpp
+	src/aux/polygonizers/triangle/log.cpp
+	src/aux/polygonizers/triangle/log_location.cpp
+	src/aux/polygonizers/triangle/object.cpp
+	src/aux/polygonizers/triangle/triangulation.cpp
 	src/create_polygonizer.cpp
 	src/dereference.cpp
 	src/graph/edge_properties.cpp
@@ -94,77 +101,58 @@ set(
 	src/include/rofl/aux/math/area_sign.hpp
 	src/include/rofl/aux/math/left.hpp
 	src/include/rofl/aux/math/left_on.hpp
+	src/include/rofl/aux/polygonizers/log.hpp
+	src/include/rofl/aux/polygonizers/log_location.hpp
+	src/include/rofl/aux/polygonizers/triangle/accumulate_sizes.hpp
+	src/include/rofl/aux/polygonizers/triangle/add_polygon.hpp
+	src/include/rofl/aux/polygonizers/triangle/clear_pod.hpp
+	src/include/rofl/aux/polygonizers/triangle/determine_adjacent_edge.hpp
+	src/include/rofl/aux/polygonizers/triangle/edge_angle.hpp
+	src/include/rofl/aux/polygonizers/triangle/fill_intermediate.hpp
+	src/include/rofl/aux/polygonizers/triangle/fill_points.hpp
+	src/include/rofl/aux/polygonizers/triangle/intermediate.hpp
+	src/include/rofl/aux/polygonizers/triangle/is_convex.hpp
+	src/include/rofl/aux/polygonizers/triangle/line_segments.hpp
+	src/include/rofl/aux/polygonizers/triangle/log.hpp
+	src/include/rofl/aux/polygonizers/triangle/log_location.hpp
+	src/include/rofl/aux/polygonizers/triangle/object.hpp
+	src/include/rofl/aux/polygonizers/triangle/triangle_line_segments.hpp
+	src/include/rofl/aux/polygonizers/triangle/triangulation.hpp
 	src/indexed_point.cpp
 	src/log.cpp
 	src/log_context.cpp
 	src/log_location.cpp
 	src/polygonizer.cpp
-	src/polygonizers/log.hpp
-	src/polygonizers/log_location.cpp
-	src/polygonizers/log_location.hpp
-	src/polygonizers/src/log.cpp
 )
 
 set(
-	ROFL_TRIANGLE_FILES
-	src/polygonizers/triangle/accumulate_sizes.hpp
-	src/polygonizers/triangle/add_polygon.hpp
-	src/polygonizers/triangle/clear_pod.hpp
-	src/polygonizers/triangle/determine_adjacent_edge.hpp
-	src/polygonizers/triangle/edge_angle.hpp
-	src/polygonizers/triangle/fill_intermediate.hpp
-	src/polygonizers/triangle/fill_points.hpp
-	src/polygonizers/triangle/intermediate.hpp
-	src/polygonizers/triangle/is_convex.hpp
-	src/polygonizers/triangle/line_segments.hpp
-	src/polygonizers/triangle/log.hpp
-	src/polygonizers/triangle/log_location.hpp
-	src/polygonizers/triangle/object.hpp
-	src/polygonizers/triangle/src/intermediate.cpp
-	src/polygonizers/triangle/src/log.cpp
-	src/polygonizers/triangle/src/log_location.cpp
-	src/polygonizers/triangle/src/object.cpp
-	src/polygonizers/triangle/src/triangulation.cpp
-	src/polygonizers/triangle/triangle_line_segments.hpp
-	src/polygonizers/triangle/triangulation.hpp
-)
-
-set_source_files_properties(
-	${ROFL_TRIANGLE_FILES}
-	PROPERTIES
-	COMPILE_FLAGS
-	"-DTRILIBRARY -DANSI_DECLARATORS -DREAL=float -DVOID=int"
-)
-
-set(
-	ROFL_CORE_FILES
-	"${ROFL_CORE_INCLUDE_FILES};${ROFL_CORE_SRC_FILES};${ROFL_TRIANGLE_FILES}"
+	ROFL_FILES
+	"${ROFL_INCLUDE_FILES};${ROFL_SRC_FILES}"
 )
 
 fcppt_utils_append_source_dir_and_make_groups(
-	"${ROFL_CORE_FILES}"
-	NEW_ROFL_CORE_FILES
+	"${ROFL_FILES}"
+	NEW_ROFL_FILES
 )
 
 add_library(
 	rofl
 	SHARED
-	${NEW_ROFL_CORE_FILES}
+	${NEW_ROFL_FILES}
 )
 
 include_directories(
 	include
 )
 
+include_directories(
+	"${CMAKE_SOURCE_DIR}/triangle/include"
+)
+
 target_link_libraries(
 	rofl
 	${fcppt_core_TARGET}
-	${sgecore_TARGET}
 	rofltriangleimpl
-)
-
-add_subdirectory(
-	polygonizers/triangle/impl
 )
 
 install(

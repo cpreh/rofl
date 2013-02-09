@@ -1,6 +1,6 @@
-#include "polygonizers/triangle/object.hpp"
 #include <rofl/create_polygonizer.hpp>
 #include <rofl/polygonizer_unique_ptr.hpp>
+#include <rofl/aux/polygonizers/triangle/object.hpp>
 #include <fcppt/make_unique_ptr.hpp>
 
 
@@ -9,6 +9,6 @@ rofl::create_polygonizer()
 {
 	return
 		fcppt::make_unique_ptr<
-			rofl::polygonizers::triangle::object
+			rofl::aux::polygonizers::triangle::object
 		>();
 }
