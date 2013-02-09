@@ -32,7 +32,6 @@ update_cmake_file \
 	src/astar \
 	src/graph \
 	src/include \
-	src/math \
 	-n \
 	src/polygonizers \
 	src/polygonizers/src

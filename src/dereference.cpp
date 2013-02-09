@@ -1,13 +1,21 @@
 #include <rofl/dereference.hpp>
-#include <fcppt/math/vector/object_impl.hpp>
-#include <boost/foreach.hpp>
+#include <rofl/indexed_polygon.hpp>
+#include <rofl/polygon.hpp>
 
-rofl::polygon const rofl::dereference(
-	indexed_polygon const &i)
+
+rofl::polygon
+rofl::dereference(
+	rofl::indexed_polygon const &_poly
+)
 {
-	rofl::polygon g;
-	BOOST_FOREACH(indexed_polygon::const_reference r,i)
-		g.push_back(
-			r.representation());
-	return g;
+	rofl::polygon ret;
+
+	for(
+		auto const &elem : _poly
+	)
+		ret.push_back(
+			elem.representation()
+		);
+
+	return ret;
 }

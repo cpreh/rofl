@@ -2,12 +2,20 @@
 #define ROFL_GRAPH_OUT_EDGE_ITERATOR_HPP_INCLUDED
 
 #include <rofl/graph/object.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <boost/graph/graph_traits.hpp>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace rofl
 {
 namespace graph
 {
-typedef boost::graph_traits<object>::out_edge_iterator out_edge_iterator;
+
+typedef boost::graph_traits<
+	rofl::graph::object
+>::out_edge_iterator out_edge_iterator;
+
 }
 }
 

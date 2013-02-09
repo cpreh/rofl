@@ -13,9 +13,9 @@
 
 rofl::astar::trail
 rofl::astar::generate_trail(
-	graph::object const &_graph,
-	graph::vertex_descriptor const &_start,
-	graph::vertex_descriptor const &_goal
+	rofl::graph::object const &_graph,
+	rofl::graph::vertex_descriptor const &_start,
+	rofl::graph::vertex_descriptor const &_goal
 )
 {
 	typedef

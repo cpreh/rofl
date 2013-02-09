@@ -1,17 +1,27 @@
+#include <rofl/graph/const_vertex_iterator.hpp>
+#include <rofl/graph/object.hpp>
+#include <rofl/graph/vertex_iterator.hpp>
 #include <rofl/graph/vertices_end.hpp>
 
-rofl::graph::vertex_iterator const rofl::graph::vertices_end(
-	object &o)
+
+rofl::graph::vertex_iterator const
+rofl::graph::vertices_end(
+	rofl::graph::object &_graph
+)
 {
 	return
 		boost::vertices(
-			o).second;
+			_graph
+		).second;
 }
 
-rofl::graph::const_vertex_iterator const rofl::graph::vertices_end(
-	object const &o)
+rofl::graph::const_vertex_iterator const
+rofl::graph::vertices_end(
+	rofl::graph::object const &_graph
+)
 {
 	return
 		boost::vertices(
-			o).second;
+			_graph
+		).second;
 }

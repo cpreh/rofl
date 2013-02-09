@@ -1,22 +1,25 @@
-#include "mergeable.hpp"
-#include "merge.hpp"
-#include <rofl/graph/simplify.hpp>
+#include <rofl/dereference.hpp>
+#include <rofl/aux/graph/mergeable.hpp>
+#include <rofl/aux/graph/merge.hpp>
+#include <rofl/graph/edge_descriptor.hpp>
 #include <rofl/graph/edge_iterator.hpp>
-#include <rofl/graph/vertex_descriptor.hpp>
 #include <rofl/graph/out_edge_iterator.hpp>
+#include <rofl/graph/simplify.hpp>
+#include <rofl/graph/vertex_descriptor.hpp>
 #include <rofl/graph/vertex_iterator.hpp>
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
-#include <rofl/graph/edge_descriptor.hpp>
 #include <rofl/math/barycenter.hpp>
-#include <rofl/dereference.hpp>
 #include <fcppt/assert/error.hpp>
-#include <fcppt/math/vector/output.hpp>
-#include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
-#include <queue>
-#include <vector>
+#include <fcppt/math/vector/length.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <functional>
 #include <set>
+#include <queue>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
+
 
 namespace
 {
@@ -35,18 +38,24 @@ typedef
 std::set
 <
 	rofl::graph::vertex_descriptor,
-	std::greater<rofl::graph::vertex_descriptor>
+	std::greater<
+		rofl::graph::vertex_descriptor
+	>
 > deletion_set;
 
-typedef std::queue<rofl::graph::edge_descriptor> out_queue;
+typedef std::queue<
+	rofl::graph::edge_descriptor
+> out_queue;
 
-void edit_out_edge(
+void
+edit_out_edge(
 	deletion_set &deletes,
 	out_queue &out_edges,
 	rofl::graph::object &g,
 	rofl::graph::vertex_descriptor u,
 	rofl::graph::vertex_descriptor v,
-	rofl::graph::edge_properties const &ep)
+	rofl::graph::edge_properties const &ep
+)
 {
 	if (deletes.find(v) != deletes.end())
 		return;
@@ -58,14 +67,14 @@ void edit_out_edge(
 			g[v];
 
 	if(
-		!rofl::graph::mergeable(
+		!rofl::aux::graph::mergeable(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()))
 		return;
 
 	up.polygon(
-		rofl::graph::merge(
+		rofl::aux::graph::merge(
 			up.polygon(),
 			vp.polygon(),
 			ep.adjacent_edge()));
@@ -135,10 +144,12 @@ void edit_out_edge(
 		v);
 }
 
-void edit_vertex(
+void
+edit_vertex(
 	deletion_set &deletes,
 	rofl::graph::object &g,
-	rofl::graph::vertex_descriptor u)
+	rofl::graph::vertex_descriptor u
+)
 {
 	// Wurde diese Ecke schon gelöscht? Dann nicht bearbeiten (wir müssen lazy
 	// löschen, weil sonst alles durcheinanderkommt (wir löschen Vertizes an
@@ -180,8 +191,10 @@ void edit_vertex(
 }
 }
 
-void rofl::graph::simplify(
-	object &g)
+void
+rofl::graph::simplify(
+	rofl::graph::object &_graph
+)
 {
 #if 0
 	for (std::pair<edge_iterator,edge_iterator> i = boost::edges(g); i.first != i.second; ++i.first)
@@ -214,16 +227,31 @@ void rofl::graph::simplify(
 #endif
 
 	deletion_set deletes;
-	for (vertex_iterator v = vertices_begin(g); v != vertices_end(g); ++v)
+	for(
+		vertex_iterator it(
+			rofl::graph::vertices_begin(
+				_graph
+			)
+		);
+		it
+		!= rofl::graph::vertices_end(
+			_graph
+		);
+		++it
+	)
 		edit_vertex(
 			deletes,
-			g,
-			*v);
+			_graph,
+			*it
+		);
 
-	BOOST_FOREACH(deletion_set::const_reference r,deletes)
+	for(
+		auto &to_remove : deletes
+	)
 		boost::remove_vertex(
-			r,
-			g);
+			to_remove,
+			_graph
+		);
 
 	/* PSEUDOCODE
 	foreach (vertex v : g)

@@ -67,18 +67,13 @@ set(
 	ROFL_CORE_SRC_FILES
 	src/astar/generate_path.cpp
 	src/astar/generate_trail.cpp
+	src/aux/graph/find_adjacent.cpp
+	src/aux/graph/merge.cpp
+	src/aux/graph/mergeable.cpp
 	src/aux/log_parameters.cpp
 	src/create_polygonizer.cpp
 	src/dereference.cpp
 	src/graph/edge_properties.cpp
-	src/graph/find_adjacent.cpp
-	src/graph/find_adjacent.hpp
-	src/graph/merge.cpp
-	src/graph/merge.hpp
-	src/graph/mergeable.cpp
-	src/graph/mergeable.hpp
-	src/graph/on_boundary.hpp
-	src/graph/placement.hpp
 	src/graph/properties.cpp
 	src/graph/simplify.cpp
 	src/graph/vertex_properties.cpp
@@ -89,14 +84,20 @@ set(
 	src/include/rofl/aux/astar/goal_visitor_impl.hpp
 	src/include/rofl/aux/astar/heuristic.hpp
 	src/include/rofl/aux/astar/heuristic_impl.hpp
+	src/include/rofl/aux/graph/find_adjacent.hpp
+	src/include/rofl/aux/graph/merge.hpp
+	src/include/rofl/aux/graph/mergeable.hpp
+	src/include/rofl/aux/graph/on_boundary.hpp
+	src/include/rofl/aux/graph/placement.hpp
+	src/include/rofl/aux/graph/placement_fwd.hpp
 	src/include/rofl/aux/log_parameters.hpp
+	src/include/rofl/aux/math/area_sign.hpp
+	src/include/rofl/aux/math/left.hpp
+	src/include/rofl/aux/math/left_on.hpp
 	src/indexed_point.cpp
 	src/log.cpp
 	src/log_context.cpp
 	src/log_location.cpp
-	src/math/area_sign.hpp
-	src/math/left.hpp
-	src/math/left_on.hpp
 	src/polygonizer.cpp
 	src/polygonizers/log.hpp
 	src/polygonizers/log_location.cpp

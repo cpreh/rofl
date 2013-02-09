@@ -3,7 +3,6 @@
 #include <rofl/point.hpp>
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/properties.hpp>
-#include <fcppt/math/vector/comparison.hpp>
 
 
 rofl::indexed_point::indexed_point(
