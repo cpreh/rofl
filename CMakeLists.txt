@@ -21,7 +21,8 @@ include_directories(
 )
 
 find_package(
-	Boost 1.41.0 REQUIRED
+	Boost 1.50.0 REQUIRED
+	chrono
 )
 
 include_directories(

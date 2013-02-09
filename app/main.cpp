@@ -5,6 +5,7 @@
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/astar/generate_trail.hpp>
 #include <rofl/graph/simplify.hpp>
+#include <rofl/graph/vertex_iterator.hpp>
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/line_strip/object.hpp>
@@ -59,6 +60,7 @@
 #include <awl/main/exit_code.hpp>
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
+#include <fcppt/assert/error.hpp>
 #include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/matrix/object_impl.hpp>
@@ -72,12 +74,15 @@
 #include <fcppt/io/cin.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
+#include <fcppt/random/variate.hpp>
+#include <fcppt/random/distribution/uniform_int.hpp>
+#include <fcppt/random/generator/minstd_rand.hpp>
+#include <fcppt/random/generator/seed_from_chrono.hpp>
 #include <fcppt/exception.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/mpl/vector/vector10.hpp>
-#include <ctime>
 #include <exception>
 #include <iterator>
 #include <iostream>
@@ -380,25 +385,60 @@ try
 
 	typedef boost::graph_traits<rofl::graph::object>::vertex_descriptor vertex;
 
-	unsigned number_of_vertices =
+	typedef fcppt::random::generator::minstd_rand generator_type;
+
+	generator_type generator(
+		fcppt::random::generator::seed_from_chrono<
+			generator_type::seed
+		>()
+	);
+
+	typedef std::iterator_traits<
+		rofl::graph::vertex_iterator
+	>::difference_type iterator_difference;
+
+	iterator_difference const num_vertices(
 		std::distance(
 			boost::vertices(g).first,
-			boost::vertices(g).second);
+			boost::vertices(g).second
+		)
+	);
 
-	std::srand(
-		std::time(
-			0));
+	FCPPT_ASSERT_ERROR(
+		num_vertices > 0
+	);
+
+	typedef fcppt::random::distribution::uniform_int<
+		iterator_difference
+	> uniform_int_type;
+
+	fcppt::random::variate<
+		generator_type,
+		uniform_int_type
+	> gen(
+		generator,
+		uniform_int_type(
+			uniform_int_type::min(
+				0
+			),
+			uniform_int_type::max(
+				num_vertices
+				- 1
+			)
+		)
+	);
 
 	vertex
 		start =
-			*boost::next(
+			*std::next(
 				boost::vertices(g).first,
-				std::rand() % number_of_vertices),
+				gen()
+			),
 		end =
-			*boost::next(
+			*std::next(
 				boost::vertices(g).first,
-				std::rand() % number_of_vertices);
-
+				gen()
+			);
 
 	rofl::astar::trail splist(
 		rofl::astar::generate_trail(
