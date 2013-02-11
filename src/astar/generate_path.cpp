@@ -1,5 +1,10 @@
-#include <rofl/astar/generate_path.hpp>
 #include <rofl/line_segment.hpp>
+#include <rofl/point.hpp>
+#include <rofl/astar/generate_path.hpp>
+#include <rofl/graph/object.hpp>
+#include <rofl/astar/path.hpp>
+#include <rofl/astar/trail.hpp>
+
 
 /* Pseudocode
  */
@@ -40,14 +45,16 @@ while (true)
 */
 
 
-void
+rofl::astar::path
 rofl::astar::generate_path(
-	graph::object const &g,
-	trail const &t,
-	point const &start,
-	point const &end,
-	path &p)
+	rofl::graph::object const &_graph,
+	rofl::astar::trail const &_trail,
+	rofl::point const &_start,
+	rofl::point const &_end
+)
 {
+	rofl::astar::path result;
+
 	// Erster Schritt: Generiere Uebergangspfad aus Paaren (Punkt,Kante), wobei Kante die Kante ist, die zwei
 	// Polygone verbindet und Punkt der Mittelpunkt. Die Kante kann natuerlich leer sein, wenn es sich um den
 	// Start- bzw. Endpunkt handelt.

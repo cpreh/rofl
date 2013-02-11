@@ -1,22 +1,25 @@
 #ifndef ROFL_ASTAR_GENERATE_PATH_HPP_INCLUDED
 #define ROFL_ASTAR_GENERATE_PATH_HPP_INCLUDED
 
-#include <rofl/graph/object.hpp>
-#include <rofl/astar/trail.hpp>
+#include <rofl/point_fwd.hpp>
+#include <rofl/graph/object_fwd.hpp>
 #include <rofl/astar/path.hpp>
-#include <rofl/point.hpp>
+#include <rofl/astar/trail.hpp>
+
 
 namespace rofl
 {
 namespace astar
 {
-void
+
+rofl::astar::path
 generate_path(
-	graph::object const &,
-	trail const &,
-	point const &start,
-	point const &end,
-	path &);
+	rofl::graph::object const &,
+	rofl::astar::trail const &,
+	rofl::point const &start,
+	rofl::point const &end
+);
+
 }
 }
 

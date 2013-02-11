@@ -59,8 +59,8 @@ rofl::aux::polygonizers::triangle::object::~object()
 
 void
 rofl::aux::polygonizers::triangle::object::polygonize(
-	rofl::polygon_with_holes const &p,
-	rofl::graph::object &output
+	rofl::polygon_with_holes const &_poly,
+	rofl::graph::object &_output
 )
 {
 	typedef fcppt::container::raw_vector<
@@ -85,16 +85,19 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 
 	// since triangulateio is a C structure, we can just memset it to 0
 	rofl::aux::polygonizers::triangle::clear_pod(
-		in);
+		in
+	);
+
 	rofl::aux::polygonizers::triangle::clear_pod(
-		out);
+		out
+	);
 
 	// Points
 	in.numberofpoints =
 		static_cast<int>(
-			p.border().size()+
+			_poly.border().size()+
 			rofl::aux::polygonizers::triangle::accumulate_sizes(
-				p.holes()));
+				_poly.holes()));
 	point_vector points;
 	points.reserve(
 		static_cast<point_vector::size_type>(
@@ -117,9 +120,9 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	hole_vector holes;
 	holes.reserve(
 		static_cast<hole_vector::size_type>(
-			2*p.holes().size()));
+			2*_poly.holes().size()));
 	in.numberofholes =
-		p.holes().size();
+		_poly.holes().size();
 	in.holelist =
 		&holes[0];
 
@@ -127,10 +130,10 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	rofl::aux::polygonizers::triangle::add_polygon(
 		points,
 		segments,
-		p.border());
+		_poly.border());
 
 	for(
-		polygon_with_holes::hole_set::const_reference r : p.holes()
+		polygon_with_holes::hole_set::const_reference elem : _poly.holes()
 	)
 	{
 		/*
@@ -142,11 +145,12 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		rofl::aux::polygonizers::triangle::add_polygon(
 			points,
 			segments,
-			r);
+			elem
+		);
 
 		point const ip =
 			rofl::math::barycenter(
-				r);
+				elem);
 		holes.push_back(
 			ip[0]);
 		holes.push_back(
@@ -159,13 +163,15 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		fcppt::log::_ << FCPPT_TEXT("Outputting points:"));
 
 	for(
-		point_vector::const_reference r : points
+		point_vector::const_reference elem : points
 	)
 	{
 		FCPPT_LOG_DEBUG(
 			mylogger,
-			fcppt::log::_ << r);
+			fcppt::log::_ << elem
+		);
 	}
+
 	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Points end"));
@@ -175,13 +181,15 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		fcppt::log::_ << FCPPT_TEXT("Outputting segments:"));
 
 	for(
-		segment_vector::const_reference r : segments
+		segment_vector::const_reference seg : segments
 	)
 	{
 		FCPPT_LOG_DEBUG(
 			mylogger,
-			fcppt::log::_ << r);
+			fcppt::log::_ << seg
+		);
 	}
+
 	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Segments end"));
@@ -191,13 +199,15 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		fcppt::log::_ << FCPPT_TEXT("Outputting holes:"));
 
 	for(
-		hole_vector::const_reference r : holes
+		hole_vector::const_reference hole : holes
 	)
 	{
 		FCPPT_LOG_DEBUG(
 			mylogger,
-			fcppt::log::_ << r);
+			fcppt::log::_ << hole
+		);
 	}
+
 	FCPPT_LOG_DEBUG(
 		mylogger,
 		fcppt::log::_ << FCPPT_TEXT("Holes end"));
@@ -232,7 +242,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		out.pointlist,
 		2*out.numberofpoints,
 		boost::get_property(
-			output,
+			_output,
 			rofl::graph::property_tag()
 		).points());
 
@@ -247,26 +257,26 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		graph_polygons;
 
 	rofl::aux::polygonizers::triangle::fill_intermediate(
-		output,
+		_output,
 		graph_polygons,
 		out.numberoftriangles,
 		out.trianglelist,
 		out.neighborlist);
 
 	for(
-		graph_polygon_vector::const_reference r : graph_polygons
+		auto const &r : graph_polygons
 	)
 	{
 		for(
-			rofl::aux::polygonizers::triangle::intermediate::neighbor_array::const_reference i : r.neighbors
+			auto const &i : r.neighbors
 		)
 		{
 			if (i == -1)
 				continue;
 
 			rofl::graph::vertex_properties const
-				&props0 = output[r.vertex],
-				&props1 = output[graph_polygons[i].vertex];
+				&props0 = _output[r.vertex],
+				&props1 = _output[graph_polygons[i].vertex];
 
 			indexed_polygon const
 				&p0 = props0.polygon(),
@@ -287,7 +297,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 					rofl::aux::polygonizers::triangle::determine_adjacent_edge(
 						p0,
 						p1)),
-				output).second == false)
+				_output).second == false)
 			{
 				FCPPT_LOG_DEBUG(
 					mylogger,
