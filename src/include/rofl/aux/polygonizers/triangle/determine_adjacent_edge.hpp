@@ -19,7 +19,7 @@ namespace triangle
 {
 
 inline
-rofl::indexed_line_segment const
+rofl::indexed_line_segment
 determine_adjacent_edge(
 	rofl::indexed_polygon const &_p0,
 	rofl::indexed_polygon const &_p1

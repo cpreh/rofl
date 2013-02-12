@@ -118,11 +118,22 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 
 	// Holes
 	hole_vector holes;
+
 	holes.reserve(
-		static_cast<hole_vector::size_type>(
-			2*_poly.holes().size()));
+		static_cast<
+			hole_vector::size_type
+		>(
+			2u * _poly.holes().size()
+		)
+	);
+
 	in.numberofholes =
-		_poly.holes().size();
+		static_cast<
+			int
+		>(
+			_poly.holes().size()
+		);
+
 	in.holelist =
 		&holes[0];
 
@@ -261,43 +272,75 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		graph_polygons,
 		out.numberoftriangles,
 		out.trianglelist,
-		out.neighborlist);
+		out.neighborlist
+	);
 
 	for(
-		auto const &r : graph_polygons
+		auto const &intermediate : graph_polygons
 	)
 	{
 		for(
-			auto const &i : r.neighbors
+			auto const index : intermediate.neighbors
 		)
 		{
-			if (i == -1)
+			if(
+				index == -1
+			)
 				continue;
 
+			rofl::graph::vertex_descriptor const &
+				vertex(
+					graph_polygons[
+						static_cast<
+							graph_polygon_vector::size_type
+						>(
+							index
+						)
+					].vertex
+				);
+
 			rofl::graph::vertex_properties const
-				&props0 = _output[r.vertex],
-				&props1 = _output[graph_polygons[i].vertex];
+				&props0(
+					_output[
+						intermediate.vertex
+					]
+				),
+				&props1(
+					_output[
+						vertex
+					]
+				);
 
 			indexed_polygon const
 				&p0 = props0.polygon(),
 				&p1 = props1.polygon();
+
 			point const
 				c0 = props0.barycenter(),
 				c1 = props1.barycenter();
-			unit const
-				l =
-					fcppt::math::vector::length(
-						c0-c1);
 
-			if (boost::add_edge(
-				r.vertex,
-				graph_polygons[i].vertex,
-				rofl::graph::edge_properties(
-					l,
-					rofl::aux::polygonizers::triangle::determine_adjacent_edge(
-						p0,
-						p1)),
-				_output).second == false)
+			unit const
+				length =
+					fcppt::math::vector::length(
+						c0 - c1
+					);
+
+			if(
+				boost::add_edge(
+					intermediate.vertex,
+					vertex,
+					rofl::graph::edge_properties(
+						length,
+						rofl::aux::polygonizers::triangle::determine_adjacent_edge(
+							p0,
+							p1
+						)
+					),
+					_output
+				).second
+				==
+				false
+			)
 			{
 				FCPPT_LOG_DEBUG(
 					mylogger,

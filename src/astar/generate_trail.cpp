@@ -8,6 +8,7 @@
 #include <fcppt/config/external_begin.hpp>
 #include <boost/graph/astar_search.hpp>
 #include <boost/graph/properties.hpp>
+#include <map>
 #include <fcppt/config/external_end.hpp>
 
 
