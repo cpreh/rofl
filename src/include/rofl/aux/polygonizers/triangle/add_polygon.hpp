@@ -1,6 +1,9 @@
 #ifndef ROFL_AUX_POLYGONIZERS_TRIANGLE_ADD_POLYGON_HPP_INCLUDED
 #define ROFL_AUX_POLYGONIZERS_TRIANGLE_ADD_POLYGON_HPP_INCLUDED
 
+#include <rofl/aux/polygonizers/triangle/point_vector.hpp>
+#include <rofl/aux/polygonizers/triangle/segment_vector.hpp>
+
 
 namespace rofl
 {
@@ -14,47 +17,59 @@ namespace triangle
 // The function adds a polygon to the segment and the point list
 template
 <
-	typename Points,
-	typename Segments,
 	typename Polygon
 >
 void
 add_polygon(
-	Points &_ps,
-	Segments &_ss,
-	Polygon const &_p
+	rofl::aux::polygonizers::triangle::point_vector &_points,
+	rofl::aux::polygonizers::triangle::segment_vector &_segments,
+	Polygon const &_poly
 )
 {
-	typename
-	Points::size_type base(
-		_ps.size() / 2u
+	rofl::aux::polygonizers::triangle::point_vector::size_type base(
+		_points.size() / 2u
 	);
 
 	for(
-		typename Polygon::size_type i = 0;
-		i < _p.size();
-		i++
+		typename Polygon::size_type index(
+			0u
+		);
+		index < _poly.size();
+		index++
 	)
 	{
-		_ps.push_back(
-			_p[i][0]
+		_points.push_back(
+			_poly[index][0]
 		);
 
-		_ps.push_back(
-			_p[i][1]
+		_points.push_back(
+			_poly[index][1]
 		);
 
-		_ss.push_back(
-			base+i
+		_segments.push_back(
+			static_cast<
+				rofl::aux::polygonizers::triangle::segment_vector::value_type
+			>(
+				base + index
+			)
 		);
 		// At the end, loop back to the first vertex in the
 		// polygon (do not use 0 here but "base" instead)
-		_ss.push_back(
-			i == _p.size()-1u
-			?
-				base
-			:
-				base+i+1u);
+		_segments.push_back(
+			static_cast<
+				rofl::aux::polygonizers::triangle::segment_vector::value_type
+			>(
+				index == _poly.size() - 1u
+				?
+					base
+				:
+					base
+					+
+					index
+					+
+					1u
+			)
+		);
 	}
 }
 

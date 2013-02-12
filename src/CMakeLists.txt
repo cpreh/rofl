@@ -110,12 +110,15 @@ set(
 	src/include/rofl/aux/polygonizers/triangle/edge_angle.hpp
 	src/include/rofl/aux/polygonizers/triangle/fill_intermediate.hpp
 	src/include/rofl/aux/polygonizers/triangle/fill_points.hpp
+	src/include/rofl/aux/polygonizers/triangle/hole_vector.hpp
 	src/include/rofl/aux/polygonizers/triangle/intermediate.hpp
 	src/include/rofl/aux/polygonizers/triangle/is_convex.hpp
 	src/include/rofl/aux/polygonizers/triangle/line_segments.hpp
 	src/include/rofl/aux/polygonizers/triangle/log.hpp
 	src/include/rofl/aux/polygonizers/triangle/log_location.hpp
 	src/include/rofl/aux/polygonizers/triangle/object.hpp
+	src/include/rofl/aux/polygonizers/triangle/point_vector.hpp
+	src/include/rofl/aux/polygonizers/triangle/segment_vector.hpp
 	src/include/rofl/aux/polygonizers/triangle/triangle_line_segments.hpp
 	src/include/rofl/aux/polygonizers/triangle/triangulation.hpp
 	src/indexed_point.cpp

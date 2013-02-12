@@ -9,10 +9,13 @@
 #include <rofl/aux/polygonizers/triangle/determine_adjacent_edge.hpp>
 #include <rofl/aux/polygonizers/triangle/fill_points.hpp>
 #include <rofl/aux/polygonizers/triangle/fill_intermediate.hpp>
+#include <rofl/aux/polygonizers/triangle/hole_vector.hpp>
 #include <rofl/aux/polygonizers/triangle/intermediate.hpp>
 //#include <rofl/aux/polygonizers/triangle/is_convex.hpp>
 #include <rofl/aux/polygonizers/triangle/log_location.hpp>
 #include <rofl/aux/polygonizers/triangle/object.hpp>
+#include <rofl/aux/polygonizers/triangle/point_vector.hpp>
+#include <rofl/aux/polygonizers/triangle/segment_vector.hpp>
 #include <rofl/aux/polygonizers/triangle/triangulation.hpp>
 #include <rofl/aux/log_parameters.hpp>
 #include <rofl/math/barycenter.hpp>
@@ -22,7 +25,6 @@
 #include <rofl/indexed_point.hpp>
 #include <triangle/impl.hpp>
 #include <fcppt/assert/error.hpp>
-#include <fcppt/container/raw_vector.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/output.hpp>
@@ -63,17 +65,6 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	rofl::graph::object &_output
 )
 {
-	typedef fcppt::container::raw_vector<
-		rofl::unit
-	> point_vector;
-
-	typedef fcppt::container::raw_vector<
-		int
-	> segment_vector;
-
-	typedef fcppt::container::raw_vector<
-		rofl::unit
-	> hole_vector;
 /*
 	mylogger.activate(
 		fcppt::log::level::debug);
@@ -98,30 +89,37 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			_poly.border().size()+
 			rofl::aux::polygonizers::triangle::accumulate_sizes(
 				_poly.holes()));
-	point_vector points;
+
+	rofl::aux::polygonizers::triangle::point_vector points;
+
 	points.reserve(
-		static_cast<point_vector::size_type>(
-			in.numberofpoints * 2));
+		static_cast<
+			rofl::aux::polygonizers::triangle::point_vector::size_type
+		>(
+			in.numberofpoints * 2
+		)
+	);
+
 	in.pointlist =
 		&points[0];
 
 	// Segments
 	in.numberofsegments =
 		in.numberofpoints;
-	segment_vector
+	rofl::aux::polygonizers::triangle::segment_vector
 		segments;
 	segments.reserve(
-		static_cast<segment_vector::size_type>(
+		static_cast<rofl::aux::polygonizers::triangle::segment_vector::size_type>(
 			in.numberofsegments * 2));
 	in.segmentlist =
 		&segments[0];
 
 	// Holes
-	hole_vector holes;
+	rofl::aux::polygonizers::triangle::hole_vector holes;
 
 	holes.reserve(
 		static_cast<
-			hole_vector::size_type
+			rofl::aux::polygonizers::triangle::hole_vector::size_type
 		>(
 			2u * _poly.holes().size()
 		)
@@ -144,7 +142,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		_poly.border());
 
 	for(
-		polygon_with_holes::hole_set::const_reference elem : _poly.holes()
+		auto const &elem : _poly.holes()
 	)
 	{
 		/*
