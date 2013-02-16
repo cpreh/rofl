@@ -1,28 +1,12 @@
-function die()
-{
-	exit -1
-}
+#!/bin/sh
+set -e -u
 
-function update_cmake_file()
-{
-	local cmakefile="$1"
-
-	update_cmake \
-		"${cmakefile}" \
-		"${@:2}" \
-		|| die
-
-	mv "${cmakefile}".new "${cmakefile}" || die
-
-	chmod -x "${cmakefile}" || die
-}
-
-update_cmake_file \
+update_cmake \
 	src/CMakeLists.txt \
 	ROFL_INCLUDE_FILES \
 	include/rofl
 
-update_cmake_file \
+update_cmake \
 	src/CMakeLists.txt \
 	ROFL_SRC_FILES \
 	src
