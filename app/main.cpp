@@ -76,7 +76,8 @@
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
 #include <fcppt/random/variate.hpp>
-#include <fcppt/random/distribution/uniform_int.hpp>
+#include <fcppt/random/distribution/basic.hpp>
+#include <fcppt/random/distribution/parameters/uniform_int.hpp>
 #include <fcppt/random/generator/minstd_rand.hpp>
 #include <fcppt/random/generator/seed_from_chrono.hpp>
 #include <fcppt/exception.hpp>
@@ -480,8 +481,10 @@ try
 		num_vertices > 0
 	);
 
-	typedef fcppt::random::distribution::uniform_int<
-		iterator_difference
+	typedef fcppt::random::distribution::basic<
+		fcppt::random::distribution::parameters::uniform_int<
+			iterator_difference
+		>
 	> uniform_int_type;
 
 	fcppt::random::variate<
@@ -490,10 +493,10 @@ try
 	> gen(
 		generator,
 		uniform_int_type(
-			uniform_int_type::min(
+			uniform_int_type::param_type::min(
 				0
 			),
-			uniform_int_type::max(
+			uniform_int_type::param_type::max(
 				num_vertices
 				- 1
 			)
