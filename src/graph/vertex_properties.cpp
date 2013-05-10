@@ -2,13 +2,16 @@
 #include <rofl/polygon.hpp>
 #include <rofl/graph/properties.hpp> // TODO: why does gcc need this?
 #include <rofl/graph/vertex_properties.hpp>
+#include <fcppt/no_init.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 
 
 rofl::graph::vertex_properties::vertex_properties()
 :
 	polygon_(),
-	barycenter_()
+	barycenter_(
+		fcppt::no_init()
+	)
 {
 }
 
@@ -19,7 +22,9 @@ rofl::graph::vertex_properties::vertex_properties(
 	polygon_(
 		_polygon
 	),
-	barycenter_()
+	barycenter_(
+		fcppt::no_init()
+	)
 {
 }
 

@@ -1,6 +1,7 @@
 #ifndef ROFL_MATH_POLYGON_INPUT_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_INPUT_HPP_INCLUDED
 
+#include <fcppt/no_init.hpp>
 #include <rofl/math/polygon_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <istream>
@@ -44,7 +45,9 @@ operator>>(
 
 	for(;;)
 	{
-		T val;
+		T val{
+			fcppt::no_init()
+		};
 
 		_stream >> val;
 
