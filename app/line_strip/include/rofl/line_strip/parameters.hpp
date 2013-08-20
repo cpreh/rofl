@@ -22,12 +22,12 @@ template
 class parameters
 {
 public:
-	typedef typename
+	typedef
 	fcppt::math::vector::static_
 	<
 		Value,
 		2
-	>::type point;
+	> point;
 
 	typedef
 	std::vector

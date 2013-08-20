@@ -22,20 +22,15 @@ include_directories(
 
 find_package(
 	Boost 1.50.0 REQUIRED
-	chrono
 )
 
 include_directories(
 	${Boost_INCLUDE_DIR}
 )
 
-link_directories(
-	${Boost_LIBRARY_DIRS}
-)
-
 # Find Mizuiro
 
-FIND_PACKAGE(
+find_package(
 	mizuiro REQUIRED
 )
 

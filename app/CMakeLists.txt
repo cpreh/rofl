@@ -44,7 +44,6 @@ awl_utils_add_portable_executable(
 target_link_libraries(
 	rofl_main
 	rofl
-	${Boost_CHRONO_LIBRARIES}
 	${fcppt_core_TARGET}
 	${awl_TARGET}
 	${sgecore_TARGET}

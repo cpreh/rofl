@@ -13,7 +13,7 @@ fcppt::math::vector::static_
 <
 	rofl::unit,
 	2
->::type
+>
 point;
 
 }

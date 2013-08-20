@@ -34,12 +34,12 @@ class object
 public:
 	typedef Value unit;
 
-	typedef typename
+	typedef
 	fcppt::math::vector::static_
 	<
 		unit,
 		2
-	>::type point;
+	> point;
 
 	typedef
 	std::vector
