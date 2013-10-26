@@ -47,6 +47,6 @@ FCPPT_PP_POP_WARNING
 }
 }
 
-#include <rofl/aux/astar/goal_visitor_impl.hpp>
+#include <rofl/aux/astar/impl/goal_visitor.hpp>
 
 #endif

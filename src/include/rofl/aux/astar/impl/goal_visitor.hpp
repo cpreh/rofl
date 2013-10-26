@@ -1,5 +1,5 @@
-#ifndef ROFL_AUX_ASTAR_GOAL_VISITOR_IMPL_HPP_INCLUDED
-#define ROFL_AUX_ASTAR_GOAL_VISITOR_IMPL_HPP_INCLUDED
+#ifndef ROFL_AUX_ASTAR_IMPL_GOAL_VISITOR_HPP_INCLUDED
+#define ROFL_AUX_ASTAR_IMPL_GOAL_VISITOR_HPP_INCLUDED
 
 #include <rofl/aux/astar/found_goal.hpp>
 #include <rofl/graph/object_fwd.hpp>

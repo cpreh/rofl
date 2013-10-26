@@ -88,9 +88,9 @@ set(
 	src/graph/vertices_end.cpp
 	src/include/rofl/aux/astar/found_goal.hpp
 	src/include/rofl/aux/astar/goal_visitor.hpp
-	src/include/rofl/aux/astar/goal_visitor_impl.hpp
 	src/include/rofl/aux/astar/heuristic.hpp
-	src/include/rofl/aux/astar/heuristic_impl.hpp
+	src/include/rofl/aux/astar/impl/goal_visitor.hpp
+	src/include/rofl/aux/astar/impl/heuristic.hpp
 	src/include/rofl/aux/graph/find_adjacent.hpp
 	src/include/rofl/aux/graph/merge.hpp
 	src/include/rofl/aux/graph/mergeable.hpp

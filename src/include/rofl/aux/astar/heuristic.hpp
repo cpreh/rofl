@@ -41,6 +41,6 @@ private:
 }
 }
 
-#include <rofl/aux/astar/heuristic_impl.hpp>
+#include <rofl/aux/astar/impl/heuristic.hpp>
 
 #endif

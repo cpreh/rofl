@@ -59,7 +59,7 @@ is_convex(
 				?
 					p.front()
 				:
-					*dstd::next(i),
+					*std::next(i),
 			&c =
 				i == std::prev(p.end())
 				?
@@ -73,7 +73,7 @@ is_convex(
 
 		if(
 			fcppt::math::diff(
-				rofl::aux::polygonizers::edge_angle(a,b,c),
+				rofl::aux::polygonizers::triangle::edge_angle(a,b,c),
 				sign
 			)
 			>
