@@ -144,6 +144,10 @@ add_library(
 	${NEW_ROFL_FILES}
 )
 
+fcppt_utils_set_target_compiler_flags(
+	rofl
+)
+
 include_directories(
 	include
 )

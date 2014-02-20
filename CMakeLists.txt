@@ -28,28 +28,10 @@ include_directories(
 	${Boost_INCLUDE_DIR}
 )
 
-# Find Mizuiro
-
-find_package(
-	mizuiro REQUIRED
-)
-
-include_directories(
-	${mizuiro_INCLUDE_DIRS}
-)
-
 # Find FCPPT
 
 find_package(
 	fcppt REQUIRED
-)
-
-add_definitions(
-	${fcppt_DEFINITIONS}
-)
-
-include_directories(
-	${fcppt_INCLUDE_DIRS}
 )
 
 add_subdirectory(

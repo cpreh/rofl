@@ -6,14 +6,6 @@ find_package(
 	awl REQUIRED
 )
 
-add_definitions(
-	${awl_DEFINITIONS}
-)
-
-include_directories(
-	${awl_INCLUDE_DIRS}
-)
-
 # Find SGE
 
 set(
@@ -39,6 +31,10 @@ awl_utils_add_portable_executable(
 	rofl_main
 	"test_main"
 	main.cpp
+)
+
+fcppt_utils_set_target_compiler_flags(
+	rofl_main
 )
 
 target_link_libraries(

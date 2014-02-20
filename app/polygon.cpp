@@ -20,6 +20,7 @@
 #include <sge/systems/with_renderer.hpp>
 #include <sge/systems/with_window.hpp>
 #include <sge/config/media_path.hpp>
+#include <sge/image/color/init.hpp>
 #include <sge/image/color/predef.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/context/ffp.hpp>
@@ -329,10 +330,10 @@ try
 				rofl::line_strip::style::loop)
 			.color(
 				line_strip::color(
-					(mizuiro::color::init::red() %= 1.)
-					(mizuiro::color::init::green() %= 0.)
-					(mizuiro::color::init::blue() %= 0.)
-					(mizuiro::color::init::alpha() %= 1.)
+					(sge::image::color::init::red() %= 1.)
+					(sge::image::color::init::green() %= 0.)
+					(sge::image::color::init::blue() %= 0.)
+					(sge::image::color::init::alpha() %= 1.)
 				)
 			)
 	);
@@ -346,10 +347,10 @@ try
 				rofl::line_strip::style::loop)
 			.color(
 				line_strip::color(
-					(mizuiro::color::init::red() %= 1.)
-					(mizuiro::color::init::green() %= 1.)
-					(mizuiro::color::init::blue() %= 1.)
-					(mizuiro::color::init::alpha() %= 1.)
+					(sge::image::color::init::red() %= 1.)
+					(sge::image::color::init::green() %= 1.)
+					(sge::image::color::init::blue() %= 1.)
+					(sge::image::color::init::alpha() %= 1.)
 				)
 			)
 	);
