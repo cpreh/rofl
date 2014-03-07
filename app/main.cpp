@@ -38,8 +38,8 @@
 #include <sge/renderer/context/ffp.hpp>
 #include <sge/renderer/context/scoped_ffp.hpp>
 #include <sge/renderer/display_mode/optional_object.hpp>
-#include <sge/renderer/parameters/object.hpp>
-#include <sge/renderer/parameters/vsync.hpp>
+#include <sge/renderer/display_mode/parameters.hpp>
+#include <sge/renderer/display_mode/vsync.hpp>
 #include <sge/renderer/pixel_format/color.hpp>
 #include <sge/renderer/pixel_format/depth_stencil.hpp>
 #include <sge/renderer/pixel_format/optional_multi_samples.hpp>
@@ -239,14 +239,14 @@ try
 		)
 		(
 			sge::systems::renderer(
-				sge::renderer::parameters::object(
-					sge::renderer::pixel_format::object(
-						sge::renderer::pixel_format::color::depth32,
-						sge::renderer::pixel_format::depth_stencil::off,
-						sge::renderer::pixel_format::optional_multi_samples(),
-						sge::renderer::pixel_format::srgb::no
-					),
-					sge::renderer::parameters::vsync::on,
+				sge::renderer::pixel_format::object(
+					sge::renderer::pixel_format::color::depth32,
+					sge::renderer::pixel_format::depth_stencil::off,
+					sge::renderer::pixel_format::optional_multi_samples(),
+					sge::renderer::pixel_format::srgb::no
+				),
+				sge::renderer::display_mode::parameters(
+					sge::renderer::display_mode::vsync::on,
 					sge::renderer::display_mode::optional_object()
 				),
 				sge::viewport::center_on_resize(
@@ -350,7 +350,7 @@ try
 
 		line_strip
 			strip(
-				sys.renderer_core(),
+				sys.renderer_device_core(),
 				line_strip_params()
 					.style(
 						rofl::line_strip::style::loop
@@ -409,7 +409,7 @@ try
 
 		line_strip
 			strip(
-				sys.renderer_core(),
+				sys.renderer_device_core(),
 				line_strip_params()
 					.style(
 						rofl::line_strip::style::loop
@@ -452,7 +452,7 @@ try
 			graph
 		).second,
 		strips,
-		sys.renderer_core()
+		sys.renderer_device_core()
 	);
 
 	typedef fcppt::random::generator::minstd_rand generator_type;
@@ -532,7 +532,7 @@ try
 
 	{
 		line_strip path_strip(
-			sys.renderer_core(),
+			sys.renderer_device_core(),
 			line_strip_params()
 				.color(
 					line_strip::color(
@@ -568,18 +568,18 @@ try
 	{
 		if(
 			sge::renderer::target::viewport_is_null(
-				sys.renderer_ffp().onscreen_target().viewport()
+				sys.renderer_device_ffp().onscreen_target().viewport()
 			)
 		)
 			continue;
 
 		sge::renderer::context::scoped_ffp const scoped_block(
-			sys.renderer_ffp(),
-			sys.renderer_ffp().onscreen_target()
+			sys.renderer_device_ffp(),
+			sys.renderer_device_ffp().onscreen_target()
 		);
 
 		sge::renderer::state::ffp::transform::object_scoped_ptr const transform_state(
-			sys.renderer_ffp().create_transform_state(
+			sys.renderer_device_ffp().create_transform_state(
 				sge::renderer::state::ffp::transform::parameters(
 					*sge::renderer::projection::orthogonal_viewport(
 						scoped_block.get().target().viewport()
