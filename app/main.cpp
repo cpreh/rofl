@@ -47,7 +47,7 @@
 #include <sge/renderer/projection/orthogonal_viewport.hpp>
 #include <sge/renderer/state/ffp/transform/mode.hpp>
 #include <sge/renderer/state/ffp/transform/object.hpp>
-#include <sge/renderer/state/ffp/transform/object_scoped_ptr.hpp>
+#include <sge/renderer/state/ffp/transform/object_unique_ptr.hpp>
 #include <sge/renderer/state/ffp/transform/parameters.hpp>
 #include <sge/renderer/state/ffp/transform/scoped.hpp>
 #include <sge/renderer/target/onscreen.hpp>
@@ -578,7 +578,7 @@ try
 			sys.renderer_device_ffp().onscreen_target()
 		);
 
-		sge::renderer::state::ffp::transform::object_scoped_ptr const transform_state(
+		sge::renderer::state::ffp::transform::object_unique_ptr const transform_state(
 			sys.renderer_device_ffp().create_transform_state(
 				sge::renderer::state::ffp::transform::parameters(
 					*sge::renderer::projection::orthogonal_viewport(
