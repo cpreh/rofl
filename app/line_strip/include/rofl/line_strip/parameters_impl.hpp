@@ -3,7 +3,10 @@
 
 #include <rofl/line_strip/parameters.hpp>
 #include <rofl/line_strip/style.hpp>
-#include <sge/image/color/init.hpp>
+#include <sge/image/color/init/alpha.hpp>
+#include <sge/image/color/init/blue.hpp>
+#include <sge/image/color/init/green.hpp>
+#include <sge/image/color/init/red.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <algorithm>
 #include <iterator>
