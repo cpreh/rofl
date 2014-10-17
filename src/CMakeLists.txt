@@ -158,7 +158,9 @@ include_directories(
 
 target_link_libraries(
 	rofl
+	PRIVATE
 	${fcppt_core_TARGET}
+	${fcppt_log_TARGET}
 	rofltriangleimpl
 )
 
