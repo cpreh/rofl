@@ -2,11 +2,11 @@
 #define ROFL_SYMBOL_HPP_INCLUDED
 
 #ifdef rofl_EXPORTS
-#include <fcppt/export_symbol.hpp>
-#	define ROFL_SYMBOL FCPPT_EXPORT_SYMBOL
+#include <fcppt/symbol/export.hpp>
+#	define ROFL_SYMBOL FCPPT_SYMBOL_EXPORT
 #else
-#include <fcppt/import_symbol.hpp>
-#	define ROFL_SYMBOL FCPPT_IMPORT_SYMBOL
+#include <fcppt/symbol/import.hpp>
+#	define ROFL_SYMBOL FCPPT_SYMBOL_IMPORT
 #endif
 
 #endif

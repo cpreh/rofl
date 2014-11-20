@@ -57,8 +57,7 @@
 #include <sge/renderer/target/onscreen.hpp>
 #include <sge/renderer/target/viewport_is_null.hpp>
 #include <sge/image/color/rgba8.hpp>
-#include <sge/viewport/center_on_resize.hpp>
-#include <sge/window/dim.hpp>
+#include <sge/viewport/fill_on_resize.hpp>
 #include <sge/window/object.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
@@ -68,8 +67,6 @@
 #include <fcppt/assert/error.hpp>
 #include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
-#include <fcppt/math/matrix/object_impl.hpp>
-#include <fcppt/math/dim/structure_cast.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
@@ -210,11 +207,6 @@ test_main(
 )
 try
 {
-	sge::window::dim const window_dim(
-		1024,
-		768
-	);
-
 	sge::systems::instance<
 		boost::mpl::vector3<
 			sge::systems::with_window,
@@ -234,8 +226,7 @@ try
 				sge::systems::original_window(
 					sge::window::title(
 						FCPPT_TEXT("pathfinding test")
-					),
-					window_dim
+					)
 				)
 			)
 			.dont_show()
@@ -252,9 +243,7 @@ try
 					sge::renderer::display_mode::vsync::on,
 					sge::renderer::display_mode::optional_object()
 				),
-				sge::viewport::center_on_resize(
-					window_dim
-				)
+				sge::viewport::fill_on_resize()
 			)
 		)
 		(
