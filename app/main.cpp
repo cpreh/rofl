@@ -65,6 +65,7 @@
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
 #include <fcppt/assert/error.hpp>
+#include <fcppt/cast/size_fun.hpp>
 #include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/signal/scoped_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
@@ -172,7 +173,8 @@ push_edges(
 
 		strip.push_back(
 			fcppt::math::vector::structure_cast<
-				line_strip::point
+				line_strip::point,
+				fcppt::cast::size_fun
 			>(
 				p0
 			)
@@ -180,7 +182,8 @@ push_edges(
 
 		strip.push_back(
 			fcppt::math::vector::structure_cast<
-				line_strip::point
+				line_strip::point,
+				fcppt::cast::size_fun
 			>(
 				p1
 			)
@@ -354,7 +357,8 @@ try
 		)
 			strip.push_back(
 				fcppt::math::vector::structure_cast<
-					line_strip::point
+					line_strip::point,
+					fcppt::cast::size_fun
 				>(
 					elem
 				)
@@ -421,7 +425,8 @@ try
 		)
 			strip.push_back(
 				fcppt::math::vector::structure_cast<
-					line_strip::point
+					line_strip::point,
+					fcppt::cast::size_fun
 				>(
 					elem.representation()
 				)
