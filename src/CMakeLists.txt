@@ -1,6 +1,5 @@
 set(
 	ROFL_INCLUDE_FILES
-	include/rofl/astar/generate_path.hpp
 	include/rofl/astar/generate_trail.hpp
 	include/rofl/astar/path.hpp
 	include/rofl/astar/trail.hpp
@@ -65,7 +64,6 @@ set(
 
 set(
 	ROFL_SRC_FILES
-	src/astar/generate_path.cpp
 	src/astar/generate_trail.cpp
 	src/aux/graph/find_adjacent.cpp
 	src/aux/graph/merge.cpp
