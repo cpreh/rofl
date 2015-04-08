@@ -36,6 +36,7 @@
 #include <sge/image/color/init/blue.hpp>
 #include <sge/image/color/init/green.hpp>
 #include <sge/image/color/init/red.hpp>
+#include <sge/renderer/matrix4.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/device/ffp.hpp>
@@ -55,7 +56,6 @@
 #include <sge/renderer/state/ffp/transform/parameters.hpp>
 #include <sge/renderer/state/ffp/transform/scoped.hpp>
 #include <sge/renderer/target/onscreen.hpp>
-#include <sge/renderer/target/viewport_is_null.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
 #include <sge/window/object.hpp>
@@ -64,6 +64,7 @@
 #include <awl/main/exit_code.hpp>
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
+#include <fcppt/maybe_void.hpp>
 #include <fcppt/assert/error.hpp>
 #include <fcppt/cast/size_fun.hpp>
 #include <fcppt/signal/auto_connection.hpp>
@@ -542,7 +543,9 @@ try
 		);
 
 		for(
-			rofl::astar::trail::const_reference elem : trail
+			rofl::astar::trail::const_reference elem
+			:
+			trail
 		)
 			path_strip.push_back(
 				graph[
@@ -563,47 +566,55 @@ try
 		sys.window_system().poll()
 	)
 	{
-		if(
-			sge::renderer::target::viewport_is_null(
-				sys.renderer_device_ffp().onscreen_target().viewport()
-			)
-		)
-			continue;
-
 		sge::renderer::context::scoped_ffp const scoped_block(
 			sys.renderer_device_ffp(),
 			sys.renderer_device_ffp().onscreen_target()
 		);
 
-		sge::renderer::state::ffp::transform::object_unique_ptr const transform_state(
-			sys.renderer_device_ffp().create_transform_state(
-				sge::renderer::state::ffp::transform::parameters(
-					*sge::renderer::projection::orthogonal_viewport(
-						scoped_block.get().target().viewport()
+		fcppt::maybe_void(
+			sge::renderer::projection::orthogonal_viewport(
+				scoped_block.get().target().viewport()
+			),
+			[
+				&scoped_block,
+				&strips,
+				&sys
+			](
+				sge::renderer::matrix4 const &_projection
+			)
+			{
+				sge::renderer::state::ffp::transform::object_unique_ptr const transform_state(
+					sys.renderer_device_ffp().create_transform_state(
+						sge::renderer::state::ffp::transform::parameters(
+							_projection
+						)
 					)
+				);
+
+				sge::renderer::state::ffp::transform::scoped const scoped_transform(
+					scoped_block.get(),
+					sge::renderer::state::ffp::transform::mode::projection,
+					*transform_state
+				);
+
+				scoped_block.get().clear(
+					sge::renderer::clear::parameters()
+					.back_buffer(
+						sge::image::color::predef::black()
+					)
+				);
+
+
+				for(
+					auto const &elem
+					:
+					strips
 				)
-			)
+					elem.draw(
+						scoped_block.get()
+					);
+			}
 		);
-
-		sge::renderer::state::ffp::transform::scoped const scoped_transform(
-			scoped_block.get(),
-			sge::renderer::state::ffp::transform::mode::projection,
-			*transform_state
-		);
-
-		scoped_block.get().clear(
-			sge::renderer::clear::parameters()
-			.back_buffer(
-				sge::image::color::predef::black()
-			)
-		);
-
-
-		for(
-			auto const &elem : strips
-		)
-			elem.draw(
-				scoped_block.get());
 	}
 
 	return
