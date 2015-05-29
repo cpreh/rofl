@@ -11,8 +11,14 @@
 #include <sge/renderer/device/core_fwd.hpp>
 #include <sge/renderer/vertex/buffer_unique_ptr.hpp>
 #include <sge/renderer/vertex/declaration_unique_ptr.hpp>
+#include <sge/renderer/vf/color.hpp>
+#include <sge/renderer/vf/format.hpp>
+#include <sge/renderer/vf/pos.hpp>
+#include <sge/renderer/vf/part.hpp>
 #include <fcppt/noncopyable.hpp>
+#include <fcppt/optional_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <boost/mpl/vector.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
@@ -85,6 +91,39 @@ public:
 	back(
 		point const &);
 private:
+	typedef
+	sge::renderer::vf::pos
+	<
+		unit,
+		2
+	> pos_type;
+
+	typedef
+	sge::renderer::vf::color
+	<
+		typename color::format
+	> color_type;
+
+	typedef
+	sge::renderer::vf::part
+	<
+		boost::mpl::vector
+		<
+			pos_type,
+			color_type
+		>
+	> format_part;
+
+	typedef
+	sge::renderer::vf::format
+	<
+		boost::mpl::vector
+		<
+			format_part
+		>
+	> format;
+
+
 	typedef fcppt::reference_wrapper<
 		sge::renderer::device::core
 	> device_reference;
@@ -99,7 +138,13 @@ private:
 
 	sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
 
-	sge::renderer::vertex::buffer_unique_ptr vertex_buffer_;
+	typedef
+	fcppt::optional<
+		sge::renderer::vertex::buffer_unique_ptr
+	>
+	optional_vertex_buffer_ptr;
+
+	optional_vertex_buffer_ptr vertex_buffer_;
 
 	void
 	regenerate_vb();

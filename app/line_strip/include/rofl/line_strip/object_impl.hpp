@@ -2,10 +2,6 @@
 #define ROFL_LINE_STRIP_OBJECT_IMPL_HPP_INCLUDED
 
 #include <rofl/line_strip/parameters.hpp>
-#include <sge/renderer/vf/pos.hpp>
-#include <sge/renderer/vf/color.hpp>
-#include <sge/renderer/vf/format.hpp>
-#include <sge/renderer/vf/part.hpp>
 #include <sge/renderer/vf/view.hpp>
 #include <sge/renderer/vf/dynamic/make_format.hpp>
 #include <sge/renderer/vf/dynamic/make_part_index.hpp>
@@ -26,8 +22,9 @@
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/context/core.hpp>
+#include <fcppt/optional_assign.hpp>
+#include <fcppt/assert/optional_error.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/mpl/vector.hpp>
 #include <utility>
 #include <fcppt/config/external_end.hpp>
 
@@ -50,7 +47,13 @@ rofl::line_strip::object<A,B>::object(
 	points_(
 		params.points().begin(),
 		params.points().end()),
-	vertex_declaration_(),
+	vertex_declaration_(
+		renderer_.get().create_vertex_declaration(
+			sge::renderer::vertex::declaration_parameters(
+				sge::renderer::vf::dynamic::make_format<format>()
+			)
+		)
+	),
 	vertex_buffer_()
 {
 	regenerate_vb();
@@ -71,35 +74,8 @@ template
 	typename B
 >
 rofl::line_strip::object<A,B>::object(
-	object &&_other
-)
-:
-	renderer_(
-		_other.renderer_
-	),
-	style_(
-		_other.style_
-	),
-	color_(
-		_other.color_
-	),
-	points_(
-		std::move(
-			_other.points_
-		)
-	),
-	vertex_declaration_(
-		std::move(
-			_other.vertex_declaration_
-		)
-	),
-	vertex_buffer_(
-		std::move(
-			_other.vertex_buffer_
-		)
-	)
-{
-}
+	object &&
+) = default;
 
 template
 <
@@ -108,32 +84,8 @@ template
 >
 rofl::line_strip::object<A,B> &
 rofl::line_strip::object<A,B>::operator=(
-	object &&_other
-)
-{
-	renderer_ = _other.renderer_;
-
-	style_ = _other.style_;
-
-	color_ = _other.color_;
-
-	points_ =
-		std::move(
-			_other.points_
-		);
-
-	vertex_declaration_ =
-		std::move(
-			_other.vertex_declaration_
-		);
-
-	vertex_buffer_ =
-		std::move(
-			_other.vertex_buffer_
-		);
-
-	return *this;
-}
+	object &&
+) = default;
 
 template
 <
@@ -190,9 +142,15 @@ rofl::line_strip::object<A,B>::draw(
 		*vertex_declaration_
 	);
 
+	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
+		FCPPT_ASSERT_OPTIONAL_ERROR(
+			vertex_buffer_
+		)
+	);
+
 	sge::renderer::vertex::scoped_buffer const vb_context(
 		_render_context,
-		*vertex_buffer_
+		*vertex_buffer
 	);
 
 	_render_context.render_nonindexed(
@@ -200,7 +158,7 @@ rofl::line_strip::object<A,B>::draw(
 			0u
 		),
 		sge::renderer::vertex::count(
-			vertex_buffer_->size()
+			vertex_buffer->size()
 		),
 		sge::renderer::primitive_type::line_strip);
 }
@@ -214,38 +172,6 @@ void
 rofl::line_strip::object<A,B>::regenerate_vb()
 {
 	typedef
-	sge::renderer::vf::pos
-	<
-		unit,
-		2
-	> pos_type;
-
-	typedef
-	sge::renderer::vf::color
-	<
-		typename color::format
-	> color_type;
-
-	typedef
-	sge::renderer::vf::part
-	<
-		boost::mpl::vector
-		<
-			pos_type,
-			color_type
-		>
-	> format_part;
-
-	typedef
-	sge::renderer::vf::format
-	<
-		boost::mpl::vector
-		<
-			format_part
-		>
-	> format;
-
-	typedef
 	sge::renderer::vf::view
 	<
 		format_part
@@ -254,24 +180,26 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 	if (points_.empty())
 		return;
 
-	vertex_declaration_ =
-		renderer_.get().create_vertex_declaration(
-			sge::renderer::vertex::declaration_parameters(
-				sge::renderer::vf::dynamic::make_format<format>()));
-	vertex_buffer_ =
-		renderer_.get().create_vertex_buffer(
-			sge::renderer::vertex::buffer_parameters(
-				*vertex_declaration_,
-				sge::renderer::vf::dynamic::make_part_index<
-					format,
-					format_part
-				>(),
-				sge::renderer::vertex::count(
-					points_.size() + (style_ == style::loop ? 1 : 0)),
-				sge::renderer::resource_flags_field::null()));
+	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
+		fcppt::optional_assign(
+			vertex_buffer_,
+			renderer_.get().create_vertex_buffer(
+				sge::renderer::vertex::buffer_parameters(
+					*vertex_declaration_,
+					sge::renderer::vf::dynamic::make_part_index<
+						format,
+						format_part
+					>(),
+					sge::renderer::vertex::count(
+						points_.size() + (style_ == style::loop ? 1 : 0)),
+					sge::renderer::resource_flags_field::null()
+				)
+			)
+		)
+	);
 
 	sge::renderer::vertex::scoped_lock const vblock(
-		*vertex_buffer_,
+		*vertex_buffer,
 		sge::renderer::lock_mode::writeonly);
 
 	vertex_view const vertices(
