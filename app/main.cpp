@@ -61,6 +61,7 @@
 #include <sge/renderer/target/onscreen.hpp>
 #include <sge/image/color/rgba8.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
+#include <sge/viewport/optional_resize_callback.hpp>
 #include <sge/window/object.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
@@ -252,7 +253,9 @@ try
 					sge::renderer::display_mode::vsync::on,
 					sge::renderer::display_mode::optional_object()
 				),
-				sge::viewport::fill_on_resize()
+				sge::viewport::optional_resize_callback{
+					sge::viewport::fill_on_resize()
+				}
 			)
 		)
 		(
