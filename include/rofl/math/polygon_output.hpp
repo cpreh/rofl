@@ -2,7 +2,6 @@
 #define ROFL_MATH_POLYGON_OUTPUT_HPP_INCLUDED
 
 #include <rofl/math/polygon_impl.hpp>
-#include <fcppt/math/detail/one_dimensional_output.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <ostream>
 #include <fcppt/config/external_end.hpp>
@@ -25,11 +24,9 @@ operator<<(
 	rofl::math::polygon<T> const &_polygon
 )
 {
+	// FIXME
 	return
-		fcppt::math::detail::one_dimensional_output(
-			_stream,
-			_polygon
-		);
+		_stream;
 }
 
 }

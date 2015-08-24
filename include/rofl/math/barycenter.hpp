@@ -1,6 +1,7 @@
 #ifndef ROFL_MATH_BARYCENTER_HPP_INCLUDED
 #define ROFL_MATH_BARYCENTER_HPP_INCLUDED
 
+#include <fcppt/math/vector/null.hpp>
 #include <boost/foreach.hpp>
 
 namespace rofl
@@ -25,8 +26,11 @@ typename Container::value_type barycenter(
 		static_cast<scalar>(1)/
 		static_cast<scalar>(p.size());
 
-	vector out =
-		vector::null();
+	vector out{
+		fcppt::math::vector::null<
+			vector
+		>()
+	};
 
 	BOOST_FOREACH(typename Container::const_reference i,p)
 		out += i;
