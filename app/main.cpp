@@ -72,7 +72,7 @@
 #include <fcppt/assert/error.hpp>
 #include <fcppt/cast/size_fun.hpp>
 #include <fcppt/signal/auto_connection.hpp>
-#include <fcppt/signal/scoped_connection.hpp>
+#include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
@@ -265,7 +265,7 @@ try
 		)
 	);
 
-	fcppt::signal::scoped_connection const escape_connection(
+	fcppt::signal::auto_connection const escape_connection(
 		sge::systems::quit_on_escape(
 			sys
 		)

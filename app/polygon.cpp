@@ -58,7 +58,7 @@
 #include <awl/main/function_context_fwd.hpp>
 #include <fcppt/container/bitfield/object_impl.hpp>
 #include <fcppt/signal/auto_connection.hpp>
-#include <fcppt/signal/scoped_connection.hpp>
+#include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/math/matrix/object_impl.hpp>
 #include <fcppt/math/dim/structure_cast.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
@@ -115,7 +115,7 @@ private:
 	line_strip &border_;
 	hole_vector &holes_;
 	bool has_border_;
-	fcppt::signal::scoped_connection const
+	fcppt::signal::auto_connection const
 		button_connection_,
 		move_connection_;
 
@@ -317,7 +317,7 @@ try
 		)
 	);
 
-	fcppt::signal::scoped_connection const escape_connection(
+	fcppt::signal::auto_connection const escape_connection(
 		sge::systems::quit_on_escape(
 			sys
 		)
