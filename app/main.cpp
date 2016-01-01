@@ -68,7 +68,7 @@
 #include <awl/main/exit_code.hpp>
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
-#include <fcppt/maybe_void.hpp>
+#include <fcppt/optional/maybe_void.hpp>
 #include <fcppt/assert/error.hpp>
 #include <fcppt/cast/size_fun.hpp>
 #include <fcppt/signal/auto_connection.hpp>
@@ -579,7 +579,7 @@ try
 			sys.renderer_device_ffp().onscreen_target()
 		);
 
-		fcppt::maybe_void(
+		fcppt::optional::maybe_void(
 			sge::renderer::projection::orthogonal_viewport(
 				scoped_block.get().target().viewport(),
 				sge::renderer::projection::near(

@@ -22,7 +22,7 @@
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/context/core.hpp>
-#include <fcppt/optional_assign.hpp>
+#include <fcppt/optional/assign.hpp>
 #include <fcppt/assert/optional_error.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <utility>
@@ -181,7 +181,7 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 		return;
 
 	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
-		fcppt::optional_assign(
+		fcppt::optional::assign(
 			vertex_buffer_,
 			renderer_.get().create_vertex_buffer(
 				sge::renderer::vertex::buffer_parameters(

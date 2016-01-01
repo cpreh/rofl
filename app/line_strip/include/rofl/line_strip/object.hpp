@@ -16,7 +16,7 @@
 #include <sge/renderer/vf/pos.hpp>
 #include <sge/renderer/vf/part.hpp>
 #include <fcppt/noncopyable.hpp>
-#include <fcppt/optional_impl.hpp>
+#include <fcppt/optional/object_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/mpl/vector.hpp>
 #include <vector>
@@ -139,7 +139,7 @@ private:
 	sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
 
 	typedef
-	fcppt::optional<
+	fcppt::optional::object<
 		sge::renderer::vertex::buffer_unique_ptr
 	>
 	optional_vertex_buffer_ptr;
