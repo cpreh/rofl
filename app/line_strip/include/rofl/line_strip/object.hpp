@@ -4,7 +4,7 @@
 #include <rofl/line_strip/object_fwd.hpp>
 #include <rofl/line_strip/parameters_fwd.hpp>
 #include <rofl/line_strip/style.hpp>
-#include <fcppt/reference_wrapper.hpp>
+#include <fcppt/reference.hpp>
 #include <fcppt/math/vector/object_impl.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <sge/renderer/context/core_fwd.hpp>
@@ -124,7 +124,7 @@ private:
 	> format;
 
 
-	typedef fcppt::reference_wrapper<
+	typedef fcppt::reference<
 		sge::renderer::device::core
 	> device_reference;
 

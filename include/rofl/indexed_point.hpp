@@ -6,7 +6,7 @@
 #include <rofl/point_fwd.hpp>
 #include <rofl/symbol.hpp>
 #include <rofl/graph/object_fwd.hpp>
-#include <fcppt/reference_wrapper.hpp>
+#include <fcppt/reference.hpp>
 
 
 namespace rofl
@@ -31,7 +31,7 @@ public:
 		rofl::indexed_point const &
 	) const;
 private:
-	typedef fcppt::reference_wrapper<
+	typedef fcppt::reference<
 		rofl::graph::object const
 	> graph_reference;
 
