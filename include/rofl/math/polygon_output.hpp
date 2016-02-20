@@ -24,7 +24,23 @@ operator<<(
 	rofl::math::polygon<T> const &_polygon
 )
 {
-	// FIXME
+	_stream <<
+		_stream.widen('(');
+
+	for(
+		auto const &elem
+		:
+		_polygon
+	)
+		_stream
+			<<
+			elem
+			<<
+			_stream.widen(',');
+
+	_stream <<
+		_stream.widen(')');
+
 	return
 		_stream;
 }
