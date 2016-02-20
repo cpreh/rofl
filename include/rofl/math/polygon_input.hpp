@@ -28,16 +28,19 @@ operator>>(
 {
 	Ch ch;
 
-	_stream >> ch;
+	if(
+		!(_stream >> ch)
+	)
+		return _stream;
 
-	if(ch != _stream.widen('(') || _stream.eof())
+	if(ch != _stream.widen('('))
 	{
 		_stream.setstate(
 			std::ios_base::failbit);
 		return _stream;
 	}
 
-	if (_stream.peek() == _stream.widen(')'))
+	if (_stream.peek() == Traits::to_int_type(_stream.widen(')')))
 	{
 		_stream.ignore();
 		return _stream;
@@ -65,7 +68,10 @@ operator>>(
 			return _stream;
 		}
 
-		_stream >> ch;
+		if(
+			!(_stream >> ch)
+		)
+			return _stream;
 
 		if (ch == _stream.widen(')'))
 			break;
