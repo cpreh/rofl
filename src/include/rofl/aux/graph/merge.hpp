@@ -12,7 +12,7 @@ namespace aux
 namespace graph
 {
 
-rofl::indexed_polygon const
+rofl::indexed_polygon
 merge(
 	rofl::indexed_polygon const &,
 	rofl::indexed_polygon const &,

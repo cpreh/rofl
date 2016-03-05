@@ -9,7 +9,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-rofl::indexed_polygon const
+rofl::indexed_polygon
 rofl::aux::graph::merge(
 	rofl::indexed_polygon const &_poly_a,
 	rofl::indexed_polygon const &_poly_b,
@@ -39,8 +39,10 @@ rofl::aux::graph::merge(
 
 	cyclic_iterator it_a(
 		_poly_a.begin(),
-		_poly_a.begin(),
-		_poly_a.end()
+		cyclic_iterator::boundary{
+			_poly_a.begin(),
+			_poly_a.end()
+		}
 	);
 
 	// TODO: Refactor this into a helper function!
@@ -67,8 +69,11 @@ rofl::aux::graph::merge(
 			_poly_b.end(),
 			*it_a
 		),
-		_poly_b.begin(),
-		_poly_b.end());
+		cyclic_iterator::boundary{
+			_poly_b.begin(),
+			_poly_b.end()
+		}
+	);
 
 	while(
 		!rofl::aux::graph::on_boundary(
