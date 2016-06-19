@@ -12,6 +12,12 @@ find_package(
 	REQUIRED
 )
 
+# FIXME
+find_package(
+	mizuiro
+	REQUIRED
+)
+
 # Find SGE
 
 set(
