@@ -34,8 +34,6 @@ set(
 	include/rofl/indexed_polygon_fwd.hpp
 	include/rofl/line_segment.hpp
 	include/rofl/line_segment_fwd.hpp
-	include/rofl/log.hpp
-	include/rofl/log_context.hpp
 	include/rofl/log_location.hpp
 	include/rofl/math/barycenter.hpp
 	include/rofl/math/line_segment_decl.hpp
@@ -69,10 +67,8 @@ set(
 	src/aux/graph/merge.cpp
 	src/aux/graph/mergeable.cpp
 	src/aux/log_parameters.cpp
-	src/aux/polygonizers/log.cpp
 	src/aux/polygonizers/log_location.cpp
 	src/aux/polygonizers/triangle/intermediate.cpp
-	src/aux/polygonizers/triangle/log.cpp
 	src/aux/polygonizers/triangle/log_location.cpp
 	src/aux/polygonizers/triangle/object.cpp
 	src/aux/polygonizers/triangle/triangulation.cpp
@@ -99,7 +95,6 @@ set(
 	src/include/rofl/aux/math/area_sign.hpp
 	src/include/rofl/aux/math/left.hpp
 	src/include/rofl/aux/math/left_on.hpp
-	src/include/rofl/aux/polygonizers/log.hpp
 	src/include/rofl/aux/polygonizers/log_location.hpp
 	src/include/rofl/aux/polygonizers/triangle/accumulate_sizes.hpp
 	src/include/rofl/aux/polygonizers/triangle/add_polygon.hpp
@@ -112,7 +107,6 @@ set(
 	src/include/rofl/aux/polygonizers/triangle/intermediate.hpp
 	src/include/rofl/aux/polygonizers/triangle/is_convex.hpp
 	src/include/rofl/aux/polygonizers/triangle/line_segments.hpp
-	src/include/rofl/aux/polygonizers/triangle/log.hpp
 	src/include/rofl/aux/polygonizers/triangle/log_location.hpp
 	src/include/rofl/aux/polygonizers/triangle/object.hpp
 	src/include/rofl/aux/polygonizers/triangle/point_vector.hpp
@@ -120,8 +114,6 @@ set(
 	src/include/rofl/aux/polygonizers/triangle/triangle_line_segments.hpp
 	src/include/rofl/aux/polygonizers/triangle/triangulation.hpp
 	src/indexed_point.cpp
-	src/log.cpp
-	src/log_context.cpp
 	src/log_location.cpp
 	src/polygonizer.cpp
 )

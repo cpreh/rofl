@@ -29,29 +29,28 @@
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/output.hpp>
 #include <fcppt/log/_.hpp>
+#include <fcppt/log/context_fwd.hpp>
 #include <fcppt/log/debug.hpp>
-#include <fcppt/log/location.hpp>
+#include <fcppt/log/name.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
 
-namespace
-{
-
-fcppt::log::object
-mylogger(
-	rofl::aux::log_parameters(
-		rofl::aux::polygonizers::triangle::log_location()
-		/
-		FCPPT_TEXT("object")
-	)
-);
-
-}
-
-rofl::aux::polygonizers::triangle::object::object()
+rofl::aux::polygonizers::triangle::object::object(
+	fcppt::log::context &_log_context
+)
+:
+	log_{
+		_log_context,
+		rofl::aux::polygonizers::triangle::log_location(),
+		rofl::aux::log_parameters(
+			fcppt::log::name{
+				FCPPT_TEXT("object")
+			}
+		)
+	}
 {
 }
 
@@ -66,7 +65,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 )
 {
 /*
-	mylogger.activate(
+	log_.activate(
 		fcppt::log::level::debug);
 		*/
 
@@ -168,7 +167,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	// add points and holes end
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Outputting points:"));
 
 	for(
@@ -176,17 +175,17 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	)
 	{
 		FCPPT_LOG_DEBUG(
-			mylogger,
+			log_,
 			fcppt::log::_ << elem
 		);
 	}
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Points end"));
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Outputting segments:"));
 
 	for(
@@ -194,17 +193,17 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	)
 	{
 		FCPPT_LOG_DEBUG(
-			mylogger,
+			log_,
 			fcppt::log::_ << seg
 		);
 	}
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Segments end"));
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Outputting holes:"));
 
 	for(
@@ -212,13 +211,13 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	)
 	{
 		FCPPT_LOG_DEBUG(
-			mylogger,
+			log_,
 			fcppt::log::_ << hole
 		);
 	}
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Holes end"));
 
 	rofl::aux::polygonizers::triangle::triangulation t(
@@ -228,18 +227,18 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		out);
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Outputting neighbors:"));
 
 	for (int i = 0; i < out.numberoftriangles*3; ++i)
 	{
 		FCPPT_LOG_DEBUG(
-			mylogger,
+			log_,
 			fcppt::log::_ << out.neighborlist[i]);
 	}
 
 	FCPPT_LOG_DEBUG(
-		mylogger,
+		log_,
 		fcppt::log::_ << FCPPT_TEXT("Neighbors end"));
 
 	FCPPT_ASSERT_ERROR(out.numberofcorners == 3);
@@ -341,13 +340,13 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			)
 			{
 				FCPPT_LOG_DEBUG(
-					mylogger,
+					log_,
 					fcppt::log::_ << FCPPT_TEXT("Edge already added"));
 			}
 			else
 			{
 				FCPPT_LOG_DEBUG(
-					mylogger,
+					log_,
 					fcppt::log::_ << FCPPT_TEXT("Adding edge"));
 			}
 		}

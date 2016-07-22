@@ -382,7 +382,9 @@ try
 
 	rofl::graph::object graph;
 
-	rofl::create_polygonizer()->polygonize(
+	rofl::create_polygonizer(
+		sys.log_context()
+	)->polygonize(
 		polys,
 		graph
 	);

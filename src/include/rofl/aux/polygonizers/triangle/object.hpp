@@ -5,6 +5,8 @@
 #include <rofl/polygon_with_holes_fwd.hpp>
 #include <rofl/graph/object_fwd.hpp>
 #include <fcppt/noncopyable.hpp>
+#include <fcppt/log/context_fwd.hpp>
+#include <fcppt/log/object.hpp>
 
 
 namespace rofl
@@ -24,7 +26,10 @@ class object
 		object
 	);
 public:
-	object();
+	explicit
+	object(
+		fcppt::log::context &
+	);
 
 	~object();
 private:
@@ -33,6 +38,8 @@ private:
 		rofl::polygon_with_holes const &,
 		rofl::graph::object &
 	);
+
+	fcppt::log::object log_;
 };
 
 }

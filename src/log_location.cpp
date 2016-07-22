@@ -1,13 +1,16 @@
 #include <rofl/log_location.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/log/location.hpp>
+#include <fcppt/log/name.hpp>
 
 
-fcppt::log::location const
+fcppt::log::location
 rofl::log_location()
 {
 	return
 		fcppt::log::location(
-			FCPPT_TEXT("rofl")
+			fcppt::log::name{
+				FCPPT_TEXT("rofl")
+			}
 		);
 }

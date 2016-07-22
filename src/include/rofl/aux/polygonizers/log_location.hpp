@@ -1,7 +1,7 @@
 #ifndef ROFL_AUX_POLYGONIZERS_LOG_LOCATION_HPP_INCLUDED
 #define ROFL_AUX_POLYGONIZERS_LOG_LOCATION_HPP_INCLUDED
 
-#include <fcppt/log/location_fwd.hpp>
+#include <fcppt/log/location.hpp>
 
 
 namespace rofl
@@ -11,7 +11,7 @@ namespace aux
 namespace polygonizers
 {
 
-fcppt::log::location const
+fcppt::log::location
 log_location();
 
 }
