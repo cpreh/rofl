@@ -17,7 +17,6 @@
 #include <rofl/aux/polygonizers/triangle/point_vector.hpp>
 #include <rofl/aux/polygonizers/triangle/segment_vector.hpp>
 #include <rofl/aux/polygonizers/triangle/triangulation.hpp>
-#include <rofl/aux/log_parameters.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/property_tag.hpp>
@@ -32,6 +31,8 @@
 #include <fcppt/log/context_fwd.hpp>
 #include <fcppt/log/debug.hpp>
 #include <fcppt/log/name.hpp>
+#include <fcppt/log/parameters.hpp>
+#include <fcppt/log/format/optional_function.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <vector>
@@ -45,11 +46,12 @@ rofl::aux::polygonizers::triangle::object::object(
 	log_{
 		_log_context,
 		rofl::aux::polygonizers::triangle::log_location(),
-		rofl::aux::log_parameters(
+		fcppt::log::parameters{
 			fcppt::log::name{
 				FCPPT_TEXT("object")
-			}
-		)
+			},
+			fcppt::log::format::optional_function()
+		}
 	}
 {
 }

@@ -66,7 +66,6 @@ set(
 	src/aux/graph/find_adjacent.cpp
 	src/aux/graph/merge.cpp
 	src/aux/graph/mergeable.cpp
-	src/aux/log_parameters.cpp
 	src/aux/polygonizers/log_location.cpp
 	src/aux/polygonizers/triangle/intermediate.cpp
 	src/aux/polygonizers/triangle/log_location.cpp
@@ -91,7 +90,6 @@ set(
 	src/include/rofl/aux/graph/on_boundary.hpp
 	src/include/rofl/aux/graph/placement.hpp
 	src/include/rofl/aux/graph/placement_fwd.hpp
-	src/include/rofl/aux/log_parameters.hpp
 	src/include/rofl/aux/math/area_sign.hpp
 	src/include/rofl/aux/math/left.hpp
 	src/include/rofl/aux/math/left_on.hpp
