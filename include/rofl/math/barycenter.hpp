@@ -2,7 +2,6 @@
 #define ROFL_MATH_BARYCENTER_HPP_INCLUDED
 
 #include <fcppt/math/vector/null.hpp>
-#include <boost/foreach.hpp>
 
 namespace rofl
 {
@@ -32,7 +31,7 @@ typename Container::value_type barycenter(
 		>()
 	};
 
-	BOOST_FOREACH(typename Container::const_reference i,p)
+	for(typename Container::const_reference i : p)
 		out += i;
 
 	return
