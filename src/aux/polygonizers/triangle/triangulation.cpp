@@ -22,7 +22,8 @@ rofl::aux::polygonizers::triangle::triangulation::triangulation(
 		&(*options.begin()),
 		&_in,
 		&_out,
-		0);
+		nullptr
+	);
 }
 
 rofl::aux::polygonizers::triangle::triangulation::~triangulation()

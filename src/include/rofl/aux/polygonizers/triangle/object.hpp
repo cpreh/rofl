@@ -31,13 +31,15 @@ public:
 		fcppt::log::context &
 	);
 
-	~object();
+	~object()
+	override;
 private:
 	void
 	polygonize(
 		rofl::polygon_with_holes const &,
 		rofl::graph::object &
-	);
+	)
+	override;
 
 	fcppt::log::object log_;
 };
