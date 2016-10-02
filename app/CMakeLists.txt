@@ -8,12 +8,6 @@ find_package(
 
 # FIXME
 find_package(
-	majutsu
-	REQUIRED
-)
-
-# FIXME
-find_package(
 	mizuiro
 	REQUIRED
 )
