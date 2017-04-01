@@ -32,5 +32,5 @@ install(
 	TARGETS
 	rofltriangleimpl
 	DESTINATION
-	${CMAKE_INSTALL_PREFIX}/lib
+	${CMAKE_INSTALL_LIBDIR}
 )

@@ -7,13 +7,13 @@ project(
 	rofl
 )
 
+include(
+	GNUInstallDirs
+)
+
 # This is done before the warning flags are set
 add_subdirectory(
 	triangle
-)
-
-include(
-	FcpptCMakeUtils
 )
 
 include_directories(
@@ -34,13 +34,18 @@ find_package(
 	fcppt REQUIRED
 )
 
+include(
+	FcpptCMakeUtils
+)
+
 add_subdirectory(
 	src
 )
 
 option(
 	ENABLE_APP
-	"Build the applications" ON
+	"Build the applications"
+	ON
 )
 
 if(
@@ -55,5 +60,5 @@ install(
 	DIRECTORY
 	include/
 	DESTINATION
-	${INSTALL_INCLUDE_DIR}
+	${CMAKE_INSTALL_INCLUDEDIR}
 )

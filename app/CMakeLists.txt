@@ -80,8 +80,10 @@ target_link_libraries(
 #)
 
 install(
-	TARGETS rofl_main
-	DESTINATION ${CMAKE_INSTALL_PREFIX}/bin
+	TARGETS
+	rofl_main
+	DESTINATION
+	${CMAKE_INSTALL_BINDIR}
 )
 
 #install(
