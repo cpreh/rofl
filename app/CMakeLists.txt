@@ -45,6 +45,7 @@ fcppt_utils_set_target_compiler_flags(
 
 target_link_libraries(
 	rofl_main
+	PRIVATE
 	rofl
 	${fcppt_core_TARGET}
 	${awl_TARGET}
