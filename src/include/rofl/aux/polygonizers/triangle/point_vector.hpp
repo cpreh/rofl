@@ -2,7 +2,9 @@
 #define ROFL_AUX_POLYGONIZERS_TRIANGLE_POINT_VECTOR_HPP_INCLUDED
 
 #include <rofl/unit.hpp>
-#include <fcppt/container/raw_vector_impl.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <vector>
+#include <fcppt/config/external_end.hpp>
 
 
 namespace rofl
@@ -14,9 +16,11 @@ namespace polygonizers
 namespace triangle
 {
 
-typedef fcppt::container::raw_vector<
+typedef
+std::vector<
 	rofl::unit
-> point_vector;
+>
+point_vector;
 
 }
 }

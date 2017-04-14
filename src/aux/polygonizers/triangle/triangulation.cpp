@@ -1,5 +1,4 @@
 #include <rofl/aux/polygonizers/triangle/triangulation.hpp>
-#include <fcppt/container/raw_vector.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <cstring>
 #include <string>
