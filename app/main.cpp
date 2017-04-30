@@ -33,6 +33,7 @@
 #include <sge/systems/with_window.hpp>
 #include <sge/image/color/predef.hpp>
 #include <sge/image/color/rgba8.hpp>
+#include <sge/image/color/any/object.hpp>
 #include <sge/image/color/init/alpha.hpp>
 #include <sge/image/color/init/blue.hpp>
 #include <sge/image/color/init/green.hpp>
@@ -616,7 +617,9 @@ try
 				scoped_block.get().clear(
 					sge::renderer::clear::parameters()
 					.back_buffer(
-						sge::image::color::predef::black()
+						sge::image::color::any::object{
+							sge::image::color::predef::black()
+						}
 					)
 				);
 
