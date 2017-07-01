@@ -39,11 +39,11 @@ add_polygon(
 	)
 	{
 		_points.push_back(
-			_poly[index][0]
+			_poly[index].x()
 		);
 
 		_points.push_back(
-			_poly[index][1]
+			_poly[index].y()
 		);
 
 		_segments.push_back(

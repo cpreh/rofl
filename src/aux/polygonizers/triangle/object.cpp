@@ -162,9 +162,9 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			rofl::math::barycenter(
 				elem);
 		holes.push_back(
-			ip[0]);
+			ip.x());
 		holes.push_back(
-			ip[1]);
+			ip.y());
 	}
 	// add points and holes end
 
