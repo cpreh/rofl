@@ -4,7 +4,7 @@
 #include <rofl/unit.hpp>
 #include <rofl/graph/object_fwd.hpp>
 #include <rofl/graph/vertex_descriptor.hpp>
-#include <fcppt/nonassignable.hpp>
+#include <fcppt/reference_impl.hpp>
 
 
 namespace rofl
@@ -16,9 +16,6 @@ namespace astar
 
 class heuristic
 {
-	FCPPT_NONASSIGNABLE(
-		heuristic
-	);
 public:
 	inline
 	heuristic(
@@ -32,7 +29,9 @@ public:
 		rofl::graph::vertex_descriptor const &
 	) const;
 private:
-	rofl::graph::object const &graph_;
+	fcppt::reference<
+		rofl::graph::object const
+	> graph_;
 
 	rofl::graph::vertex_descriptor destination_;
 };

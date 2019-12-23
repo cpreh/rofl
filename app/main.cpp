@@ -19,7 +19,6 @@
 #include <sge/systems/cursor_option_field.hpp>
 #include <sge/systems/input.hpp>
 #include <sge/systems/instance.hpp>
-#include <sge/systems/keyboard_collector.hpp>
 #include <sge/systems/list.hpp>
 #include <sge/systems/make_list.hpp>
 #include <sge/systems/original_window.hpp>
@@ -47,6 +46,7 @@
 #include <sge/renderer/display_mode/optional_object.hpp>
 #include <sge/renderer/display_mode/parameters.hpp>
 #include <sge/renderer/display_mode/vsync.hpp>
+#include <sge/renderer/event/render.hpp>
 #include <sge/renderer/pixel_format/color.hpp>
 #include <sge/renderer/pixel_format/depth_stencil.hpp>
 #include <sge/renderer/pixel_format/optional_multi_samples.hpp>
@@ -63,17 +63,22 @@
 #include <sge/image/color/rgba8.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
 #include <sge/viewport/optional_resize_callback.hpp>
+#include <sge/window/loop.hpp>
+#include <sge/window/loop_function.hpp>
 #include <sge/window/object.hpp>
 #include <sge/window/system.hpp>
 #include <sge/window/title.hpp>
+#include <awl/event/base.hpp>
 #include <awl/main/exit_code.hpp>
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
-#include <fcppt/optional/maybe_void.hpp>
+#include <fcppt/exception.hpp>
+#include <fcppt/reference_impl.hpp>
+#include <fcppt/string.hpp>
+#include <fcppt/text.hpp>
 #include <fcppt/assert/error.hpp>
+#include <fcppt/cast/dynamic.hpp>
 #include <fcppt/cast/size_fun.hpp>
-#include <fcppt/signal/auto_connection.hpp>
-#include <fcppt/signal/auto_connection.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
@@ -83,16 +88,13 @@
 #include <fcppt/io/cin.hpp>
 #include <fcppt/io/cerr.hpp>
 #include <fcppt/io/cout.hpp>
+#include <fcppt/optional/maybe_void.hpp>
 #include <fcppt/random/variate.hpp>
 #include <fcppt/random/distribution/basic.hpp>
 #include <fcppt/random/distribution/parameters/uniform_int.hpp>
 #include <fcppt/random/generator/minstd_rand.hpp>
 #include <fcppt/random/generator/seed_from_chrono.hpp>
-#include <fcppt/exception.hpp>
-#include <fcppt/string.hpp>
-#include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/mpl/vector/vector10.hpp>
 #include <exception>
 #include <iterator>
 #include <iostream>
@@ -217,17 +219,11 @@ test_main(
 try
 {
 	sge::systems::instance<
-		boost::mpl::vector3<
-			sge::systems::with_window,
-			sge::systems::with_renderer<
-				sge::systems::renderer_caps::ffp
-			>,
-			sge::systems::with_input<
-				boost::mpl::vector1<
-					sge::systems::keyboard_collector
-				>
-			>
-		>
+		sge::systems::with_window,
+		sge::systems::with_renderer<
+			sge::systems::renderer_caps::ffp
+		>,
+		sge::systems::with_input
 	> const sys(
 		sge::systems::make_list
 		(
@@ -263,12 +259,6 @@ try
 			sge::systems::input(
 				sge::systems::cursor_option_field::null()
 			)
-		)
-	);
-
-	fcppt::signal::auto_connection const escape_connection(
-		sge::systems::quit_on_escape(
-			sys
 		)
 	);
 
@@ -573,71 +563,106 @@ try
 
 	sys.window().show();
 
-	while(
-		sys.window_system().poll()
-	)
-	{
-		sge::renderer::context::scoped_ffp const scoped_block(
-			sys.renderer_device_ffp(),
-			sys.renderer_device_ffp().onscreen_target()
-		);
+	auto const draw(
+		[
+			&strips,
+			&sys
+		]{
+			sge::renderer::context::scoped_ffp const scoped_block(
+				sys.renderer_device_ffp(),
+				sys.renderer_device_ffp().onscreen_target()
+			);
 
-		fcppt::optional::maybe_void(
-			sge::renderer::projection::orthogonal_viewport(
-				scoped_block.get().target().viewport(),
-				sge::renderer::projection::near(
-					0.f
+			fcppt::optional::maybe_void(
+				sge::renderer::projection::orthogonal_viewport(
+					scoped_block.get().target().viewport(),
+					sge::renderer::projection::near(
+						0.f
+					),
+					sge::renderer::projection::far(
+						10.f
+					)
 				),
-				sge::renderer::projection::far(
-					10.f
+				[
+					&scoped_block,
+					&strips,
+					&sys
+				](
+					sge::renderer::matrix4 const &_projection
 				)
-			),
-			[
-				&scoped_block,
-				&strips,
-				&sys
-			](
-				sge::renderer::matrix4 const &_projection
-			)
-			{
-				sge::renderer::state::ffp::transform::object_unique_ptr const transform_state(
-					sys.renderer_device_ffp().create_transform_state(
-						sge::renderer::state::ffp::transform::parameters(
-							_projection
+				{
+					sge::renderer::state::ffp::transform::object_unique_ptr const transform_state(
+						sys.renderer_device_ffp().create_transform_state(
+							sge::renderer::state::ffp::transform::parameters(
+								_projection
+							)
 						)
-					)
-				);
-
-				sge::renderer::state::ffp::transform::scoped const scoped_transform(
-					scoped_block.get(),
-					sge::renderer::state::ffp::transform::mode::projection,
-					*transform_state
-				);
-
-				scoped_block.get().clear(
-					sge::renderer::clear::parameters()
-					.back_buffer(
-						sge::image::color::any::object{
-							sge::image::color::predef::black()
-						}
-					)
-				);
-
-
-				for(
-					auto const &elem
-					:
-					strips
-				)
-					elem.draw(
-						scoped_block.get()
 					);
-			}
-		);
-	}
+
+					sge::renderer::state::ffp::transform::scoped const scoped_transform(
+						scoped_block.get(),
+						sge::renderer::state::ffp::transform::mode::projection,
+						*transform_state
+					);
+
+					scoped_block.get().clear(
+						sge::renderer::clear::parameters()
+						.back_buffer(
+							sge::image::color::any::object{
+								sge::image::color::predef::black()
+							}
+						)
+					);
+
+					for(
+						auto const &elem
+						:
+						strips
+					)
+						elem.draw(
+							scoped_block.get()
+						);
+				}
+			);
+		}
+	);
 
 	return
-		sys.window_system().exit_code();
+		sge::window::loop(
+			sys.window_system(),
+			sge::window::loop_function{
+				[
+					&sys,
+					&draw
+				](
+					awl::event::base const &_event
+				)
+				{
+					sge::systems::quit_on_escape(
+						sys,
+						_event
+					);
+
+					fcppt::optional::maybe_void(
+						fcppt::cast::dynamic<
+							sge::renderer::event::render const
+						>(
+							_event
+						),
+						[
+							&draw
+						](
+							fcppt::reference<
+								sge::renderer::event::render const
+							>
+						)
+						{
+							draw();
+						}
+					);
+				}
+			}
+		);
 }
 catch(
 	fcppt::exception const &_error

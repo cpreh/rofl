@@ -18,7 +18,6 @@
 #include <fcppt/noncopyable.hpp>
 #include <fcppt/optional/object_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
-#include <boost/mpl/vector.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
@@ -107,20 +106,14 @@ private:
 	typedef
 	sge::renderer::vf::part
 	<
-		boost::mpl::vector
-		<
-			pos_type,
-			color_type
-		>
+		pos_type,
+		color_type
 	> format_part;
 
 	typedef
 	sge::renderer::vf::format
 	<
-		boost::mpl::vector
-		<
-			format_part
-		>
+		format_part
 	> format;
 
 

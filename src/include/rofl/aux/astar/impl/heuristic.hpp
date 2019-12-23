@@ -29,11 +29,11 @@ rofl::aux::astar::heuristic::operator()(
 {
 	return
 		fcppt::math::vector::length(
-			graph_[
+			graph_.get()[
 				_vertex
 			].barycenter()
 			-
-			graph_[
+			graph_.get()[
 				destination_
 			].barycenter()
 		);
