@@ -6,7 +6,9 @@
 #include <sge/renderer/vf/dynamic/make_format.hpp>
 #include <sge/renderer/vf/dynamic/make_part_index.hpp>
 #include <sge/renderer/vf/iterator.hpp>
-#include <sge/renderer/vf/vertex.hpp>
+#include <sge/renderer/vf/set_proxy.hpp>
+#include <sge/renderer/vf/labels/color.hpp>
+#include <sge/renderer/vf/labels/pos.hpp>
 #include <sge/renderer/vertex/buffer.hpp>
 #include <sge/renderer/vertex/buffer_parameters.hpp>
 #include <sge/renderer/vertex/declaration.hpp>
@@ -211,20 +213,36 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 		auto const &v : points_
 	)
 	{
-		(*vb_it).template set<pos_type>(
-			v);
-		(*vb_it++).template set<color_type>(
-			color_);
+		sge::renderer::vf::set_proxy(
+			*vb_it,
+			sge::renderer::vf::labels::pos{},
+			v
+		);
+
+		sge::renderer::vf::set_proxy(
+			*vb_it,
+			sge::renderer::vf::labels::color{},
+			color_
+		);
+
+		++vb_it;
 	}
 
 	switch (style_)
 	{
 		case style::no_loop: break;
 		case style::loop:
-			(*vb_it).template set<pos_type>(
-				points_.front());
-			(*vb_it).template set<color_type>(
-				color_);
+			sge::renderer::vf::set_proxy(
+				*vb_it,
+				sge::renderer::vf::labels::pos{},
+				points_.front()
+			);
+
+			sge::renderer::vf::set_proxy(
+				*vb_it,
+				sge::renderer::vf::labels::color{},
+				color_
+			);
 		break;
 	}
 }
