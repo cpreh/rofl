@@ -26,7 +26,7 @@ public:
 	) = 0;
 
 	virtual
-	~polygonizer() = 0;
+	~polygonizer();
 };
 
 }
