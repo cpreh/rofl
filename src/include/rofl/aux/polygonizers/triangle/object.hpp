@@ -5,7 +5,7 @@
 #include <rofl/polygon_with_holes_fwd.hpp>
 #include <rofl/graph/object_fwd.hpp>
 #include <fcppt/noncopyable.hpp>
-#include <fcppt/log/context_fwd.hpp>
+#include <fcppt/log/context_reference_fwd.hpp>
 #include <fcppt/log/object.hpp>
 
 
@@ -28,7 +28,7 @@ class object
 public:
 	explicit
 	object(
-		fcppt::log::context &
+		fcppt::log::context_reference
 	);
 
 	~object()

@@ -3,7 +3,7 @@
 
 #include <rofl/polygonizer_unique_ptr.hpp>
 #include <rofl/symbol.hpp>
-#include <fcppt/log/context_fwd.hpp>
+#include <fcppt/log/context_reference_fwd.hpp>
 
 
 namespace rofl
@@ -12,7 +12,7 @@ namespace rofl
 ROFL_SYMBOL
 rofl::polygonizer_unique_ptr
 create_polygonizer(
-	fcppt::log::context &
+	fcppt::log::context_reference
 );
 
 }

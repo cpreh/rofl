@@ -4,12 +4,12 @@
 #include <rofl/aux/polygonizers/triangle/object.hpp>
 #include <fcppt/make_unique_ptr.hpp>
 #include <fcppt/unique_ptr_to_base.hpp>
-#include <fcppt/log/context_fwd.hpp>
+#include <fcppt/log/context_reference.hpp>
 
 
 rofl::polygonizer_unique_ptr
 rofl::create_polygonizer(
-	fcppt::log::context &_log_context
+	fcppt::log::context_reference const _log_context
 )
 {
 	return
