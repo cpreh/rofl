@@ -74,6 +74,7 @@
 #include <awl/main/exit_failure.hpp>
 #include <awl/main/function_context_fwd.hpp>
 #include <fcppt/exception.hpp>
+#include <fcppt/make_cref.hpp>
 #include <fcppt/make_ref.hpp>
 #include <fcppt/reference_impl.hpp>
 #include <fcppt/reference_to_base.hpp>
@@ -611,9 +612,13 @@ try
 					);
 
 					sge::renderer::state::ffp::transform::scoped const scoped_transform(
-						scoped_block.get(),
+						fcppt::make_ref(
+							scoped_block.get()
+						),
 						sge::renderer::state::ffp::transform::mode::projection,
-						*transform_state
+						fcppt::make_cref(
+							*transform_state
+						)
 					);
 
 					scoped_block.get().clear(
