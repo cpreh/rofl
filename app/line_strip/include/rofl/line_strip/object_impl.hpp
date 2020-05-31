@@ -24,6 +24,8 @@
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
 #include <sge/renderer/context/core.hpp>
+#include <fcppt/make_cref.hpp>
+#include <fcppt/make_ref.hpp>
 #include <fcppt/optional/assign.hpp>
 #include <fcppt/assert/optional_error.hpp>
 #include <fcppt/config/external_begin.hpp>
@@ -140,8 +142,12 @@ rofl::line_strip::object<A,B>::draw(
 		return;
 
 	sge::renderer::vertex::scoped_declaration const vb_declaration(
-		_render_context,
-		*vertex_declaration_
+		fcppt::make_ref(
+			_render_context
+		),
+		fcppt::make_cref(
+			*vertex_declaration_
+		)
 	);
 
 	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
@@ -151,8 +157,12 @@ rofl::line_strip::object<A,B>::draw(
 	);
 
 	sge::renderer::vertex::scoped_buffer const vb_context(
-		_render_context,
-		*vertex_buffer
+		fcppt::make_ref(
+			_render_context
+		),
+		fcppt::make_cref(
+			*vertex_buffer
+		)
 	);
 
 	_render_context.render_nonindexed(
@@ -187,7 +197,9 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 			vertex_buffer_,
 			renderer_.get().create_vertex_buffer(
 				sge::renderer::vertex::buffer_parameters(
-					*vertex_declaration_,
+					fcppt::make_cref(
+						*vertex_declaration_
+					),
 					sge::renderer::vf::dynamic::make_part_index<
 						format,
 						format_part
@@ -201,7 +213,9 @@ rofl::line_strip::object<A,B>::regenerate_vb()
 	);
 
 	sge::renderer::vertex::scoped_lock const vblock(
-		*vertex_buffer,
+		fcppt::make_ref(
+			*vertex_buffer
+		),
 		sge::renderer::lock_mode::writeonly);
 
 	vertex_view const vertices(
