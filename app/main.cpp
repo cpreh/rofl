@@ -211,12 +211,12 @@ push_edges(
 
 }
 
-awl::main::exit_code const
+awl::main::exit_code
 test_main(
 	awl::main::function_context const &
 );
 
-awl::main::exit_code const
+awl::main::exit_code
 test_main(
 	awl::main::function_context const &
 )
