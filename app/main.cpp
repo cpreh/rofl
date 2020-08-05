@@ -495,7 +495,9 @@ try
 		generator_type,
 		uniform_int_type
 	> gen(
-		generator,
+		fcppt::make_ref(
+			generator
+		),
 		uniform_int_type(
 			uniform_int_type::param_type::min(
 				0
