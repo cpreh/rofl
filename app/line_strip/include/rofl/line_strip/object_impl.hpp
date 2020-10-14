@@ -68,7 +68,7 @@ template
 	typename A,
 	typename B
 >
-rofl::line_strip::object<A,B>::~object()
+rofl::line_strip::object<A,B>::~object<A,B>()
 {
 }
 
