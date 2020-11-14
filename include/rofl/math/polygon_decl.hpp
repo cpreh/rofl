@@ -18,73 +18,110 @@ template<
 class polygon
 {
 public:
-	typedef T point;
+	using
+	point
+	=
+	T;
 private:
-	typedef
-	std::vector
-	<
+	using
+	container
+	=
+	std::vector<
 		point
-	>
-	container;
+	>;
 public:
-	typedef typename container::value_type value_type;
+	using
+	value_type
+	=
+	typename
+	container::value_type;
 
-	typedef typename container::reference reference;
+	using
+	reference
+	=
+	typename
+	container::reference;
 
-	typedef typename container::const_reference const_reference;
+	using
+	const_reference
+	=
+	typename
+	container::const_reference;
 
-	typedef typename container::size_type size_type;
+	using
+	size_type
+	=
+	typename
+	container::size_type;
 
-	typedef typename container::iterator iterator;
+	using
+	iterator
+	=
+	typename
+	container::iterator;
 
-	typedef typename container::const_iterator const_iterator;
+	using
+	const_iterator
+	=
+	typename
+	container::const_iterator;
 
 	polygon();
-
-	// TODO: Add move, etc.
 
 	void
 	push_back(
 		point const &
 	);
 
+	[[nodiscard]]
 	size_type
 	size() const;
 
+	[[nodiscard]]
 	reference
 	front();
 
+	[[nodiscard]]
 	const_reference
 	front() const;
 
+	[[nodiscard]]
 	reference
 	back();
 
+	[[nodiscard]]
 	const_reference
 	back() const;
 
+	[[nodiscard]]
 	reference
 	operator[](
 		size_type
 	);
 
+	[[nodiscard]]
 	const_reference
 	operator[](
 		size_type
 	) const;
 
+	[[nodiscard]]
 	iterator
 	begin();
 
+	[[nodiscard]]
 	const_iterator
 	begin() const;
 
+	[[nodiscard]]
 	iterator
 	end();
 
+	[[nodiscard]]
 	const_iterator
 	end() const;
 
+	[[nodiscard]]
 	bool
 	empty() const;
 

@@ -7,20 +7,27 @@
 
 rofl::aux::polygonizers::triangle::triangulation::triangulation(
 	char const *_options,
-	triangulateio &_in,
-	triangulateio &_out)
+	fcppt::reference<
+		triangulateio
+	> const _in,
+	fcppt::reference<
+		triangulateio
+	> const _out
+)
 :
 	out_(
-		_out)
+		_out
+	)
 {
 	// Why this? Because triangulate incorrectly takes a "char*" instead of "char const*"
 	std::string options(
-		_options);
+		_options
+	);
 
 	::triangulate(
 		&(*options.begin()),
-		&_in,
-		&_out,
+		&_in.get(),
+		&_out.get(),
 		nullptr
 	);
 }
@@ -28,9 +35,12 @@ rofl::aux::polygonizers::triangle::triangulation::triangulation(
 rofl::aux::polygonizers::triangle::triangulation::~triangulation()
 {
 	std::free(
-		out_.trianglelist);
+		out_.get().trianglelist
+	);
 	std::free(
-		out_.pointlist);
+		out_.get().pointlist
+	);
 	std::free(
-		out_.neighborlist);
+		out_.get().neighborlist)
+	;
 }

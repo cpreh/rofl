@@ -21,16 +21,18 @@ public:
 	vertex_properties();
 
 	ROFL_SYMBOL
+	explicit
 	vertex_properties(
-		rofl::indexed_polygon const &
+		rofl::indexed_polygon &&
 	);
 
 	ROFL_SYMBOL
 	vertex_properties(
-		rofl::indexed_polygon const &,
+		rofl::indexed_polygon &&,
 		rofl::point const &
 	);
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	rofl::indexed_polygon const &
 	polygon() const;
@@ -38,9 +40,10 @@ public:
 	ROFL_SYMBOL
 	void
 	polygon(
-		rofl::indexed_polygon const &
+		rofl::indexed_polygon &&
 	);
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	rofl::point const &
 	barycenter() const;

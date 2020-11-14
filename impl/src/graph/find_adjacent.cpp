@@ -9,11 +9,10 @@
 #include <fcppt/config/external_end.hpp>
 
 
-std::pair
-<
+std::pair<
 	rofl::indexed_point,
 	rofl::aux::graph::placement
-> const
+>
 rofl::aux::graph::find_adjacent(
 	rofl::indexed_polygon const &_p,
 	rofl::indexed_point const &_a,
@@ -21,7 +20,7 @@ rofl::aux::graph::find_adjacent(
 )
 {
 	for(
-		rofl::indexed_polygon::const_iterator it(
+		auto it(
 			_p.begin()
 		);
 		it != _p.end();
@@ -31,31 +30,33 @@ rofl::aux::graph::find_adjacent(
 		if(
 			(*it) != _a
 		)
+		{
 			continue;
+		}
 
-		rofl::indexed_point const
-			&next =
-				it
-				==
-				std::prev(
-					_p.end()
+		rofl::indexed_point const &next{
+			it
+			==
+			std::prev( // NOLINT(fuchsia-default-arguments-calls)
+				_p.end()
+			)
+			?
+				_p.front()
+			:
+				*std::next( // NOLINT(fuchsia-default-arguments-calls)
+					it
 				)
-				?
-					_p.front()
-				:
-					*std::next(
-						it
-					)
-				,
-			&prev =
-				it == _p.begin()
-				?
-					_p.back()
-				:
-					*std::prev(
-						it
-					)
-			;
+		};
+
+		rofl::indexed_point const &prev{
+			it == _p.begin()
+			?
+				_p.back()
+			:
+				*std::prev( // NOLINT(fuchsia-default-arguments-calls)
+					it
+				)
+		};
 
 		return
 			next == _b

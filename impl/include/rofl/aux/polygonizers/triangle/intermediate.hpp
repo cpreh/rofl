@@ -22,18 +22,22 @@ namespace triangle
 // in an array with constant size 3 (-1 being "not a neighbor" like Triangle does)
 struct intermediate
 {
-	typedef int index;
+	using
+	index
+	=
+	int;
 
-	typedef
+	using
+	neighbor_array
+	=
 	std::array<
 		index,
 		3
-	>
-	neighbor_array;
+	>;
 
-	rofl::graph::vertex_descriptor vertex;
+	rofl::graph::vertex_descriptor vertex; // NOLINT(misc-non-private-member-variables-in-classes)
 
-	neighbor_array neighbors;
+	neighbor_array neighbors; // NOLINT(misc-non-private-member-variables-in-classes)
 
 	intermediate(
 		rofl::graph::vertex_descriptor const &,

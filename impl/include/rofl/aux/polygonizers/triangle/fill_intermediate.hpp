@@ -9,6 +9,8 @@
 #include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/math/barycenter.hpp>
+#include <fcppt/reference_impl.hpp>
+#include <fcppt/reference_to_const.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <cstddef>
 #include <fcppt/config/external_end.hpp>
@@ -23,8 +25,7 @@ namespace polygonizers
 namespace triangle
 {
 
-template
-<
+template<
 	typename GraphPolygons,
 	typename TriList,
 	typename NeighborList,
@@ -32,41 +33,49 @@ template
 >
 void
 fill_intermediate(
-	Graph &output,
-	GraphPolygons &graph_polygons,
+	fcppt::reference<
+		Graph
+	> const output,
+	fcppt::reference<
+		GraphPolygons
+	> const graph_polygons,
 	int numberoftriangles,
 	TriList const &trilist,
 	NeighborList const &neighborlist
 )
 {
-	// TODO: reserve graph_polygons's size
+	// TODO(philipp): reserve graph_polygons's size
 	for(
 		int tri = 0;
 		tri < numberoftriangles;
 		++tri
 	)
 	{
-		// TODO: reserve three elements
+		// TODO(philipp): reserve three elements
 		rofl::indexed_polygon indexed_poly;
 
-		std::size_t const tri_base(
+		auto const tri_base(
 			static_cast<
 				std::size_t
 			>(
-				3 * tri
+				tri
 			)
+			* 3U
 		);
 
 		// NOTE: somehow triangle outputs the corners in _clockwise_ order
 		// so we switch it here.
 		for(
-			unsigned corner = 2u;
-			corner <= 2u;
+			unsigned corner = 2U;
+			corner <= 2U;
 			--corner
 		)
+		{
 			indexed_poly.push_back(
 				rofl::indexed_point(
-					output,
+					fcppt::reference_to_const(
+						output
+					),
 					static_cast<
 						rofl::index
 					>(
@@ -76,6 +85,7 @@ fill_intermediate(
 					)
 				)
 			);
+		}
 
 		rofl::aux::polygonizers::triangle::intermediate::neighbor_array const neighbors{{
 			neighborlist[tri_base],
@@ -83,18 +93,20 @@ fill_intermediate(
 			neighborlist[tri_base+2]
 		}};
 
-		graph_polygons.push_back(
+		graph_polygons.get().push_back(
 			rofl::aux::polygonizers::triangle::intermediate(
 				boost::add_vertex(
 					rofl::graph::vertex_properties(
-						indexed_poly,
+						rofl::indexed_polygon{
+							indexed_poly
+						},
 						rofl::math::barycenter(
 							rofl::dereference(
 								indexed_poly
 							)
 						)
 					),
-					output
+					output.get()
 				),
 				neighbors
 			)

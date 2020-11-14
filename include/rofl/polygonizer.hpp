@@ -4,7 +4,8 @@
 #include <rofl/polygonizer_fwd.hpp>
 #include <rofl/polygon_with_holes_fwd.hpp>
 #include <rofl/graph/object_fwd.hpp>
-#include <fcppt/noncopyable.hpp>
+#include <fcppt/nonmovable.hpp>
+#include <fcppt/reference_fwd.hpp>
 
 
 namespace rofl
@@ -12,7 +13,7 @@ namespace rofl
 
 class polygonizer
 {
-	FCPPT_NONCOPYABLE(
+	FCPPT_NONMOVABLE(
 		polygonizer
 	);
 protected:
@@ -22,7 +23,9 @@ public:
 	void
 	polygonize(
 		rofl::polygon_with_holes const &,
-		rofl::graph::object &
+		fcppt::reference<
+			rofl::graph::object
+		>
 	) = 0;
 
 	virtual

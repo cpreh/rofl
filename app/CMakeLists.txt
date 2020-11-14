@@ -1,7 +1,3 @@
-include_directories(
-	line_strip/include
-)
-
 find_package(
 	awl REQUIRED
 )
@@ -23,10 +19,6 @@ find_package(
 	sge REQUIRED
 	COMPONENTS
 	${SGE_COMPONENTS}
-)
-
-include_directories(
-	${sge_INCLUDE_DIRS}
 )
 
 include(
@@ -56,6 +48,12 @@ target_link_libraries(
 	${sgesystems_TARGET}
 	${sgeviewport_TARGET}
 	${sgewindow_TARGET}
+)
+
+target_include_directories(
+	rofl_main
+	PRIVATE
+	line_strip/include
 )
 
 #awl_utils_add_portable_executable(

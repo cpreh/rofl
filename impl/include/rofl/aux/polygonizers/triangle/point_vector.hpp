@@ -1,5 +1,5 @@
-#ifndef ROFL_AUX_POLYGONIZERS_TRIANGLE_HOLE_VECTOR_HPP_INCLUDED
-#define ROFL_AUX_POLYGONIZERS_TRIANGLE_HOLE_VECTOR_HPP_INCLUDED
+#ifndef ROFL_AUX_POLYGONIZERS_TRIANGLE_POINT_VECTOR_HPP_INCLUDED
+#define ROFL_AUX_POLYGONIZERS_TRIANGLE_POINT_VECTOR_HPP_INCLUDED
 
 #include <rofl/unit.hpp>
 #include <fcppt/config/external_begin.hpp>
@@ -16,11 +16,12 @@ namespace polygonizers
 namespace triangle
 {
 
-typedef
+using
+point_vector
+=
 std::vector<
 	rofl::unit
->
-hole_vector;
+>;
 
 }
 }

@@ -3,7 +3,10 @@
 
 namespace rofl
 {
-typedef float unit;
+using
+unit
+=
+float;
 }
 
 #endif

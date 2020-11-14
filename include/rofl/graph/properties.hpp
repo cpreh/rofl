@@ -17,22 +17,28 @@ namespace graph
 class properties
 {
 public:
-	typedef std::vector<
+	using
+	point_vector
+	=
+	std::vector<
 		rofl::point
-	> point_vector;
+	>;
 
 	ROFL_SYMBOL
 	properties();
 
 	ROFL_SYMBOL
+	explicit
 	properties(
-		point_vector const &
+		point_vector &&
 	);
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	point_vector const &
 	points() const;
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	point_vector &
 	points();

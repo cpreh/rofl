@@ -21,13 +21,15 @@ accumulate_sizes(
 )
 {
 	typename Container::size_type ret(
-		0u
+		0U
 	);
 
 	for(
 		auto const &elem : _container
 	)
+	{
 		ret += elem.size();
+	}
 
 	return ret;
 }

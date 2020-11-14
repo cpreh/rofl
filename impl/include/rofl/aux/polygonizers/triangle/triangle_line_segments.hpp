@@ -16,12 +16,12 @@ namespace polygonizers
 namespace triangle
 {
 
-typedef
-std::vector
-<
+using
+triangle_line_segments
+=
+std::vector<
 	rofl::indexed_line_segment
->
-triangle_line_segments;
+>;
 
 }
 }

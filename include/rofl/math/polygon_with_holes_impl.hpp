@@ -2,6 +2,9 @@
 #define ROFL_MATH_POLYGON_WITH_HOLES_IMPL_HPP_INCLUDED
 
 #include <rofl/math/polygon_with_holes_decl.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
 
 
 template<
@@ -22,15 +25,37 @@ template<
 rofl::math::polygon_with_holes<
 	T
 >::polygon_with_holes(
-	polygon const &_border,
-	hole_set const &_holes
+	polygon &&_border
 )
 :
 	border_(
-		_border
+		std::move(
+			_border
+		)
+	),
+	holes_{}
+{
+}
+
+template<
+	typename T
+>
+rofl::math::polygon_with_holes<
+	T
+>::polygon_with_holes(
+	polygon &&_border,
+	hole_set &&_holes
+)
+:
+	border_(
+		std::move(
+			_border
+		)
 	),
 	holes_(
-		_holes
+		std::move(
+			_holes
+		)
 	)
 {
 }
@@ -42,11 +67,13 @@ void
 rofl::math::polygon_with_holes<
 	T
 >::border(
-	polygon const &_border
+	polygon &&_border
 )
 {
 	border_ =
-		_border;
+		std::move(
+			_border
+		);
 }
 
 template<
@@ -71,11 +98,13 @@ void
 rofl::math::polygon_with_holes<
 	T
 >::add_hole(
-	polygon const &_hole
+	polygon &&_hole
 )
 {
 	holes_.push_back(
-		_hole
+		std::move(
+			_hole
+		)
 	);
 }
 

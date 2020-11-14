@@ -16,16 +16,8 @@ add_subdirectory(
 	triangle
 )
 
-include_directories(
-	${CMAKE_SOURCE_DIR}/include
-)
-
 find_package(
 	Boost 1.50.0 REQUIRED
-)
-
-include_directories(
-	${Boost_INCLUDE_DIR}
 )
 
 # Find FCPPT

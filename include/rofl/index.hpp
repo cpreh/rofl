@@ -9,7 +9,10 @@
 namespace rofl
 {
 
-typedef std::size_t index;
+using
+index
+=
+std::size_t;
 
 }
 

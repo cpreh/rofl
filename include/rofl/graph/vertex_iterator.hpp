@@ -12,11 +12,12 @@ namespace rofl
 namespace graph
 {
 
-typedef
+using
+vertex_iterator
+=
 boost::graph_traits<
 	rofl::graph::object
->::vertex_iterator
-vertex_iterator;
+>::vertex_iterator;
 
 }
 }

@@ -7,16 +7,18 @@ add_definitions(
 	-D NO_TIMER
 )
 
-include_directories(
-	include
-)
-
 add_library(
 	rofltriangleimpl
 	SHARED
 	src/triangle.c
 	include/triangle/impl.hpp
 	include/triangle/triangle.h
+)
+
+target_include_directories(
+	rofltriangleimpl
+	PUBLIC
+	include
 )
 
 if(

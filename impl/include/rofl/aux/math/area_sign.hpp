@@ -31,12 +31,17 @@ area_sign(
 			b-a,
 			c-a);
 #endif
+	constexpr typename T::value_type const half{
+		0.5
+	};
 
-	if (area2 > static_cast<typename T::value_type>(0.5))
+	if (area2 > half)
+	{
 		return 1;
+	}
 
 	return
-		area2 < static_cast<typename T::value_type>(-0.5)
+		area2 < -half
 		?
 			-1
 		:

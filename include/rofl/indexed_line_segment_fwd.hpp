@@ -8,9 +8,12 @@
 namespace rofl
 {
 
-typedef rofl::math::line_segment<
+using
+indexed_line_segment
+=
+rofl::math::line_segment<
 	rofl::indexed_point
-> indexed_line_segment;
+>;
 
 }
 

@@ -23,6 +23,7 @@
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/indexed_point.hpp>
 #include <triangle/impl.hpp>
+#include <fcppt/make_ref.hpp>
 #include <fcppt/assert/error.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
@@ -57,13 +58,14 @@ rofl::aux::polygonizers::triangle::object::object(
 }
 
 rofl::aux::polygonizers::triangle::object::~object()
-{
-}
+= default;
 
 void
 rofl::aux::polygonizers::triangle::object::polygonize(
 	rofl::polygon_with_holes const &_poly,
-	rofl::graph::object &_output
+	fcppt::reference<
+		rofl::graph::object
+	> const _output
 )
 {
 /*
@@ -71,9 +73,8 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		fcppt::log::level::debug);
 		*/
 
-	triangulateio
-		in,
-		out;
+	triangulateio in{};
+	triangulateio out{};
 
 	// since triangulateio is a C structure, we can just memset it to 0
 	rofl::aux::polygonizers::triangle::clear_pod(
@@ -91,14 +92,15 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			rofl::aux::polygonizers::triangle::accumulate_sizes(
 				_poly.holes()));
 
-	rofl::aux::polygonizers::triangle::point_vector points;
+	rofl::aux::polygonizers::triangle::point_vector points{};
 
 	points.reserve(
 		static_cast<
 			rofl::aux::polygonizers::triangle::point_vector::size_type
 		>(
-			in.numberofpoints * 2
+			in.numberofpoints
 		)
+		* 2U
 	);
 
 	in.pointlist =
@@ -122,8 +124,9 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		static_cast<
 			rofl::aux::polygonizers::triangle::hole_vector::size_type
 		>(
-			2u * _poly.holes().size()
+			_poly.holes().size()
 		)
+		* 2U
 	);
 
 	in.numberofholes =
@@ -138,9 +141,14 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 
 	// add points and holes begin
 	rofl::aux::polygonizers::triangle::add_polygon(
-		points,
-		segments,
-		_poly.border());
+		fcppt::make_ref(
+			points
+		),
+		fcppt::make_ref(
+			segments
+		),
+		_poly.border()
+	);
 
 	for(
 		auto const &elem : _poly.holes()
@@ -153,8 +161,12 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			*/
 
 		rofl::aux::polygonizers::triangle::add_polygon(
-			points,
-			segments,
+			fcppt::make_ref(
+				points
+			),
+			fcppt::make_ref(
+				segments
+			),
 			elem
 		);
 
@@ -222,11 +234,16 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		log_,
 		fcppt::log::out << FCPPT_TEXT("Holes end"))
 
-	rofl::aux::polygonizers::triangle::triangulation t(
+	rofl::aux::polygonizers::triangle::triangulation t{
 	//	"pznQ", // q for quality
 		"pznqQ", // q for quality
-		in,
-		out);
+		fcppt::make_ref(
+			in
+		),
+		fcppt::make_ref(
+			out
+		)
+	};
 
 	FCPPT_LOG_DEBUG(
 		log_,
@@ -249,26 +266,32 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 	// This is stored in the graph properties, and the indexed_points
 	// use that as their source
 	rofl::aux::polygonizers::triangle::fill_points(
-		out.pointlist,
-		2*out.numberofpoints,
-		boost::get_property(
-			_output,
-			rofl::graph::property_tag()
-		).points());
+		fcppt::make_ref(
+			out.pointlist
+		),
+		2 * out.numberofpoints,
+		fcppt::make_ref(
+			boost::get_property(
+				_output.get(),
+				rofl::graph::property_tag()
+			).points()
+		)
+	);
 
-	typedef
-	std::vector
-	<
-		rofl::aux::polygonizers::triangle::intermediate
-	>
-	graph_polygon_vector;
-
+	using
 	graph_polygon_vector
-		graph_polygons;
+	=
+	std::vector<
+		rofl::aux::polygonizers::triangle::intermediate
+	>;
+
+	graph_polygon_vector graph_polygons{};
 
 	rofl::aux::polygonizers::triangle::fill_intermediate(
 		_output,
-		graph_polygons,
+		fcppt::make_ref(
+			graph_polygons
+		),
 		out.numberoftriangles,
 		out.trianglelist,
 		out.neighborlist
@@ -285,7 +308,9 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 			if(
 				index == -1
 			)
+			{
 				continue;
+			}
 
 			rofl::graph::vertex_descriptor const &
 				vertex(
@@ -298,31 +323,28 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 					].vertex
 				);
 
-			rofl::graph::vertex_properties const
-				&props0(
-					_output[
-						intermediate.vertex
-					]
-				),
-				&props1(
-					_output[
-						vertex
-					]
+			rofl::graph::vertex_properties const &props0(
+				_output.get()[
+					intermediate.vertex
+				]
+			);
+
+			rofl::graph::vertex_properties const &props1(
+				_output.get()[
+					vertex
+				]
+			);
+
+			indexed_polygon const &p0 = props0.polygon();
+			indexed_polygon const &p1 = props1.polygon();
+
+			point const &c0 = props0.barycenter();
+			point const &c1 = props1.barycenter();
+
+			unit const length =
+				fcppt::math::vector::length(
+					c0 - c1
 				);
-
-			indexed_polygon const
-				&p0 = props0.polygon(),
-				&p1 = props1.polygon();
-
-			point const
-				c0 = props0.barycenter(),
-				c1 = props1.barycenter();
-
-			unit const
-				length =
-					fcppt::math::vector::length(
-						c0 - c1
-					);
 
 			if(
 				boost::add_edge(
@@ -335,7 +357,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 							p1
 						)
 					),
-					_output
+					_output.get()
 				).second
 				==
 				false

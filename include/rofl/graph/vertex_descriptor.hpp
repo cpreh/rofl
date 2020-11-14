@@ -12,9 +12,12 @@ namespace rofl
 namespace graph
 {
 
-typedef boost::graph_traits<
+using
+vertex_descriptor
+=
+boost::graph_traits<
 	rofl::graph::object
->::vertex_descriptor vertex_descriptor;
+>::vertex_descriptor;
 
 }
 }

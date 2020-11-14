@@ -17,22 +17,21 @@ namespace rofl
 namespace graph
 {
 
-typedef
-boost::adjacency_list
-<
-	// TODO: where does this boost:: stuff come from?
+using
+object
+=
+boost::adjacency_list<
+	// TODO(philipp): where does this boost:: stuff come from?
 	boost::setS,
 	boost::vecS,
 	boost::undirectedS,
 	rofl::graph::vertex_properties,
 	rofl::graph::edge_properties,
-	boost::property
-	<
+	boost::property<
 		rofl::graph::property_tag,
 		rofl::graph::properties
 	>
->
-object;
+>;
 
 }
 }

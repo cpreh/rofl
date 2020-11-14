@@ -6,7 +6,7 @@
 
 
 rofl::indexed_point::indexed_point(
-	rofl::graph::object const &_parent,
+	graph_reference const _parent,
 	rofl::index const _index
 )
 :

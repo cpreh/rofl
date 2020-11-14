@@ -19,43 +19,55 @@ template<
 class polygon_with_holes
 {
 public:
-	typedef rofl::math::polygon<
+	using
+	polygon
+	=
+	rofl::math::polygon<
 		T
-	> polygon;
+	>;
 
-	typedef
+	using
+	hole_set
+	=
 	std::vector<
 		polygon
-	>
-	hole_set;
+	>;
 
 	polygon_with_holes();
 
 	explicit
 	polygon_with_holes(
-		polygon const &,
-		hole_set const & = hole_set()
+		polygon &&
+	);
+
+	polygon_with_holes(
+		polygon &&,
+		hole_set &&
 	);
 
 	void
 	border(
-		polygon const &
+		polygon &&
 	);
 
+	[[nodiscard]]
 	polygon const &
 	border() const;
 
 	void
 	add_hole(
-		polygon const &
+		polygon &&
 	);
 
+	[[nodiscard]]
 	hole_set const &
 	holes() const;
 
+	[[nodiscard]]
 	polygon &
 	border();
 
+	[[nodiscard]]
 	hole_set &
 	holes();
 private:

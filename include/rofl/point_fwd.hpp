@@ -8,13 +8,13 @@
 namespace rofl
 {
 
-typedef
-fcppt::math::vector::static_
-<
+using
+point
+=
+fcppt::math::vector::static_<
 	rofl::unit,
 	2
->
-point;
+>;
 
 }
 

@@ -16,11 +16,10 @@ namespace aux
 namespace graph
 {
 
-std::pair
-<
+std::pair<
 	rofl::indexed_point,
 	rofl::aux::graph::placement
-> const
+>
 find_adjacent(
 	rofl::indexed_polygon const &,
 	rofl::indexed_point const &,

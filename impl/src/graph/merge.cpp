@@ -29,11 +29,12 @@ rofl::aux::graph::merge(
 
 	Das Durchlaufen erfolgt zyklisch.
 	*/
-	typedef
-	fcppt::cyclic_iterator
-	<
+	using
+	cyclic_iterator
+	=
+	fcppt::cyclic_iterator<
 		rofl::indexed_polygon::const_iterator
-	> cyclic_iterator;
+	>;
 
 	rofl::indexed_polygon output;
 
@@ -45,7 +46,7 @@ rofl::aux::graph::merge(
 		}
 	);
 
-	// TODO: Refactor this into a helper function!
+	// TODO(philipp): Refactor this into a helper function!
 	while(
 		!rofl::aux::graph::on_boundary(
 			*it_a,
@@ -53,15 +54,17 @@ rofl::aux::graph::merge(
 		)
 		||
 		!rofl::aux::graph::on_boundary(
-			*std::next(
+			*std::next( // NOLINT(fuchsia-default-arguments-calls)
 				it_a
 			),
 			_line
 		)
 	)
+	{
 		output.push_back(
 			*it_a++
 		);
+	}
 
 	cyclic_iterator it_b(
 		std::find(
@@ -82,15 +85,17 @@ rofl::aux::graph::merge(
 		)
 		||
 		!rofl::aux::graph::on_boundary(
-			*std::next(
+			*std::next( // NOLINT(fuchsia-default-arguments-calls)
 				it_b
 			),
 			_line
 		)
 	)
+	{
 		output.push_back(
 			*it_b++
 		);
+	}
 
 	++it_a;
 
@@ -99,9 +104,11 @@ rofl::aux::graph::merge(
 		!=
 		*_poly_a.begin()
 	)
+	{
 		output.push_back(
 			*it_a++
 		);
+	}
 
 	return
 		output;

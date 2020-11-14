@@ -1,4 +1,7 @@
 #include <rofl/graph/properties.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
 
 
 rofl::graph::properties::properties()
@@ -8,11 +11,13 @@ rofl::graph::properties::properties()
 }
 
 rofl::graph::properties::properties(
-	point_vector const &_points
+	point_vector &&_points
 )
 :
 	points_(
-		_points
+		std::move(
+			_points
+		)
 	)
 {
 }

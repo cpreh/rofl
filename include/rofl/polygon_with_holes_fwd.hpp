@@ -8,11 +8,12 @@
 namespace rofl
 {
 
-typedef
+using
+polygon_with_holes
+=
 rofl::math::polygon_with_holes<
 	rofl::point
->
-polygon_with_holes;
+>;
 
 }
 

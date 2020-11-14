@@ -1,9 +1,12 @@
 #include <rofl/indexed_polygon.hpp>
 #include <rofl/polygon.hpp>
-#include <rofl/graph/properties.hpp> // TODO: why does gcc need this?
+#include <rofl/graph/properties.hpp>
 #include <rofl/graph/vertex_properties.hpp>
 #include <fcppt/no_init.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <utility>
+#include <fcppt/config/external_end.hpp>
 
 
 rofl::graph::vertex_properties::vertex_properties()
@@ -16,11 +19,13 @@ rofl::graph::vertex_properties::vertex_properties()
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	rofl::indexed_polygon const &_polygon
+	rofl::indexed_polygon &&_polygon
 )
 :
 	polygon_(
-		_polygon
+		std::move(
+			_polygon
+		)
 	),
 	barycenter_(
 		fcppt::no_init()
@@ -29,12 +34,14 @@ rofl::graph::vertex_properties::vertex_properties(
 }
 
 rofl::graph::vertex_properties::vertex_properties(
-	rofl::indexed_polygon const &_polygon,
+	rofl::indexed_polygon &&_polygon,
 	rofl::point const &_barycenter
 )
 :
 	polygon_(
-		_polygon
+		std::move(
+			_polygon
+		)
 	),
 	barycenter_(
 		_barycenter
@@ -51,11 +58,13 @@ rofl::graph::vertex_properties::polygon() const
 
 void
 rofl::graph::vertex_properties::polygon(
-	rofl::indexed_polygon const &_polygon
+	rofl::indexed_polygon &&_polygon
 )
 {
 	polygon_ =
-		_polygon;
+		std::move(
+			_polygon
+		);
 }
 
 

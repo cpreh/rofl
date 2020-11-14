@@ -304,7 +304,9 @@ try
 		<< FCPPT_TEXT('\n');
 
 	rofl::polygon_with_holes polys(
-		border
+		rofl::polygon{
+			border
+		}
 	);
 
 	fcppt::io::cout()
@@ -344,7 +346,9 @@ try
 			<< FCPPT_TEXT("\n");
 
 		polys.add_hole(
-			hole
+			rofl::polygon{
+				hole
+			}
 		);
 
 		line_strip
@@ -381,7 +385,9 @@ try
 		sys.log_context()
 	)->polygonize(
 		polys,
-		graph
+		fcppt::make_ref(
+			graph
+		)
 	);
 
 	/*

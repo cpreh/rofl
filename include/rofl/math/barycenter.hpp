@@ -7,19 +7,23 @@ namespace rofl
 {
 namespace math
 {
+
 template<typename Container>
-typename Container::value_type barycenter(
+typename Container::value_type
+barycenter(
 	Container const &p)
 {
-	typedef
+	using
+	vector
+	=
 	typename
-	Container::value_type
-	vector;
+	Container::value_type;
 
-	typedef
+	using
+	scalar
+	=
 	typename
-	vector::value_type
-	scalar;
+	vector::value_type;
 
 	scalar const r =
 		static_cast<scalar>(1)/
@@ -32,7 +36,9 @@ typename Container::value_type barycenter(
 	};
 
 	for(typename Container::const_reference i : p)
+	{
 		out += i;
+	}
 
 	return
 		r * out;

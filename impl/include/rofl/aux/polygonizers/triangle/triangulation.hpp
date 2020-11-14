@@ -2,7 +2,8 @@
 #define ROFL_AUX_POLYGONIZERS_TRIANGLE_TRIANGULATION_HPP_INCLUDED
 
 #include <triangle/impl.hpp>
-#include <fcppt/noncopyable.hpp>
+#include <fcppt/nonmovable.hpp>
+#include <fcppt/reference_impl.hpp>
 
 
 namespace rofl
@@ -16,19 +17,25 @@ namespace triangle
 
 class triangulation
 {
-	FCPPT_NONCOPYABLE(
+	FCPPT_NONMOVABLE(
 		triangulation
 	);
 public:
 	triangulation(
 		char const *options,
-		triangulateio &in,
-		triangulateio &out
+		fcppt::reference<
+			triangulateio
+		> in,
+		fcppt::reference<
+			triangulateio
+		> out
 	);
 
 	~triangulation();
 private:
-	triangulateio &out_;
+	fcppt::reference<
+		triangulateio
+	> const out_;
 };
 
 }

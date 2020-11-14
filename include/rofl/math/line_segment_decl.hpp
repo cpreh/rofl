@@ -15,7 +15,10 @@ template<
 class line_segment
 {
 public:
-	typedef Vector point;
+	using
+	point
+	=
+	Vector;
 
 	line_segment();
 
@@ -24,12 +27,15 @@ public:
 		point const &end
 	);
 
+	[[nodiscard]]
 	point const &
 	start() const;
 
+	[[nodiscard]]
 	point const &
 	end() const;
 
+	[[nodiscard]]
 	bool
 	operator==(
 		line_segment const &

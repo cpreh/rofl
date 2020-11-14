@@ -12,11 +12,12 @@ namespace rofl
 namespace astar
 {
 
-typedef std::list
-<
+using
+trail
+=
+std::list<
 	rofl::graph::vertex_descriptor
->
-trail;
+>;
 
 }
 }

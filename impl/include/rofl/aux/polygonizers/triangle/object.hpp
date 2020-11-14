@@ -4,7 +4,8 @@
 #include <rofl/polygonizer.hpp>
 #include <rofl/polygon_with_holes_fwd.hpp>
 #include <rofl/graph/object_fwd.hpp>
-#include <fcppt/noncopyable.hpp>
+#include <fcppt/nonmovable.hpp>
+#include <fcppt/reference_fwd.hpp>
 #include <fcppt/log/context_reference_fwd.hpp>
 #include <fcppt/log/object.hpp>
 
@@ -22,7 +23,7 @@ class object
 :
 	public rofl::polygonizer
 {
-	FCPPT_NONCOPYABLE(
+	FCPPT_NONMOVABLE(
 		object
 	);
 public:
@@ -37,7 +38,9 @@ private:
 	void
 	polygonize(
 		rofl::polygon_with_holes const &,
-		rofl::graph::object &
+		fcppt::reference<
+			rofl::graph::object
+		>
 	)
 	override;
 

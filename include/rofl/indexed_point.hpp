@@ -15,26 +15,31 @@ namespace rofl
 class indexed_point
 {
 public:
+	using
+	graph_reference
+	=
+	fcppt::reference<
+		rofl::graph::object const
+	>;
+
 	ROFL_SYMBOL
 	indexed_point(
-		rofl::graph::object const &,
+		graph_reference,
 		rofl::index
 	);
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	rofl::point const &
 	representation() const;
 
+	[[nodiscard]]
 	ROFL_SYMBOL
 	bool
 	operator==(
 		rofl::indexed_point const &
 	) const;
 private:
-	typedef fcppt::reference<
-		rofl::graph::object const
-	> graph_reference;
-
 	graph_reference parent_;
 
 	rofl::index index_;

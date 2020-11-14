@@ -8,11 +8,12 @@
 namespace rofl
 {
 
-typedef
+using
+polygon
+=
 rofl::math::polygon<
 	rofl::point
->
-polygon;
+>;
 
 }
 
