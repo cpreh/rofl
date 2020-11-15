@@ -3,6 +3,7 @@
 
 #include <rofl/symbol.hpp>
 #include <rofl/graph/object_fwd.hpp>
+#include <fcppt/reference_fwd.hpp>
 
 
 namespace rofl
@@ -13,7 +14,9 @@ namespace graph
 ROFL_SYMBOL
 void
 simplify(
-	rofl::graph::object &
+	fcppt::reference<
+		rofl::graph::object
+	>
 );
 
 }

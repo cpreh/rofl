@@ -4,7 +4,7 @@
 #include <rofl/graph/vertices_begin.hpp>
 
 
-rofl::graph::vertex_iterator const
+rofl::graph::vertex_iterator
 rofl::graph::vertices_begin(
 	rofl::graph::object &_graph
 )
@@ -15,7 +15,7 @@ rofl::graph::vertices_begin(
 		).first;
 }
 
-rofl::graph::const_vertex_iterator const
+rofl::graph::const_vertex_iterator
 rofl::graph::vertices_begin(
 	rofl::graph::object const &_graph
 )

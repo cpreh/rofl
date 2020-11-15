@@ -2,9 +2,7 @@
 
 
 rofl::polygonizer::polygonizer()
-{
-}
+= default;
 
 rofl::polygonizer::~polygonizer()
-{
-}
+= default;

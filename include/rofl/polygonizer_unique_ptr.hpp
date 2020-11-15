@@ -8,9 +8,12 @@
 namespace rofl
 {
 
-typedef fcppt::unique_ptr<
+using
+polygonizer_unique_ptr
+=
+fcppt::unique_ptr<
 	rofl::polygonizer
-> polygonizer_unique_ptr;
+>;
 
 }
 

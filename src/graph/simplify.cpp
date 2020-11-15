@@ -10,6 +10,8 @@
 #include <rofl/graph/vertices_begin.hpp>
 #include <rofl/graph/vertices_end.hpp>
 #include <rofl/math/barycenter.hpp>
+#include <fcppt/make_ref.hpp>
+#include <fcppt/reference_impl.hpp>
 #include <fcppt/assert/error.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
@@ -34,44 +36,55 @@ namespace
 // with std::greater. This only works because we know vertex_descriptor is
 // the index into the vector where the vertices are stored. And it works very well
 // because the larger indices are deleted first.
-typedef
-std::set
-<
+using
+deletion_set
+=
+std::set<
 	rofl::graph::vertex_descriptor,
-	std::greater<
-		rofl::graph::vertex_descriptor
-	>
-> deletion_set;
+	std::greater<>
+>;
 
-typedef std::queue<
+using
+out_queue
+=
+std::queue<
 	rofl::graph::edge_descriptor
-> out_queue;
+>;
 
 void
 edit_out_edge(
-	deletion_set &deletes,
-	out_queue &out_edges,
-	rofl::graph::object &g,
+	fcppt::reference<
+		deletion_set
+	> const deletes,
+	fcppt::reference<
+		out_queue
+	> const out_edges,
+	fcppt::reference<
+		rofl::graph::object
+	> const _graph,
 	rofl::graph::vertex_descriptor u,
 	rofl::graph::vertex_descriptor v,
 	rofl::graph::edge_properties const &ep
 )
 {
-	if (deletes.find(v) != deletes.end())
+	if (deletes.get().find(v) != deletes.get().end())
+	{
 		return;
+	}
 
-	rofl::graph::vertex_properties
-		&up =
-			g[u],
-		&vp =
-			g[v];
+	rofl::graph::vertex_properties &up = _graph.get()[u];
+	rofl::graph::vertex_properties &vp = _graph.get()[v];
 
 	if(
 		!rofl::aux::graph::mergeable(
 			up.polygon(),
 			vp.polygon(),
-			ep.adjacent_edge()))
+			ep.adjacent_edge()
+		)
+	)
+	{
 		return;
+	}
 
 	up.polygon(
 		rofl::aux::graph::merge(
@@ -84,30 +97,34 @@ edit_out_edge(
 			rofl::dereference(
 				up.polygon())));
 
-	std::pair
-	<
+	std::pair<
 		rofl::graph::out_edge_iterator,
 		rofl::graph::out_edge_iterator
-	> q =
+	> q{
 		boost::out_edges(
 			v,
-			g);
+			_graph.get()
+		)
+	};
 
 	for (; q.first != q.second; ++q.first)
 	{
 		FCPPT_ASSERT_ERROR(
-			boost::source(*q.first,g) == v);
+			boost::source(*q.first,_graph.get()) == v);
 
 		FCPPT_ASSERT_ERROR(
-			deletes.find(v) == deletes.end());
+			deletes.get().find(v) == deletes.get().end());
 
 		rofl::graph::vertex_descriptor w =
 			boost::target(
 				*q.first,
-				g);
+				_graph.get()
+			);
 
 		if (u == w)
+		{
 			continue;
+		}
 
 		std::pair<rofl::graph::edge_descriptor,bool> n =
 			boost::add_edge(
@@ -115,11 +132,15 @@ edit_out_edge(
 				w,
 				rofl::graph::edge_properties(
 					fcppt::math::vector::length(
-						vp.barycenter()-g[w].barycenter()),
-					g[*q.first].adjacent_edge()),
-				g);
+						vp.barycenter()
+						-
+						_graph.get()[w].barycenter()
+					),
+					_graph.get()[*q.first].adjacent_edge()),
+				_graph.get()
+			);
 
-		out_edges.push(
+		out_edges.get().push(
 			n.first);
 
 		/* very pedantic asserts
@@ -138,62 +159,80 @@ edit_out_edge(
 
 	boost::clear_vertex(
 		v,
-		g);
+		_graph.get());
 
-	deletes.insert(
+	deletes.get().insert(
 		v);
 }
 
 void
 edit_vertex(
-	deletion_set &deletes,
-	rofl::graph::object &g,
+	fcppt::reference<
+		deletion_set
+	> const deletes,
+	fcppt::reference<
+		rofl::graph::object
+	> const _graph,
 	rofl::graph::vertex_descriptor u
 )
 {
 	// Wurde diese Ecke schon gelöscht? Dann nicht bearbeiten (wir müssen lazy
 	// löschen, weil sonst alles durcheinanderkommt (wir löschen Vertizes an
 	// beliebigen Stellen))
-	if (deletes.find(u) != deletes.end())
+	if (deletes.get().find(u) != deletes.get().end())
+	{
 		return;
+	}
 
-	out_queue out_edges;
+	out_queue out_edges{};
+
 	for(
-		std::pair
-		<
+		std::pair<
 			rofl::graph::out_edge_iterator,
 			rofl::graph::out_edge_iterator
 		>
 		p =
 		boost::out_edges(
 			u,
-			g);
+			_graph.get());
 		p.first != p.second;
-		p.first++)
+		p.first++
+	)
+	{
 		out_edges.push(
 			*p.first);
+	}
 
 	while (!out_edges.empty())
 	{
 		rofl::graph::edge_descriptor e =
 			out_edges.front();
+
 		out_edges.pop();
+
 		edit_out_edge(
 			deletes,
-			out_edges,
-			g,
+			fcppt::make_ref(
+				out_edges
+			),
+			_graph,
 			u,
 			boost::target(
 				e,
-				g),
-			g[e]);
+				_graph.get()
+			),
+			_graph.get()[e]
+		);
 	}
 }
+
 }
 
 void
 rofl::graph::simplify(
-	rofl::graph::object &_graph
+	fcppt::reference<
+		rofl::graph::object
+	> const _graph
 )
 {
 #if 0
@@ -226,32 +265,39 @@ rofl::graph::simplify(
 	}
 #endif
 
-	deletion_set deletes;
+	deletion_set deletes{};
+
 	for(
 		vertex_iterator it(
 			rofl::graph::vertices_begin(
-				_graph
+				_graph.get()
 			)
 		);
 		it
 		!= rofl::graph::vertices_end(
-			_graph
+			_graph.get()
 		);
 		++it
 	)
+	{
 		edit_vertex(
-			deletes,
+			fcppt::make_ref(
+				deletes
+			),
 			_graph,
 			*it
 		);
+	}
 
 	for(
-		auto &to_remove : deletes
+		auto const &to_remove : deletes
 	)
+	{
 		boost::remove_vertex(
 			to_remove,
-			_graph
+			_graph.get()
 		);
+	}
 
 	/* PSEUDOCODE
 	foreach (vertex v : g)

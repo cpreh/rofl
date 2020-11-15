@@ -35,7 +35,7 @@ rofl::graph::vertex_properties::vertex_properties(
 
 rofl::graph::vertex_properties::vertex_properties(
 	rofl::indexed_polygon &&_polygon,
-	rofl::point const &_barycenter
+	rofl::point _barycenter
 )
 :
 	polygon_(
@@ -44,7 +44,9 @@ rofl::graph::vertex_properties::vertex_properties(
 		)
 	),
 	barycenter_(
-		_barycenter
+		std::move(
+			_barycenter
+		)
 	)
 {
 }

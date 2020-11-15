@@ -31,7 +31,9 @@ operator>>(
 	if(
 		!(_stream >> ch)
 	)
+	{
 		return _stream;
+	}
 
 	if(ch != _stream.widen('('))
 	{
@@ -42,7 +44,7 @@ operator>>(
 
 	if (_stream.peek() == Traits::to_int_type(_stream.widen(')')))
 	{
-		_stream.ignore();
+		_stream.ignore(); // NOLINT(fuchsia-default-arguments-calls)
 		return _stream;
 	}
 
@@ -55,7 +57,9 @@ operator>>(
 		_stream >> val;
 
 		if (!_stream)
+		{
 			return _stream;
+		}
 
 		_polygon.push_back(
 			val
@@ -71,10 +75,14 @@ operator>>(
 		if(
 			!(_stream >> ch)
 		)
+		{
 			return _stream;
+		}
 
 		if (ch == _stream.widen(')'))
+		{
 			break;
+		}
 
 		if (ch != _stream.widen(','))
 		{

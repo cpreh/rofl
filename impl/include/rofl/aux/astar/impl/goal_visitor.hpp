@@ -7,7 +7,8 @@
 
 
 rofl::aux::astar::goal_visitor::goal_visitor(
-	rofl::graph::vertex_descriptor const &_goal)
+	rofl::graph::vertex_descriptor const &_goal
+)
 :
 	goal_(
 		_goal
@@ -19,12 +20,14 @@ void
 rofl::aux::astar::goal_visitor::examine_vertex(
 	rofl::graph::vertex_descriptor const &_vertex,
 	rofl::graph::object const &
-)
+) const
 {
 	if(
 		_vertex == goal_
 	)
+	{
 		throw rofl::aux::astar::found_goal();
+	}
 }
 
 #endif

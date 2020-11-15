@@ -29,7 +29,7 @@ public:
 	ROFL_SYMBOL
 	vertex_properties(
 		rofl::indexed_polygon &&,
-		rofl::point const &
+		rofl::point
 	);
 
 	[[nodiscard]]

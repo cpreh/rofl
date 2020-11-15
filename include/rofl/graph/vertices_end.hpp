@@ -13,13 +13,13 @@ namespace graph
 {
 
 ROFL_SYMBOL
-rofl::graph::vertex_iterator const
+rofl::graph::vertex_iterator
 vertices_end(
-	rofl::graph::object &
-);
+	rofl::graph::object & // NOLINT(google-runtime-references)
+); // NOLINT(google-runtime-references)
 
 ROFL_SYMBOL
-rofl::graph::const_vertex_iterator const
+rofl::graph::const_vertex_iterator
 vertices_end(
 	rofl::graph::object const &
 );

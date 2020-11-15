@@ -22,7 +22,7 @@ rofl::line_strip::parameters<A,V>::parameters()
 :
 	style_(
 		rofl::line_strip::style::no_loop),
-	color_(
+	color_( // NOLINT(fuchsia-default-arguments-calls)
 		(sge::image::color::init::red() %= 1.)
 		(sge::image::color::init::green() %= 1.)
 		(sge::image::color::init::blue() %= 1.)

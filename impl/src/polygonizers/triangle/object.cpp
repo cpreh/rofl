@@ -113,7 +113,10 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		segments;
 	segments.reserve(
 		static_cast<rofl::aux::polygonizers::triangle::segment_vector::size_type>(
-			in.numberofsegments * 2));
+			in.numberofsegments
+		) * 2U
+	);
+
 	in.segmentlist =
 		&segments[0];
 
@@ -347,7 +350,7 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 				);
 
 			if(
-				boost::add_edge(
+				!boost::add_edge(
 					intermediate.vertex,
 					vertex,
 					rofl::graph::edge_properties(
@@ -359,8 +362,6 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 					),
 					_output.get()
 				).second
-				==
-				false
 			)
 			{
 				FCPPT_LOG_DEBUG(

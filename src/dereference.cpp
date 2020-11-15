@@ -13,9 +13,11 @@ rofl::dereference(
 	for(
 		auto const &elem : _poly
 	)
+	{
 		ret.push_back(
 			elem.representation()
 		);
+	}
 
 	return ret;
 }

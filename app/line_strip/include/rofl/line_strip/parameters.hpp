@@ -22,18 +22,20 @@ template
 class parameters
 {
 public:
-	typedef
-	fcppt::math::vector::static_
-	<
+	using
+	point
+	=
+	fcppt::math::vector::static_<
 		Value,
 		2
-	> point;
+	>;
 
-	typedef
-	std::vector
-	<
+	using
+	point_sequence
+	=
+	std::vector<
 		point
-	> point_sequence;
+	>;
 
 	parameters();
 
@@ -42,9 +44,11 @@ public:
 		rofl::line_strip::style
 	);
 
+	[[nodiscard]]
 	rofl::line_strip::style
 	style() const;
 
+	[[nodiscard]]
 	Color const &
 	color() const;
 
@@ -53,8 +57,7 @@ public:
 		Color const &
 	);
 
-	template
-	<
+	template<
 		typename Container
 	>
 	parameters &
@@ -62,6 +65,7 @@ public:
 		Container const &
 	);
 
+	[[nodiscard]]
 	point_sequence const &
 	points() const;
 private:

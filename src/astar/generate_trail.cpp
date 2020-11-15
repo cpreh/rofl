@@ -19,25 +19,25 @@ rofl::astar::generate_trail(
 	rofl::graph::vertex_descriptor const &_goal
 )
 {
-	typedef
-	std::map
-	<
+	using
+	predecessors
+	=
+	std::map<
 		rofl::graph::vertex_descriptor,
 		rofl::graph::vertex_descriptor
-	>
-	predecessors;
+	>;
 
 	predecessors preds;
 
 	try
 	{
-		typedef
-		boost::property_map
-		<
+		using
+		edge_weight_map
+		=
+		boost::property_map<
 			rofl::graph::object,
 			rofl::unit rofl::graph::edge_properties::*
-		>::type
-		edge_weight_map;
+		>::type;
 
 		edge_weight_map const weight(
 			boost::get(
@@ -61,9 +61,9 @@ rofl::astar::generate_trail(
 				_graph,
 				_goal
 			),
-			// TODO: where does this come from?
+			// TODO(philipp): where does this come from?
 			predecessor_map(
-				// TODO: and this?
+				// TODO(philipp): and this?
 				boost::associative_property_map<
 					predecessors
 				>(
@@ -103,7 +103,9 @@ rofl::astar::generate_trail(
 			==
 			vertex
 		)
+		{
 			break;
+		}
 	}
 
 	return

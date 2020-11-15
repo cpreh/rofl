@@ -3,9 +3,6 @@
 
 #include <rofl/graph/object_fwd.hpp>
 #include <rofl/graph/vertex_descriptor.hpp>
-#include <fcppt/preprocessor/disable_gcc_warning.hpp>
-#include <fcppt/preprocessor/pop_warning.hpp>
-#include <fcppt/preprocessor/push_warning.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/graph/astar_search.hpp>
 #include <fcppt/config/external_end.hpp>
@@ -18,15 +15,13 @@ namespace aux
 namespace astar
 {
 
-FCPPT_PP_PUSH_WARNING
-FCPPT_PP_DISABLE_GCC_WARNING(-Weffc++)
-
 class goal_visitor
 :
 	public boost::default_astar_visitor
 {
 public:
 	inline
+	explicit
 	goal_visitor(
 		rofl::graph::vertex_descriptor const &
 	);
@@ -34,14 +29,12 @@ public:
 	inline
 	void
 	examine_vertex(
-		graph::vertex_descriptor const &,
-		graph::object const &
-	);
+		rofl::graph::vertex_descriptor const &,
+		rofl::graph::object const &
+	) const;
 private:
 	rofl::graph::vertex_descriptor goal_;
 };
-
-FCPPT_PP_POP_WARNING
 
 }
 }

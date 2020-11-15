@@ -40,6 +40,7 @@
 #include <sge/renderer/matrix4.hpp>
 #include <sge/renderer/clear/parameters.hpp>
 #include <sge/renderer/device/core.hpp>
+#include <sge/renderer/device/core_ref.hpp>
 #include <sge/renderer/device/ffp.hpp>
 #include <sge/renderer/context/ffp.hpp>
 #include <sge/renderer/context/scoped_ffp.hpp>
@@ -112,21 +113,23 @@
 namespace
 {
 
-typedef
+using
+line_strip
+=
 rofl::line_strip::object
 <
 	float,
 	sge::image::color::rgba8
->
-line_strip;
+>;
 
-typedef
+using
+line_strip_params
+=
 rofl::line_strip::parameters
 <
 	float,
 	sge::image::color::rgba8
->
-line_strip_params;
+>;
 
 template
 <
@@ -139,8 +142,10 @@ push_edges(
 	Graph const &_graph,
 	EdgeIterator const _begin,
 	EdgeIterator const _end,
-	StripContainer &_strips,
-	sge::renderer::device::core &_rend
+	fcppt::reference<
+		StripContainer
+	> const _strips,
+	sge::renderer::device::core_ref const _rend
 )
 {
 	for(
@@ -165,23 +170,23 @@ push_edges(
 					)
 			);
 
-		rofl::point const
-			&p0(
-				_graph[
-					boost::source(
-						*it,
-						_graph
-					)
-				].barycenter()
-			),
-			&p1(
-				_graph[
-					boost::target(
-						*it,
-						_graph
-					)
-				].barycenter()
-			);
+		rofl::point const &p0(
+			_graph[
+				boost::source(
+					*it,
+					_graph
+				)
+			].barycenter()
+		);
+
+		rofl::point const &p1(
+			_graph[
+				boost::target(
+					*it,
+					_graph
+				)
+			].barycenter()
+		);
 
 		strip.push_back(
 			fcppt::math::vector::structure_cast<
@@ -201,7 +206,7 @@ push_edges(
 			)
 		);
 
-		_strips.push_back(
+		_strips.get().push_back(
 			std::move(
 				strip
 			)
@@ -285,14 +290,16 @@ try
 		)
 	)
 	{
-		fcppt::io::istringstream ss(
+		fcppt::io::istringstream ss( // NOLINT(fuchsia-default-arguments-calls)
 			line
 		);
 
 		if(
 			ss >> border
 		)
+		{
 			break;
+		}
 
 		fcppt::io::cerr()
 			<< FCPPT_TEXT("Invalid border!\n");
@@ -322,9 +329,11 @@ try
 		if(
 			line.empty()
 		)
+		{
 			break;
+		}
 
-		fcppt::io::istringstream ss(
+		fcppt::io::istringstream ss( // NOLINT(fuchsia-default-arguments-calls)
 			line
 		);
 
@@ -353,7 +362,9 @@ try
 
 		line_strip
 			strip(
-				sys.renderer_device_core(),
+				fcppt::make_ref(
+					sys.renderer_device_core()
+				),
 				line_strip_params()
 					.style(
 						rofl::line_strip::style::loop
@@ -363,6 +374,7 @@ try
 		for(
 			rofl::polygon::const_reference elem : hole
 		)
+		{
 			strip.push_back(
 				fcppt::math::vector::structure_cast<
 					line_strip::point,
@@ -371,6 +383,7 @@ try
 					elem
 				)
 			);
+		}
 
 		strips.push_back(
 			std::move(
@@ -379,7 +392,7 @@ try
 		);
 	}
 
-	rofl::graph::object graph;
+	rofl::graph::object graph{};
 
 	rofl::create_polygonizer(
 		sys.log_context()
@@ -417,7 +430,9 @@ try
 
 		line_strip
 			strip(
-				sys.renderer_device_core(),
+				fcppt::make_ref(
+					sys.renderer_device_core()
+				),
 				line_strip_params()
 					.style(
 						rofl::line_strip::style::loop
@@ -435,6 +450,7 @@ try
 		for(
 			rofl::indexed_polygon::const_reference elem : poly
 		)
+		{
 			strip.push_back(
 				fcppt::math::vector::structure_cast<
 					line_strip::point,
@@ -443,6 +459,7 @@ try
 					elem.representation()
 				)
 			);
+		}
 
 		strips.insert(
 			strips.begin(),
@@ -460,11 +477,18 @@ try
 		boost::edges(
 			graph
 		).second,
-		strips,
-		sys.renderer_device_core()
+		fcppt::make_ref(
+			strips
+		),
+		fcppt::make_ref(
+			sys.renderer_device_core()
+		)
 	);
 
-	typedef fcppt::random::generator::minstd_rand generator_type;
+	using
+	generator_type
+	=
+	fcppt::random::generator::minstd_rand;
 
 	generator_type generator(
 		fcppt::random::generator::seed_from_chrono<
@@ -472,9 +496,12 @@ try
 		>()
 	);
 
-	typedef std::iterator_traits<
+	using
+	iterator_difference
+	=
+	std::iterator_traits<
 		rofl::graph::vertex_iterator
-	>::difference_type iterator_difference;
+	>::difference_type;
 
 	iterator_difference const num_vertices(
 		std::distance(
@@ -491,11 +518,14 @@ try
 		num_vertices > 0
 	);
 
-	typedef fcppt::random::distribution::basic<
+	using
+	uniform_int_type
+	=
+	fcppt::random::distribution::basic<
 		fcppt::random::distribution::parameters::uniform_int<
 			iterator_difference
 		>
-	> uniform_int_type;
+	>;
 
 	fcppt::random::variate<
 		generator_type,
@@ -515,21 +545,21 @@ try
 		)
 	);
 
-	rofl::graph::vertex_descriptor
-		start =
-			*std::next(
-				boost::vertices(
-					graph
-				).first,
-				gen()
-			),
-		end =
-			*std::next(
-				boost::vertices(
-					graph
-				).first,
-				gen()
-			);
+	rofl::graph::vertex_descriptor start =
+		*std::next(
+			boost::vertices(
+				graph
+			).first,
+			gen()
+		);
+
+	rofl::graph::vertex_descriptor end =
+		*std::next(
+			boost::vertices(
+				graph
+			).first,
+			gen()
+		);
 
 	rofl::astar::trail trail(
 		rofl::astar::generate_trail(
@@ -543,7 +573,9 @@ try
 
 	{
 		line_strip path_strip(
-			sys.renderer_device_core(),
+			fcppt::make_ref(
+				sys.renderer_device_core()
+			),
 			line_strip_params()
 				.color(
 					line_strip::color(
@@ -560,11 +592,13 @@ try
 			:
 			trail
 		)
+		{
 			path_strip.push_back(
 				graph[
 					elem
 				].barycenter()
 			);
+		}
 
 		strips.push_back(
 			std::move(
@@ -597,10 +631,10 @@ try
 				sge::renderer::projection::orthogonal_viewport(
 					scoped_block.get().target().viewport(),
 					sge::renderer::projection::near(
-						0.f
+						0.F
 					),
 					sge::renderer::projection::far(
-						10.f
+						10.F
 					)
 				),
 				[
@@ -643,9 +677,11 @@ try
 						:
 						strips
 					)
+					{
 						elem.draw(
 							scoped_block.get()
 						);
+					}
 				}
 			);
 		}

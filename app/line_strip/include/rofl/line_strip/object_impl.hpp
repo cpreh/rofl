@@ -23,6 +23,7 @@
 #include <sge/renderer/primitive_type.hpp>
 #include <sge/renderer/resource_flags_field.hpp>
 #include <sge/renderer/device/core.hpp>
+#include <sge/renderer/device/core_ref.hpp>
 #include <sge/renderer/context/core.hpp>
 #include <fcppt/make_cref.hpp>
 #include <fcppt/make_ref.hpp>
@@ -39,7 +40,7 @@ template
 	typename B
 >
 rofl::line_strip::object<A,B>::object(
-	sge::renderer::device::core &_renderer,
+	sge::renderer::device::core_ref const _renderer,
 	parameters<A,B> const &params)
 :
 	renderer_(
@@ -69,8 +70,7 @@ template
 	typename B
 >
 rofl::line_strip::object<A,B>::~object<A,B>()
-{
-}
+= default;
 
 template
 <
@@ -79,7 +79,9 @@ template
 >
 rofl::line_strip::object<A,B>::object(
 	object &&
-) = default;
+)
+noexcept
+= default;
 
 template
 <
@@ -89,7 +91,9 @@ template
 rofl::line_strip::object<A,B> &
 rofl::line_strip::object<A,B>::operator=(
 	object &&
-) = default;
+)
+noexcept
+= default;
 
 template
 <
@@ -139,7 +143,9 @@ rofl::line_strip::object<A,B>::draw(
 	sge::renderer::context::core &_render_context) const
 {
 	if (points_.empty())
+	{
 		return;
+	}
 
 	sge::renderer::vertex::scoped_declaration const vb_declaration(
 		fcppt::make_ref(
@@ -167,7 +173,7 @@ rofl::line_strip::object<A,B>::draw(
 
 	_render_context.render_nonindexed(
 		sge::renderer::vertex::first(
-			0u
+			0U
 		),
 		sge::renderer::vertex::count(
 			vertex_buffer->linear_size()
@@ -183,14 +189,18 @@ template
 void
 rofl::line_strip::object<A,B>::regenerate_vb()
 {
-	typedef
+	using
+	vertex_view
+	=
 	sge::renderer::vf::view
 	<
 		format_part
-	> vertex_view;
+	>;
 
 	if (points_.empty())
+	{
 		return;
+	}
 
 	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
 		fcppt::optional::assign(

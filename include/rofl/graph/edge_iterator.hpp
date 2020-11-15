@@ -12,9 +12,12 @@ namespace rofl
 namespace graph
 {
 
-typedef boost::graph_traits<
+using
+edge_iterator
+=
+boost::graph_traits<
 	rofl::graph::object
->::edge_iterator edge_iterator;
+>::edge_iterator;
 
 }
 }

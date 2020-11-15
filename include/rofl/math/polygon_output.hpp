@@ -32,11 +32,13 @@ operator<<(
 		:
 		_polygon
 	)
+	{
 		_stream
 			<<
 			elem
 			<<
 			_stream.widen(',');
+	}
 
 	_stream <<
 		_stream.widen(')');

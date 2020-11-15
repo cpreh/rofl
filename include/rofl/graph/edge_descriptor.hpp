@@ -12,9 +12,12 @@ namespace rofl
 namespace graph
 {
 
-typedef boost::graph_traits<
+using
+edge_descriptor
+=
+boost::graph_traits<
 	rofl::graph::object
->::edge_descriptor edge_descriptor;
+>::edge_descriptor;
 
 }
 }

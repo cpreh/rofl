@@ -4,11 +4,10 @@
 #include <rofl/line_strip/object_fwd.hpp>
 #include <rofl/line_strip/parameters_fwd.hpp>
 #include <rofl/line_strip/style.hpp>
-#include <fcppt/reference.hpp>
 #include <fcppt/math/vector/object_impl.hpp>
 #include <fcppt/math/vector/static.hpp>
 #include <sge/renderer/context/core_fwd.hpp>
-#include <sge/renderer/device/core_fwd.hpp>
+#include <sge/renderer/device/core_ref.hpp>
 #include <sge/renderer/vertex/buffer_unique_ptr.hpp>
 #include <sge/renderer/vertex/declaration_unique_ptr.hpp>
 #include <sge/renderer/vf/color.hpp>
@@ -37,40 +36,53 @@ class object
 		object
 	);
 public:
-	typedef Value unit;
+	using
+	unit
+	=
+	Value;
 
-	typedef
-	fcppt::math::vector::static_
-	<
+	using
+	point
+	=
+	fcppt::math::vector::static_<
 		unit,
 		2
-	> point;
+	>;
 
-	typedef
-	std::vector
-	<
+	using
+	point_sequence
+	=
+	std::vector<
 		point
-	> point_sequence;
-	typedef Color color;
+	>;
+
+	using
+	color
+	=
+	Color;
 
 	object(
-		sge::renderer::device::core &,
-		parameters<unit,color> const &);
+		sge::renderer::device::core_ref,
+		parameters<unit,color> const &
+	);
 
 	~object();
 
 	object(
 		object &&
-	);
+	)
+	noexcept;
 
 	object &
 	operator=(
 		object &&
-	);
+	)
+	noexcept;
 
 	void
 	push_back(
-		point const &);
+		point const &
+	);
 
 	void
 	pop_back();
@@ -80,48 +92,50 @@ public:
 
 	void
 	draw(
-		sge::renderer::context::core &) const;
+		sge::renderer::context::core & // NOLINT(google-runtime-references)
+	) const; // NOLINT(google-runtime-references)
 
 	// only read access because we have to regenerate the vb afterwards
+	[[nodiscard]]
 	point_sequence const &
 	points() const;
 
 	void
 	back(
-		point const &);
+		point const &
+	);
 private:
-	typedef
-	sge::renderer::vf::pos
-	<
+	using
+	pos_type
+	=
+	sge::renderer::vf::pos<
 		unit,
 		2
-	> pos_type;
+	>;
 
-	typedef
-	sge::renderer::vf::color
-	<
+	using
+	color_type
+	=
+	sge::renderer::vf::color<
 		typename color::format
-	> color_type;
+	>;
 
-	typedef
-	sge::renderer::vf::part
-	<
+	using
+	format_part
+	=
+	sge::renderer::vf::part<
 		pos_type,
 		color_type
-	> format_part;
+	>;
 
-	typedef
-	sge::renderer::vf::format
-	<
+	using
+	format
+	=
+	sge::renderer::vf::format<
 		format_part
-	> format;
+	>;
 
-
-	typedef fcppt::reference<
-		sge::renderer::device::core
-	> device_reference;
-
-	device_reference renderer_;
+	sge::renderer::device::core_ref renderer_;
 
 	rofl::line_strip::style style_;
 
@@ -131,11 +145,12 @@ private:
 
 	sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
 
-	typedef
+	using
+	optional_vertex_buffer_ptr
+	=
 	fcppt::optional::object<
 		sge::renderer::vertex::buffer_unique_ptr
-	>
-	optional_vertex_buffer_ptr;
+	>;
 
 	optional_vertex_buffer_ptr vertex_buffer_;
 

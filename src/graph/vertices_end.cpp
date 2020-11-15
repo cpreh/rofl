@@ -4,7 +4,7 @@
 #include <rofl/graph/vertices_end.hpp>
 
 
-rofl::graph::vertex_iterator const
+rofl::graph::vertex_iterator
 rofl::graph::vertices_end(
 	rofl::graph::object &_graph
 )
@@ -15,7 +15,7 @@ rofl::graph::vertices_end(
 		).second;
 }
 
-rofl::graph::const_vertex_iterator const
+rofl::graph::const_vertex_iterator
 rofl::graph::vertices_end(
 	rofl::graph::object const &_graph
 )
