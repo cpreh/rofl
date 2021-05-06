@@ -64,13 +64,16 @@ rofl::line_strip::object<A,B>::object(
 	regenerate_vb();
 }
 
+namespace rofl::line_strip
+{
 template
 <
 	typename A,
 	typename B
 >
-rofl::line_strip::object<A,B>::~object<A,B>()
+object<A,B>::~object()
 = default;
+}
 
 template
 <
