@@ -30,10 +30,6 @@ include(
 	FcpptCMakeUtils
 )
 
-find_package(
-	Metal REQUIRED
-)
-
 add_subdirectory(
 	src
 )
