@@ -1,5 +1,5 @@
 add_definitions(
-	"-DTRILIBRARY -DLINUX"
+	"-DTRILIBRARY"
 )
 
 # remove broken timer code
