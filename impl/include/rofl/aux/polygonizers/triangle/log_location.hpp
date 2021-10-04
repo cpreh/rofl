@@ -4,21 +4,12 @@
 #include <fcppt/log/location.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 fcppt::log::location
 log_location();
 
-}
-}
-}
 }
 
 #endif

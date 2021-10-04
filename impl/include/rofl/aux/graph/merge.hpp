@@ -5,11 +5,7 @@
 #include <rofl/indexed_polygon_fwd.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace graph
+namespace rofl::aux::graph
 {
 
 rofl::indexed_polygon
@@ -19,8 +15,6 @@ merge(
 	rofl::indexed_line_segment const &
 );
 
-}
-}
 }
 
 #endif

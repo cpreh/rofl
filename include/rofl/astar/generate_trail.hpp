@@ -7,9 +7,7 @@
 #include <rofl/graph/vertex_descriptor.hpp>
 
 
-namespace rofl
-{
-namespace astar
+namespace rofl::astar
 {
 
 ROFL_SYMBOL
@@ -20,7 +18,6 @@ generate_trail(
 	rofl::graph::vertex_descriptor const &
 );
 
-}
 }
 
 #endif

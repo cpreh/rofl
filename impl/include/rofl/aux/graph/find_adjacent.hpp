@@ -9,11 +9,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace graph
+namespace rofl::aux::graph
 {
 
 std::pair<
@@ -26,8 +22,6 @@ find_adjacent(
 	rofl::indexed_point const &
 );
 
-}
-}
 }
 
 #endif

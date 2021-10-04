@@ -44,9 +44,7 @@ rofl::graph::vertex_properties::vertex_properties(
 		)
 	),
 	barycenter_(
-		std::move(
-			_barycenter
-		)
+		_barycenter
 	)
 {
 }

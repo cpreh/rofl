@@ -7,9 +7,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace astar
+namespace rofl::astar
 {
 
 using
@@ -19,7 +17,6 @@ std::list<
 	rofl::graph::vertex_descriptor
 >;
 
-}
 }
 
 #endif

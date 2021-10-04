@@ -8,9 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace math
+namespace rofl::math
 {
 
 template<
@@ -76,7 +74,6 @@ private:
 	hole_set holes_;
 };
 
-}
 }
 
 #endif

@@ -8,11 +8,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace astar
+namespace rofl::aux::astar
 {
 
 class goal_visitor
@@ -36,8 +32,6 @@ private:
 	rofl::graph::vertex_descriptor goal_;
 };
 
-}
-}
 }
 
 #include <rofl/aux/astar/impl/goal_visitor.hpp>

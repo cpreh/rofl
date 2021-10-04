@@ -5,11 +5,7 @@
 #include <fcppt/math/vector/arithmetic.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace math
+namespace rofl::aux::math
 {
 
 template<
@@ -48,8 +44,6 @@ area_sign(
 			0;
 }
 
-}
-}
 }
 
 #endif

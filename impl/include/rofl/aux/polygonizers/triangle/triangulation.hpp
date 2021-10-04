@@ -6,13 +6,7 @@
 #include <fcppt/reference_impl.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 class triangulation
@@ -38,9 +32,6 @@ private:
 	> const out_;
 };
 
-}
-}
-}
 }
 
 #endif

@@ -9,9 +9,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 class properties
@@ -46,7 +44,6 @@ private:
 	point_vector points_;
 };
 
-}
 }
 
 #endif

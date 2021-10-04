@@ -7,9 +7,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 using
@@ -19,7 +17,6 @@ boost::graph_traits<
 	rofl::graph::object
 >::vertex_descriptor;
 
-}
 }
 
 #endif

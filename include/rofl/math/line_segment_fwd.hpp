@@ -2,9 +2,7 @@
 #define ROFL_MATH_LINE_SEGMENT_FWD_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace math
+namespace rofl::math
 {
 
 template<
@@ -12,7 +10,6 @@ template<
 >
 class line_segment;
 
-}
 }
 
 #endif

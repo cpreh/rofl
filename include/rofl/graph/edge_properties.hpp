@@ -6,9 +6,7 @@
 #include <rofl/graph/edge_properties_fwd.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 class edge_properties
@@ -33,7 +31,6 @@ private:
 	rofl::indexed_line_segment adjacent_edge_;
 };
 
-}
 }
 
 #endif

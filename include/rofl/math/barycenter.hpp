@@ -3,9 +3,7 @@
 
 #include <fcppt/math/vector/null.hpp>
 
-namespace rofl
-{
-namespace math
+namespace rofl::math
 {
 
 template<typename Container>
@@ -42,7 +40,6 @@ barycenter(
 
 	return
 		r * out;
-}
 }
 }
 

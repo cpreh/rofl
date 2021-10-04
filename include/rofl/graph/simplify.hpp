@@ -6,9 +6,7 @@
 #include <fcppt/reference_fwd.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 ROFL_SYMBOL
@@ -19,7 +17,6 @@ simplify(
 	>
 );
 
-}
 }
 
 #endif

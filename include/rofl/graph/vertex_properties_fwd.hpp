@@ -2,14 +2,11 @@
 #define ROFL_GRAPH_VERTEX_PROPERTIES_FWD_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 class vertex_properties;
 
-}
 }
 
 #endif

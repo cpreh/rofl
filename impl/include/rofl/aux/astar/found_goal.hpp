@@ -2,18 +2,12 @@
 #define ROFL_AUX_ASTAR_FOUND_GOAL_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace astar
+namespace rofl::aux::astar
 {
 
 class found_goal
 {};
 
-}
-}
 }
 
 #endif

@@ -4,9 +4,7 @@
 #include <rofl/math/line_segment_fwd.hpp>
 
 
-namespace rofl
-{
-namespace math
+namespace rofl::math
 {
 
 template<
@@ -46,7 +44,6 @@ private:
 	point end_;
 };
 
-}
 }
 
 #endif

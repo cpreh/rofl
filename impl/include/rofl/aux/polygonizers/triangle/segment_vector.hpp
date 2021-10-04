@@ -6,13 +6,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 using
@@ -22,9 +16,6 @@ std::vector<
 	int
 >;
 
-}
-}
-}
 }
 
 #endif

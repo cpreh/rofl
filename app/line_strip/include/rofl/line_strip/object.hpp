@@ -21,9 +21,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace line_strip
+namespace rofl::line_strip
 {
 template
 <
@@ -158,7 +156,6 @@ private:
 	regenerate_vb();
 };
 
-}
 }
 
 #endif

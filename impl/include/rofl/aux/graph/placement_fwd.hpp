@@ -2,17 +2,11 @@
 #define ROFL_AUX_GRAPH_PLACEMENT_FWD_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace graph
+namespace rofl::aux::graph
 {
 
 enum class placement;
 
-}
-}
 }
 
 #endif

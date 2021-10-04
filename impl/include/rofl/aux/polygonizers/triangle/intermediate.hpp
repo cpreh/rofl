@@ -7,13 +7,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 // To build the graph, we have to associate the triangle indices with
 // -The graph nodes
@@ -45,9 +39,6 @@ struct intermediate
 	);
 };
 
-}
-}
-}
 }
 
 #endif

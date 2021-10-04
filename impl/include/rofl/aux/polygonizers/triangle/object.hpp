@@ -10,13 +10,7 @@
 #include <fcppt/log/object.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 class object
@@ -47,9 +41,6 @@ private:
 	fcppt::log::object log_;
 };
 
-}
-}
-}
 }
 
 #endif

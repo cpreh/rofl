@@ -7,9 +7,7 @@
 #include <fcppt/config/external_end.hpp>
 
 
-namespace rofl
-{
-namespace math
+namespace rofl::math
 {
 
 template
@@ -47,7 +45,6 @@ operator<<(
 		_stream;
 }
 
-}
 }
 
 #endif

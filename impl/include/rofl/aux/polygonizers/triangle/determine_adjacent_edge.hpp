@@ -9,13 +9,7 @@
 #include <fcppt/assert/unreachable_message.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 inline
@@ -59,9 +53,6 @@ determine_adjacent_edge(
 	);
 }
 
-}
-}
-}
 }
 
 #endif

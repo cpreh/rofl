@@ -7,9 +7,7 @@
 #include <rofl/graph/vertex_iterator.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 ROFL_SYMBOL
@@ -24,7 +22,6 @@ vertices_end(
 	rofl::graph::object const &
 );
 
-}
 }
 
 #endif

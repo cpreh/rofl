@@ -7,11 +7,7 @@
 #include <fcppt/reference_impl.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace astar
+namespace rofl::aux::astar
 {
 
 class heuristic
@@ -36,8 +32,6 @@ private:
 	rofl::graph::vertex_descriptor destination_;
 };
 
-}
-}
 }
 
 #include <rofl/aux/astar/impl/heuristic.hpp>

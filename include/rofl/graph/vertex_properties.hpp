@@ -7,9 +7,7 @@
 #include <rofl/graph/vertex_properties_fwd.hpp>
 
 
-namespace rofl
-{
-namespace graph
+namespace rofl::graph
 {
 
 // FIXME: vertex_properties sollte seinen Schwerpunkt selber ausrechnen
@@ -59,7 +57,6 @@ private:
 	rofl::point barycenter_;
 };
 
-}
 }
 
 #endif

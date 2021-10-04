@@ -2,9 +2,7 @@
 #define ROFL_LINE_STRIP_STYLE_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace line_strip
+namespace rofl::line_strip
 {
 
 enum class style
@@ -13,7 +11,6 @@ enum class style
 	loop
 };
 
-}
 }
 
 #endif

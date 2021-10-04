@@ -4,11 +4,7 @@
 #include <rofl/math/line_segment_impl.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace graph
+namespace rofl::aux::graph
 {
 
 template<
@@ -28,8 +24,6 @@ on_boundary(
 		_point == _line.end();
 }
 
-}
-}
 }
 
 #endif

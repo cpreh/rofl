@@ -4,11 +4,7 @@
 #include <rofl/aux/graph/placement_fwd.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace graph
+namespace rofl::aux::graph
 {
 
 enum class placement
@@ -17,8 +13,6 @@ enum class placement
 	next
 };
 
-}
-}
 }
 
 #endif

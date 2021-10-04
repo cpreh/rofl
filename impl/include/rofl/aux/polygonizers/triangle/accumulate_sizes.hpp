@@ -2,13 +2,7 @@
 #define ROFL_AUX_POLYGONIZERS_TRIANGLE_ACCUMULATE_SIZES_HPP_INCLUDED
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace polygonizers
-{
-namespace triangle
+namespace rofl::aux::polygonizers::triangle
 {
 
 template<
@@ -34,9 +28,6 @@ accumulate_sizes(
 	return ret;
 }
 
-}
-}
-}
 }
 
 #endif

@@ -4,11 +4,7 @@
 #include <rofl/aux/math/area_sign.hpp>
 
 
-namespace rofl
-{
-namespace aux
-{
-namespace math
+namespace rofl::aux::math
 {
 
 template<
@@ -30,8 +26,6 @@ left(
 		> 0;
 }
 
-}
-}
 }
 
 #endif
