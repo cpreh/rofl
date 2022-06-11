@@ -33,6 +33,15 @@ set(
 	"-fuchsia-default-arguments-declarations"
 )
 
+set(
+	FCPPT_UTILS_CLANG_TIDY_WHITELIST
+	"fcppt"
+	"awl"
+	"mizuiro"
+	"sge"
+	"rofl"
+)
+
 include(
 	FcpptCMakeUtils
 )
