@@ -28,7 +28,6 @@
 #include <fcppt/make_cref.hpp>
 #include <fcppt/make_ref.hpp>
 #include <fcppt/optional/assign.hpp>
-#include <fcppt/assert/optional_error.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <utility>
 #include <fcppt/config/external_end.hpp>
@@ -160,9 +159,7 @@ rofl::line_strip::object<A,B>::draw(
 	);
 
 	sge::renderer::vertex::buffer_unique_ptr const &vertex_buffer(
-		FCPPT_ASSERT_OPTIONAL_ERROR(
-			vertex_buffer_
-		)
+		vertex_buffer_.get_unsafe()
 	);
 
 	sge::renderer::vertex::scoped_buffer const vb_context(

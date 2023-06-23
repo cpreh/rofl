@@ -12,10 +12,10 @@
 #include <rofl/math/barycenter.hpp>
 #include <fcppt/make_ref.hpp>
 #include <fcppt/reference_impl.hpp>
-#include <fcppt/assert/error.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <exception>
 #include <functional>
 #include <set>
 #include <queue>
@@ -109,11 +109,17 @@ edit_out_edge(
 
 	for (; q.first != q.second; ++q.first)
 	{
-		FCPPT_ASSERT_ERROR(
-			boost::source(*q.first,_graph.get()) == v);
+		if(
+			boost::source(*q.first,_graph.get()) != v)
+		{
+			std::terminate();
+		}
 
-		FCPPT_ASSERT_ERROR(
-			deletes.get().find(v) == deletes.get().end());
+		if(
+			deletes.get().find(v) != deletes.get().end())
+		{
+			std::terminate();
+		}
 
 		rofl::graph::vertex_descriptor w =
 			boost::target(

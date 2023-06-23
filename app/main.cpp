@@ -81,7 +81,6 @@
 #include <fcppt/reference_to_base.hpp>
 #include <fcppt/string.hpp>
 #include <fcppt/text.hpp>
-#include <fcppt/assert/error.hpp>
 #include <fcppt/cast/dynamic.hpp>
 #include <fcppt/cast/size_fun.hpp>
 #include <fcppt/math/vector/structure_cast.hpp>
@@ -514,9 +513,10 @@ try
 		)
 	);
 
-	FCPPT_ASSERT_ERROR(
-		num_vertices > 0
-	);
+	if(num_vertices == 0)
+	{
+		std::terminate();
+	}
 
 	using
 	uniform_int_type

@@ -24,7 +24,6 @@
 #include <rofl/indexed_point.hpp>
 #include <triangle/impl.hpp>
 #include <fcppt/make_ref.hpp>
-#include <fcppt/assert/error.hpp>
 #include <fcppt/math/vector/arithmetic.hpp>
 #include <fcppt/math/vector/length.hpp>
 #include <fcppt/math/vector/output.hpp>
@@ -36,6 +35,7 @@
 #include <fcppt/log/format/optional_function.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <exception>
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
@@ -157,12 +157,6 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		auto const &elem : _poly.holes()
 	)
 	{
-		/*
-		FCPPT_ASSERT_MESSAGE(
-			rofl::aux::polygonizers::triangle::is_convex(r),
-			FCPPT_TEXT("Holes have to be convex"));
-			*/
-
 		rofl::aux::polygonizers::triangle::add_polygon(
 			fcppt::make_ref(
 				points
@@ -263,7 +257,10 @@ rofl::aux::polygonizers::triangle::object::polygonize(
 		log_,
 		fcppt::log::out << FCPPT_TEXT("Neighbors end"))
 
-	FCPPT_ASSERT_ERROR(out.numberofcorners == 3);
+	if(out.numberofcorners != 3)
+	{
+		std::terminate();
+	}
 
 	// first, create an array rofl::points from the out.pointlist.
 	// This is stored in the graph properties, and the indexed_points

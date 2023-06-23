@@ -5,8 +5,9 @@
 #include <rofl/indexed_polygon.hpp>
 #include <rofl/aux/polygonizers/triangle/line_segments.hpp>
 #include <rofl/aux/polygonizers/triangle/triangle_line_segments.hpp>
-#include <fcppt/text.hpp>
-#include <fcppt/assert/unreachable_message.hpp>
+#include <fcppt/config/external_begin.hpp>
+#include <exception>
+#include <fcppt/config/external_end.hpp>
 
 
 namespace rofl::aux::polygonizers::triangle
@@ -48,9 +49,7 @@ determine_adjacent_edge(
 		}
 	}
 
-	FCPPT_ASSERT_UNREACHABLE_MESSAGE(
-		FCPPT_TEXT("Triangle reported that two triangles are adjacent. Own testing, however, revealed otherwise")
-	);
+	std::terminate();
 }
 
 }
