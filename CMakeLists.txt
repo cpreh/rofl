@@ -29,8 +29,10 @@ find_package(
 # mizuiro uses too many default arguments
 set(
 	FCPPT_UTILS_CLANG_TIDY_ADDITIONAL_CHECKS
+	"-cppcoreguidelines-avoid-const-or-ref-data-members"
 	"-fuchsia-default-arguments-calls"
 	"-fuchsia-default-arguments-declarations"
+	"-misc-misplaced-const"
 )
 
 set(
