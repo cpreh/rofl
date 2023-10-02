@@ -2,7 +2,6 @@
 #define ROFL_AUX_POLYGONIZERS_TRIANGLE_CLEAR_POD_HPP_INCLUDED
 
 #include <fcppt/config/external_begin.hpp>
-#include <boost/utility/enable_if.hpp>
 #include <cstring>
 #include <type_traits>
 #include <fcppt/config/external_end.hpp>
@@ -14,14 +13,17 @@ template
 <
 	typename T
 >
-typename
-boost::enable_if
+std::enable_if_t
 <
-	std::is_pod<
+	std::is_standard_layout_v<
+		T
+	>
+	&&
+	std::is_trivial_v<
 		T
 	>,
 	void
->::type
+>
 clear_pod(
 	T &_val
 )
