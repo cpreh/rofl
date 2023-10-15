@@ -3,45 +3,30 @@
 
 #include <rofl/math/line_segment_fwd.hpp>
 
-
 namespace rofl::math
 {
 
-template<
-	typename Vector
->
+template <typename Vector>
 class line_segment
 {
 public:
-	using
-	point
-	=
-	Vector;
+  using point = Vector;
 
-	line_segment();
+  line_segment();
 
-	line_segment(
-		point const &start,
-		point const &end
-	);
+  // NOLINTNEXTLINE(bugprone-easily-swappable-parameters)
+  line_segment(point const &start, point const &end);
 
-	[[nodiscard]]
-	point const &
-	start() const;
+  [[nodiscard]] point const &start() const;
 
-	[[nodiscard]]
-	point const &
-	end() const;
+  [[nodiscard]] point const &end() const;
 
-	[[nodiscard]]
-	bool
-	operator==(
-		line_segment const &
-	) const;
+  [[nodiscard]] bool operator==(line_segment const &) const;
+
 private:
-	point start_;
+  point start_;
 
-	point end_;
+  point end_;
 };
 
 }

@@ -5,5 +5,4 @@
 #include <rofl/point.hpp>
 #include <rofl/math/line_segment_impl.hpp>
 
-
 #endif

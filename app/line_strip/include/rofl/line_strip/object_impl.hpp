@@ -9,6 +9,7 @@
 #include <fcppt/preprocessor/ignore_dangling_reference.hpp>
 #include <fcppt/preprocessor/pop_warning.hpp>
 #include <fcppt/preprocessor/push_warning.hpp>
+#include <rofl/line_strip/object.hpp> // IWYU pragma: export
 #include <rofl/line_strip/parameters.hpp>
 #include <sge/renderer/context/core.hpp>
 #include <sge/renderer/device/core.hpp>
@@ -97,7 +98,7 @@ void rofl::line_strip::object<A, B>::draw(
 
   _render_context.render_nonindexed(
       sge::renderer::vertex::first(0U),
-      sge::renderer::vertex::count(vertex_buffer->linear_size()),
+      sge::renderer::vertex::count{vertex_buffer->linear_size()},
       sge::renderer::primitive_type::line_strip);
 }
 

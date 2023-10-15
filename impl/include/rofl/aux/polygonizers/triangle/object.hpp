@@ -13,34 +13,20 @@
 namespace rofl::aux::polygonizers::triangle
 {
 
-class object
-:
-	public rofl::polygonizer
+class object : public rofl::polygonizer
 {
-	FCPPT_NONMOVABLE(
-		object
-	);
+  FCPPT_NONMOVABLE(object);
+
 public:
-	explicit
-	object(
-		fcppt::log::context_reference
-	);
+  explicit object(fcppt::log::context_reference);
 
-	~object()
-	override;
+  ~object() override;
+
 private:
-	void
-	polygonize(
-		rofl::polygon_with_holes const &,
-		fcppt::reference<
-			rofl::graph::object
-		>
-	)
-	override;
+  void polygonize(rofl::polygon_with_holes const &, fcppt::reference<rofl::graph::object>) override;
 
-	fcppt::log::object log_;
+  fcppt::log::object log_;
 };
-
 }
 
 #endif

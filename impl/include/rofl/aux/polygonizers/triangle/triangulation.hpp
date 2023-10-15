@@ -5,31 +5,21 @@
 #include <fcppt/nonmovable.hpp>
 #include <fcppt/reference_impl.hpp>
 
-
 namespace rofl::aux::polygonizers::triangle
 {
 
 class triangulation
 {
-	FCPPT_NONMOVABLE(
-		triangulation
-	);
-public:
-	triangulation(
-		char const *options,
-		fcppt::reference<
-			triangulateio
-		> in,
-		fcppt::reference<
-			triangulateio
-		> out
-	);
+  FCPPT_NONMOVABLE(triangulation);
 
-	~triangulation();
+public:
+  triangulation(
+      char const *options, fcppt::reference<triangulateio> in, fcppt::reference<triangulateio> out);
+
+  ~triangulation();
+
 private:
-	fcppt::reference<
-		triangulateio
-	> const out_;
+  fcppt::reference<triangulateio> const out_;
 };
 
 }

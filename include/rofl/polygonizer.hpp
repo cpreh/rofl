@@ -7,29 +7,21 @@
 #include <fcppt/nonmovable.hpp>
 #include <fcppt/reference_fwd.hpp>
 
-
 namespace rofl
 {
 
 class polygonizer
 {
-	FCPPT_NONMOVABLE(
-		polygonizer
-	);
-protected:
-	polygonizer();
-public:
-	virtual
-	void
-	polygonize(
-		rofl::polygon_with_holes const &,
-		fcppt::reference<
-			rofl::graph::object
-		>
-	) = 0;
+  FCPPT_NONMOVABLE(polygonizer);
 
-	virtual
-	~polygonizer();
+protected:
+  polygonizer();
+
+public:
+  virtual void
+  polygonize(rofl::polygon_with_holes const &, fcppt::reference<rofl::graph::object>) = 0;
+
+  virtual ~polygonizer();
 };
 
 }

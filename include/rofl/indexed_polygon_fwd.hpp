@@ -8,13 +8,7 @@
 namespace rofl
 {
 
-using
-indexed_polygon
-=
-rofl::math::polygon<
-	rofl::indexed_point
->;
-
+using indexed_polygon = rofl::math::polygon<rofl::indexed_point>;
 }
 
 #endif

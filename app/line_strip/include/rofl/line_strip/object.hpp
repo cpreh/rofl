@@ -20,140 +20,69 @@
 #include <vector>
 #include <fcppt/config/external_end.hpp>
 
-
 namespace rofl::line_strip
 {
-template
-<
-	typename Value,
-	typename Color
->
+template <typename Value, typename Color>
 class object
 {
-	FCPPT_NONCOPYABLE(
-		object
-	);
+  FCPPT_NONCOPYABLE(object);
+
 public:
-	using
-	unit
-	=
-	Value;
+  using unit = Value;
 
-	using
-	point
-	=
-	fcppt::math::vector::static_<
-		unit,
-		2
-	>;
+  using point = fcppt::math::vector::static_<unit, 2>;
 
-	using
-	point_sequence
-	=
-	std::vector<
-		point
-	>;
+  using point_sequence = std::vector<point>;
 
-	using
-	color
-	=
-	Color;
+  using color = Color;
 
-	object(
-		sge::renderer::device::core_ref,
-		parameters<unit,color> const &
-	);
+  object(sge::renderer::device::core_ref, parameters<unit, color> const &);
 
-	~object();
+  ~object();
 
-	object(
-		object &&
-	)
-	noexcept;
+  object(object &&) noexcept;
 
-	object &
-	operator=(
-		object &&
-	)
-	noexcept;
+  object &operator=(object &&) noexcept;
 
-	void
-	push_back(
-		point const &
-	);
+  void push_back(point const &);
 
-	void
-	pop_back();
+  void pop_back();
 
-	void
-	clear();
+  void clear();
 
-	void
-	draw(
-		sge::renderer::context::core & // NOLINT(google-runtime-references)
-	) const; // NOLINT(google-runtime-references)
+  void draw(sge::renderer::context::core & // NOLINT(google-runtime-references)
+  ) const; // NOLINT(google-runtime-references)
 
-	// only read access because we have to regenerate the vb afterwards
-	[[nodiscard]]
-	point_sequence const &
-	points() const;
+  // only read access because we have to regenerate the vb afterwards
+  [[nodiscard]] point_sequence const &points() const;
 
-	void
-	back(
-		point const &
-	);
+  void back(point const &);
+
 private:
-	using
-	pos_type
-	=
-	sge::renderer::vf::pos<
-		unit,
-		2
-	>;
+  using pos_type = sge::renderer::vf::pos<unit, 2>;
 
-	using
-	color_type
-	=
-	sge::renderer::vf::color<
-		typename color::format
-	>;
+  using color_type = sge::renderer::vf::color<typename color::format>;
 
-	using
-	format_part
-	=
-	sge::renderer::vf::part<
-		pos_type,
-		color_type
-	>;
+  using format_part = sge::renderer::vf::part<pos_type, color_type>;
 
-	using
-	format
-	=
-	sge::renderer::vf::format<
-		format_part
-	>;
+  using format = sge::renderer::vf::format<format_part>;
 
-	sge::renderer::device::core_ref renderer_;
+  sge::renderer::device::core_ref renderer_;
 
-	rofl::line_strip::style style_;
+  rofl::line_strip::style style_;
 
-	color color_;
+  color color_;
 
-	point_sequence points_;
+  point_sequence points_;
 
-	sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
+  sge::renderer::vertex::declaration_unique_ptr vertex_declaration_;
 
-	using
-	optional_vertex_buffer_ptr
-	=
-	fcppt::optional::object<
-		sge::renderer::vertex::buffer_unique_ptr
-	>;
+  using optional_vertex_buffer_ptr =
+      fcppt::optional::object<sge::renderer::vertex::buffer_unique_ptr>;
 
-	optional_vertex_buffer_ptr vertex_buffer_;
+  optional_vertex_buffer_ptr vertex_buffer_;
 
-	void
-	regenerate_vb();
+  void regenerate_vb();
 };
 
 }
