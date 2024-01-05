@@ -66,6 +66,7 @@
 #include <sge/renderer/state/ffp/transform/scoped.hpp>
 #include <sge/renderer/target/base.hpp>
 #include <sge/renderer/target/onscreen.hpp> // NOLINT(misc-include-cleaner)
+#include <sge/renderer/target/viewport.hpp>
 #include <sge/viewport/fill_on_resize.hpp>
 #include <sge/viewport/optional_resize_callback.hpp>
 #include <sge/window/loop.hpp>
