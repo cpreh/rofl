@@ -2,7 +2,7 @@
 #define ROFL_MATH_POLYGON_WITH_HOLES_DECL_HPP_INCLUDED
 
 #include <rofl/math/polygon_impl.hpp>
-#include <rofl/math/polygon_with_holes_fwd.hpp>
+#include <rofl/math/polygon_with_holes_fwd.hpp> // IWYU pragma: keep
 #include <fcppt/config/external_begin.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>

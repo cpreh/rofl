@@ -5,7 +5,7 @@
 namespace rofl::graph
 {
 
-class vertex_properties;
+class vertex_properties; // IWYU pragma: export
 
 }
 

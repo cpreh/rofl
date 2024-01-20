@@ -5,7 +5,7 @@
 namespace rofl::aux::graph
 {
 
-enum class placement;
+enum class placement; // IWYU pragma: export
 
 }
 

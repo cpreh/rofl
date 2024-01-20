@@ -8,7 +8,7 @@ namespace rofl::math
 template<
 	typename T
 >
-class polygon;
+class polygon; // IWYU pragma: export
 
 }
 

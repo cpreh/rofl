@@ -1,7 +1,7 @@
 #ifndef ROFL_MATH_POLYGON_DECL_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_DECL_HPP_INCLUDED
 
-#include <rofl/math/polygon_fwd.hpp>
+#include <rofl/math/polygon_fwd.hpp> // IWYU pragma: keep
 #include <fcppt/config/external_begin.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>

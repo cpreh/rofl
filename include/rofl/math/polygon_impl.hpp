@@ -1,7 +1,7 @@
 #ifndef ROFL_MATH_POLYGON_IMPL_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_IMPL_HPP_INCLUDED
 
-#include <rofl/math/polygon_decl.hpp>
+#include <rofl/math/polygon_decl.hpp> // IWYU pragma: export
 
 
 template<

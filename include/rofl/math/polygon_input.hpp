@@ -5,6 +5,7 @@
 #include <rofl/math/polygon_impl.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <istream>
+#include <ios>
 #include <iosfwd>
 #include <fcppt/config/external_end.hpp>
 

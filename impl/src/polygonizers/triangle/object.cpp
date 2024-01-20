@@ -1,5 +1,4 @@
 #include <rofl/indexed_polygon.hpp>
-#include <rofl/line_segment.hpp>
 #include <rofl/point.hpp>
 #include <rofl/polygon_with_holes.hpp>
 #include <rofl/unit.hpp>
@@ -37,6 +36,7 @@
 #include <fcppt/log/format/optional_function.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <boost/graph/properties.hpp>
 #include <exception>
 #include <vector>
 #include <fcppt/config/external_end.hpp>

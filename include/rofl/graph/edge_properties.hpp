@@ -3,7 +3,7 @@
 
 #include <rofl/indexed_line_segment.hpp>
 #include <rofl/unit.hpp>
-#include <rofl/graph/edge_properties_fwd.hpp>
+#include <rofl/graph/edge_properties_fwd.hpp> // IWYU pragma: keep
 
 
 namespace rofl::graph

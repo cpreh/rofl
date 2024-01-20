@@ -1,7 +1,7 @@
 #ifndef ROFL_MATH_POLYGON_WITH_HOLES_IMPL_HPP_INCLUDED
 #define ROFL_MATH_POLYGON_WITH_HOLES_IMPL_HPP_INCLUDED
 
-#include <rofl/math/polygon_with_holes_decl.hpp>
+#include <rofl/math/polygon_with_holes_decl.hpp> // IWYU pragma: export
 #include <fcppt/config/external_begin.hpp>
 #include <utility>
 #include <fcppt/config/external_end.hpp>

@@ -6,7 +6,7 @@
 #include <rofl/indexed_point.hpp>
 #include <rofl/indexed_polygon.hpp>
 #include <rofl/aux/polygonizers/triangle/intermediate.hpp>
-#include <rofl/graph/object.hpp>
+#include <rofl/graph/object.hpp> // IWYU pragma: keep
 #include <rofl/graph/vertex_properties.hpp>
 #include <rofl/math/barycenter.hpp>
 #include <fcppt/reference_impl.hpp>

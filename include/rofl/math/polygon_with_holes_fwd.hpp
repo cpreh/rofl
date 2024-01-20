@@ -8,7 +8,7 @@ namespace rofl::math
 template<
 	typename T
 >
-class polygon_with_holes;
+class polygon_with_holes; // IWYU pragma: export
 
 }
 

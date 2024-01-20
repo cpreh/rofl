@@ -5,7 +5,7 @@
 namespace rofl::graph
 {
 
-class properties;
+class properties; // IWYU pragma: export
 
 }
 

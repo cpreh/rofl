@@ -2,7 +2,7 @@
 #define ROFL_AUX_MATH_AREA_SIGN_HPP_INCLUDED
 
 //#include <fcppt/math/vector/cross.hpp>
-#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/arithmetic.hpp> // IWYU pragma: keep
 
 namespace rofl::aux::math
 {

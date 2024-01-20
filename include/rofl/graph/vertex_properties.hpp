@@ -2,9 +2,9 @@
 #define ROFL_GRAPH_VERTEX_PROPERTIES_HPP_INCLUDED
 
 #include <rofl/indexed_polygon.hpp>
-#include <rofl/polygon.hpp>
+#include <rofl/point.hpp>
 #include <rofl/symbol.hpp>
-#include <rofl/graph/vertex_properties_fwd.hpp>
+#include <rofl/graph/vertex_properties_fwd.hpp> // IWYU pragma: keep
 
 
 namespace rofl::graph

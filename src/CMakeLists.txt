@@ -3,8 +3,6 @@ set(
 	impl/include/rofl/aux/astar/found_goal.hpp
 	impl/include/rofl/aux/astar/goal_visitor.hpp
 	impl/include/rofl/aux/astar/heuristic.hpp
-	impl/include/rofl/aux/astar/impl/goal_visitor.hpp
-	impl/include/rofl/aux/astar/impl/heuristic.hpp
 	impl/include/rofl/aux/graph/find_adjacent.hpp
 	impl/include/rofl/aux/graph/merge.hpp
 	impl/include/rofl/aux/graph/mergeable.hpp
@@ -13,18 +11,15 @@ set(
 	impl/include/rofl/aux/graph/placement_fwd.hpp
 	impl/include/rofl/aux/math/area_sign.hpp
 	impl/include/rofl/aux/math/left.hpp
-	impl/include/rofl/aux/math/left_on.hpp
 	impl/include/rofl/aux/polygonizers/log_location.hpp
 	impl/include/rofl/aux/polygonizers/triangle/accumulate_sizes.hpp
 	impl/include/rofl/aux/polygonizers/triangle/add_polygon.hpp
 	impl/include/rofl/aux/polygonizers/triangle/clear_pod.hpp
 	impl/include/rofl/aux/polygonizers/triangle/determine_adjacent_edge.hpp
-	impl/include/rofl/aux/polygonizers/triangle/edge_angle.hpp
 	impl/include/rofl/aux/polygonizers/triangle/fill_intermediate.hpp
 	impl/include/rofl/aux/polygonizers/triangle/fill_points.hpp
 	impl/include/rofl/aux/polygonizers/triangle/hole_vector.hpp
 	impl/include/rofl/aux/polygonizers/triangle/intermediate.hpp
-	impl/include/rofl/aux/polygonizers/triangle/is_convex.hpp
 	impl/include/rofl/aux/polygonizers/triangle/line_segments.hpp
 	impl/include/rofl/aux/polygonizers/triangle/log_location.hpp
 	impl/include/rofl/aux/polygonizers/triangle/object.hpp
@@ -41,9 +36,7 @@ set(
 	impl/src/polygonizers/triangle/object.cpp
 	impl/src/polygonizers/triangle/triangulation.cpp
 	include/rofl/astar/generate_trail.hpp
-	include/rofl/astar/path.hpp
 	include/rofl/astar/trail.hpp
-	include/rofl/consume.hpp
 	include/rofl/create_polygonizer.hpp
 	include/rofl/dereference.hpp
 	include/rofl/graph/const_vertex_iterator.hpp

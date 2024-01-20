@@ -1,7 +1,7 @@
 #ifndef ROFL_MATH_LINE_SEGMENT_DECL_HPP_INCLUDED
 #define ROFL_MATH_LINE_SEGMENT_DECL_HPP_INCLUDED
 
-#include <rofl/math/line_segment_fwd.hpp>
+#include <rofl/math/line_segment_fwd.hpp> // IWYU pragma: keep
 
 namespace rofl::math
 {

@@ -3,7 +3,7 @@
 
 #include <rofl/point.hpp>
 #include <rofl/symbol.hpp>
-#include <rofl/graph/properties_fwd.hpp>
+#include <rofl/graph/properties_fwd.hpp> // IWYU pragma: keep
 #include <fcppt/config/external_begin.hpp>
 #include <vector>
 #include <fcppt/config/external_end.hpp>

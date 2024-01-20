@@ -5,7 +5,7 @@
 namespace rofl::graph
 {
 
-class edge_properties;
+class edge_properties; // IWYU pragma: export
 
 }
 

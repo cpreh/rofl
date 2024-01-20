@@ -2,9 +2,11 @@
 #define ROFL_AUX_ASTAR_HEURISTIC_HPP_INCLUDED
 
 #include <rofl/unit.hpp>
-#include <rofl/graph/object_fwd.hpp>
+#include <rofl/graph/object.hpp>
 #include <rofl/graph/vertex_descriptor.hpp>
 #include <fcppt/reference_impl.hpp>
+#include <fcppt/math/vector/arithmetic.hpp>
+#include <fcppt/math/vector/length.hpp>
 
 
 namespace rofl::aux::astar
@@ -34,6 +36,35 @@ private:
 
 }
 
-#include <rofl/aux/astar/impl/heuristic.hpp>
+rofl::aux::astar::heuristic::heuristic(
+	graph::object const &_graph,
+	graph::vertex_descriptor const &_destination
+)
+:
+	graph_(
+		_graph
+	),
+	destination_(
+		_destination
+	)
+{
+}
+
+rofl::unit
+rofl::aux::astar::heuristic::operator()(
+	rofl::graph::vertex_descriptor const &_vertex
+) const
+{
+	return
+		fcppt::math::vector::length(
+			graph_.get()[
+				_vertex
+			].barycenter()
+			-
+			graph_.get()[
+				destination_
+			].barycenter()
+		);
+}
 
 #endif

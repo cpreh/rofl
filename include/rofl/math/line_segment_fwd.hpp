@@ -8,7 +8,7 @@ namespace rofl::math
 template<
 	typename Vector
 >
-class line_segment;
+class line_segment; // IWYU pragma: export
 
 }
 
