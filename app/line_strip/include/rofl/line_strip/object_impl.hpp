@@ -1,8 +1,6 @@
 #ifndef ROFL_LINE_STRIP_OBJECT_IMPL_HPP_INCLUDED
 #define ROFL_LINE_STRIP_OBJECT_IMPL_HPP_INCLUDED
 
-#include <fcppt/config/external_begin.hpp>
-#include <fcppt/config/external_end.hpp>
 #include <fcppt/make_cref.hpp>
 #include <fcppt/make_ref.hpp>
 #include <fcppt/optional/assign.hpp>
@@ -34,6 +32,9 @@
 #include <sge/renderer/vf/labels/pos.hpp>
 #include <sge/renderer/vf/set_proxy.hpp>
 #include <sge/renderer/vf/view.hpp>
+#include <fcppt/preprocessor/disable_gcc_warning.hpp>
+#include <fcppt/preprocessor/pop_warning.hpp>
+#include <fcppt/preprocessor/push_warning.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <utility>
 #include <fcppt/config/external_end.hpp>
@@ -141,6 +142,8 @@ void rofl::line_strip::object<A, B>::regenerate_vb() {
     ++vb_it;
   }
 
+  FCPPT_PP_PUSH_WARNING
+  FCPPT_PP_DISABLE_GCC_WARNING(-Wswitch-default)
   switch (style_) {
   case style::no_loop:
     break;
@@ -152,6 +155,7 @@ void rofl::line_strip::object<A, B>::regenerate_vb() {
                                  color_);
     break;
   }
+  FCPPT_PP_POP_WARNING
 }
 
 template <typename A, typename B>

@@ -9,32 +9,12 @@
 
 namespace rofl::aux::polygonizers::triangle
 {
-template
-<
-	typename T
->
-std::enable_if_t
-<
-	std::is_standard_layout_v<
-		T
-	>
-	&&
-	std::is_trivial_v<
-		T
-	>,
-	void
->
-clear_pod(
-	T &_val
-)
+template <typename T>
+void clear_pod(T &_val)
+  requires(std::is_standard_layout_v<T> && std::is_trivial_v<T>)
 {
-	std::memset(
-		&_val,
-		0,
-		sizeof(T)
-	);
+  std::memset(&_val, 0, sizeof(T));
 }
-
 }
 
 #endif
