@@ -2,9 +2,8 @@
 #include <rofl/indexed_polygon.hpp>
 #include <rofl/aux/graph/find_adjacent.hpp>
 #include <rofl/aux/graph/placement.hpp>
-#include <fcppt/exception.hpp>
-#include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
+#include <exception>
 #include <iterator>
 #include <utility>
 #include <fcppt/config/external_end.hpp>
@@ -35,5 +34,5 @@ std::pair<rofl::indexed_point, rofl::aux::graph::placement> rofl::aux::graph::fi
                       : std::make_pair(next, rofl::aux::graph::placement::next);
   }
 
-  throw fcppt::exception{FCPPT_TEXT("find_adjacent failed!")};
+  std::terminate();
 }
