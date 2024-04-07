@@ -1,145 +1,17 @@
-set(
-	ROFL_FILES
-	impl/include/rofl/aux/astar/found_goal.hpp
-	impl/include/rofl/aux/astar/goal_visitor.hpp
-	impl/include/rofl/aux/astar/heuristic.hpp
-	impl/include/rofl/aux/graph/find_adjacent.hpp
-	impl/include/rofl/aux/graph/merge.hpp
-	impl/include/rofl/aux/graph/mergeable.hpp
-	impl/include/rofl/aux/graph/on_boundary.hpp
-	impl/include/rofl/aux/graph/placement.hpp
-	impl/include/rofl/aux/graph/placement_fwd.hpp
-	impl/include/rofl/aux/math/area_sign.hpp
-	impl/include/rofl/aux/math/left.hpp
-	impl/include/rofl/aux/polygonizers/log_location.hpp
-	impl/include/rofl/aux/polygonizers/triangle/accumulate_sizes.hpp
-	impl/include/rofl/aux/polygonizers/triangle/add_polygon.hpp
-	impl/include/rofl/aux/polygonizers/triangle/clear_pod.hpp
-	impl/include/rofl/aux/polygonizers/triangle/determine_adjacent_edge.hpp
-	impl/include/rofl/aux/polygonizers/triangle/fill_intermediate.hpp
-	impl/include/rofl/aux/polygonizers/triangle/fill_points.hpp
-	impl/include/rofl/aux/polygonizers/triangle/hole_vector.hpp
-	impl/include/rofl/aux/polygonizers/triangle/intermediate.hpp
-	impl/include/rofl/aux/polygonizers/triangle/line_segments.hpp
-	impl/include/rofl/aux/polygonizers/triangle/log_location.hpp
-	impl/include/rofl/aux/polygonizers/triangle/object.hpp
-	impl/include/rofl/aux/polygonizers/triangle/point_vector.hpp
-	impl/include/rofl/aux/polygonizers/triangle/segment_vector.hpp
-	impl/include/rofl/aux/polygonizers/triangle/triangle_line_segments.hpp
-	impl/include/rofl/aux/polygonizers/triangle/triangulation.hpp
-	impl/src/graph/find_adjacent.cpp
-	impl/src/graph/merge.cpp
-	impl/src/graph/mergeable.cpp
-	impl/src/polygonizers/log_location.cpp
-	impl/src/polygonizers/triangle/intermediate.cpp
-	impl/src/polygonizers/triangle/log_location.cpp
-	impl/src/polygonizers/triangle/object.cpp
-	impl/src/polygonizers/triangle/triangulation.cpp
-	include/rofl/astar/generate_trail.hpp
-	include/rofl/astar/trail.hpp
-	include/rofl/create_polygonizer.hpp
-	include/rofl/dereference.hpp
-	include/rofl/graph/const_vertex_iterator.hpp
-	include/rofl/graph/edge_descriptor.hpp
-	include/rofl/graph/edge_iterator.hpp
-	include/rofl/graph/edge_properties.hpp
-	include/rofl/graph/edge_properties_fwd.hpp
-	include/rofl/graph/object.hpp
-	include/rofl/graph/object_fwd.hpp
-	include/rofl/graph/out_edge_iterator.hpp
-	include/rofl/graph/properties.hpp
-	include/rofl/graph/properties_fwd.hpp
-	include/rofl/graph/property_tag.hpp
-	include/rofl/graph/property_tag_fwd.hpp
-	include/rofl/graph/simplify.hpp
-	include/rofl/graph/vertex_descriptor.hpp
-	include/rofl/graph/vertex_iterator.hpp
-	include/rofl/graph/vertex_properties.hpp
-	include/rofl/graph/vertex_properties_fwd.hpp
-	include/rofl/graph/vertices_begin.hpp
-	include/rofl/graph/vertices_end.hpp
-	include/rofl/index.hpp
-	include/rofl/indexed_line_segment.hpp
-	include/rofl/indexed_line_segment_fwd.hpp
-	include/rofl/indexed_point.hpp
-	include/rofl/indexed_point_fwd.hpp
-	include/rofl/indexed_polygon.hpp
-	include/rofl/indexed_polygon_fwd.hpp
-	include/rofl/line_segment.hpp
-	include/rofl/line_segment_fwd.hpp
-	include/rofl/log_location.hpp
-	include/rofl/math/barycenter.hpp
-	include/rofl/math/line_segment_decl.hpp
-	include/rofl/math/line_segment_fwd.hpp
-	include/rofl/math/line_segment_impl.hpp
-	include/rofl/math/polygon_decl.hpp
-	include/rofl/math/polygon_fwd.hpp
-	include/rofl/math/polygon_impl.hpp
-	include/rofl/math/polygon_input.hpp
-	include/rofl/math/polygon_output.hpp
-	include/rofl/math/polygon_with_holes_decl.hpp
-	include/rofl/math/polygon_with_holes_fwd.hpp
-	include/rofl/math/polygon_with_holes_impl.hpp
-	include/rofl/point.hpp
-	include/rofl/point_fwd.hpp
-	include/rofl/polygon.hpp
-	include/rofl/polygon_fwd.hpp
-	include/rofl/polygon_with_holes.hpp
-	include/rofl/polygon_with_holes_fwd.hpp
-	include/rofl/polygonizer.hpp
-	include/rofl/polygonizer_fwd.hpp
-	include/rofl/polygonizer_unique_ptr.hpp
-	include/rofl/symbol.hpp
-	include/rofl/unit.hpp
-	src/astar/generate_trail.cpp
-	src/create_polygonizer.cpp
-	src/dereference.cpp
-	src/graph/edge_properties.cpp
-	src/graph/properties.cpp
-	src/graph/simplify.cpp
-	src/graph/vertex_properties.cpp
-	src/graph/vertices_begin.cpp
-	src/graph/vertices_end.cpp
-	src/indexed_point.cpp
-	src/log_location.cpp
-	src/polygonizer.cpp
-)
+file(STRINGS rofl_files.txt ROFL_FILES)
 
-fcppt_utils_append_source_dir_and_make_groups(
-	"${ROFL_FILES}"
-	NEW_ROFL_FILES
-)
+fcppt_utils_append_source_dir_and_make_groups("${ROFL_FILES}" NEW_ROFL_FILES)
 
-add_library(
-	rofl
-	SHARED
-	${NEW_ROFL_FILES}
-)
+add_library(rofl SHARED ${NEW_ROFL_FILES})
 
-fcppt_utils_set_target_compiler_flags(
-	rofl
-)
+fcppt_utils_set_target_compiler_flags(rofl)
 
-target_link_libraries(
-	rofl
-	PRIVATE
-	${fcppt_core_TARGET}
-	${fcppt_log_TARGET}
-	rofltriangleimpl
-)
+target_link_libraries(rofl PRIVATE ${fcppt_core_TARGET} ${fcppt_log_TARGET}
+                                   rofltriangleimpl)
 
 target_include_directories(
-	rofl
-	PUBLIC
-	${CMAKE_SOURCE_DIR}/include
-	PRIVATE
-	${CMAKE_SOURCE_DIR}/triangle/include
-	${CMAKE_SOURCE_DIR}/impl/include
-)
+  rofl
+  PUBLIC ${CMAKE_SOURCE_DIR}/include
+  PRIVATE ${CMAKE_SOURCE_DIR}/triangle/include ${CMAKE_SOURCE_DIR}/impl/include)
 
-install(
-	TARGETS
-	rofl
-	DESTINATION
-	${CMAKE_INSTALL_LIBDIR}
-)
+install(TARGETS rofl DESTINATION ${CMAKE_INSTALL_LIBDIR})

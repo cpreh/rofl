@@ -1,9 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -e -u
 
-update_cmake \
-	src/CMakeLists.txt \
-	ROFL_FILES \
+update_cmake.sh \
+	src/rofl_files.txt \
 	include \
 	impl \
 	src

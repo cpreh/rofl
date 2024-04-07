@@ -1,75 +1,37 @@
-cmake_minimum_required(
-	VERSION
-	3.27.0
-)
+cmake_minimum_required(VERSION 3.27.0)
 
-project(
-	rofl
-)
+project(rofl)
 
-include(
-	GNUInstallDirs
-)
+include(GNUInstallDirs)
 
 # This is done before the warning flags are set
-add_subdirectory(
-	triangle
-)
+add_subdirectory(triangle)
 
-find_package(
-	Boost 1.50.0 REQUIRED
-)
+find_package(Boost 1.50.0 REQUIRED)
 
 # Find FCPPT
 
-find_package(
-	fcppt REQUIRED
-)
+find_package(fcppt REQUIRED)
 
 # mizuiro uses too many default arguments
 list(
-	APPEND
-	FCPPT_UTILS_CLANG_TIDY_ADDITIONAL_CHECKS
-	"-cppcoreguidelines-avoid-const-or-ref-data-members"
-	"-fuchsia-default-arguments-calls"
-	"-fuchsia-default-arguments-declarations"
-	"-misc-misplaced-const"
-)
+  APPEND
+  FCPPT_UTILS_CLANG_TIDY_ADDITIONAL_CHECKS
+  "-cppcoreguidelines-avoid-const-or-ref-data-members"
+  "-fuchsia-default-arguments-calls"
+  "-fuchsia-default-arguments-declarations"
+  "-misc-misplaced-const")
 
-set(
-	FCPPT_UTILS_CLANG_TIDY_WHITELIST
-	"fcppt"
-	"awl"
-	"mizuiro"
-	"sge"
-	"rofl"
-)
+set(FCPPT_UTILS_CLANG_TIDY_WHITELIST "fcppt" "awl" "mizuiro" "sge" "rofl")
 
-include(
-	FcpptCMakeUtils
-)
+include(FcpptCMakeUtils)
 
-add_subdirectory(
-	src
-)
+add_subdirectory(src)
 
-option(
-	ENABLE_APP
-	"Build the applications"
-	ON
-)
+option(ENABLE_APP "Build the applications" ON)
 
-if(
-	ENABLE_APP
-)
-	add_subdirectory(
-		app
-	)
+if(ENABLE_APP)
+  add_subdirectory(app)
 endif()
 
-install(
-	DIRECTORY
-	include/
-	DESTINATION
-	${CMAKE_INSTALL_INCLUDEDIR}
-)
+install(DIRECTORY include/ DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
