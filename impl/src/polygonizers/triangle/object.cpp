@@ -32,8 +32,6 @@
 #include <fcppt/log/debug.hpp>
 #include <fcppt/log/name.hpp>
 #include <fcppt/log/out.hpp>
-#include <fcppt/log/parameters.hpp>
-#include <fcppt/log/format/optional_function.hpp>
 #include <fcppt/text.hpp>
 #include <fcppt/config/external_begin.hpp>
 #include <boost/graph/properties.hpp>
@@ -45,8 +43,7 @@ rofl::aux::polygonizers::triangle::object::object(fcppt::log::context_reference 
     : log_{
           _log_context,
           rofl::aux::polygonizers::triangle::log_location(),
-          fcppt::log::parameters{
-              fcppt::log::name{FCPPT_TEXT("object")}, fcppt::log::format::optional_function()}}
+          fcppt::log::name{FCPPT_TEXT("object")}}
 {
 }
 
