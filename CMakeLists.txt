@@ -7,7 +7,7 @@ include(GNUInstallDirs)
 # This is done before the warning flags are set
 add_subdirectory(triangle)
 
-find_package(Boost 1.50.0 REQUIRED)
+find_package(Boost 1.70.0 CONFIG REQUIRED)
 
 # Find FCPPT
 
