@@ -11,7 +11,7 @@ template <typename T>
 int area_sign(T const &_a, T const &_b, T const &_c)
 {
   // cross: l.x() * r.y() - l.y() * r.x()
-  typename T::value_type const area2 = (_b - _a).x() * (_c - _a).y() - (_b - _a).y() * (_c - _a).y();
+  typename T::value_type const area2 = ((_b - _a).x() * (_c - _a).y()) - ((_b - _a).y() * (_c - _a).y());
 #if 0
 		fcppt::math::vector::cross(
 			b-a,
